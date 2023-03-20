@@ -1,5 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
+import EBankingApp from './components/EBankingApp';
 
 function App() {
   return (
