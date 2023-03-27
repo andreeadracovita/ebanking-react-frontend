@@ -6,7 +6,7 @@ export default function LoginComponent() {
 
     const [username, setUsername] = useState('andreea')
 
-    const [password, setPassword] = useState('')
+    const [password, setPassword] = useState('12345')
 
     const [showErrorMessage, setShowErrorMessage] = useState(false)
 
@@ -33,7 +33,7 @@ export default function LoginComponent() {
 
     return (
         <div className="Login">
-            <h1>Login</h1>
+            <h1>Login eBanking</h1>
             {showErrorMessage && <div className="errorMessage">Authentication failed. Please check your credentials.</div>}
             <div className="LoginForm">
                 <div>
