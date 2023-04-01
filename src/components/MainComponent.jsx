@@ -5,23 +5,25 @@ import LoginComponent from "./LoginComponent";
 import LogoutComponent from "./LogoutComponent";
 import PaymentsComponent from "./PaymentsComponent";
 import ReportsComponent from "./ReportsComponent";
+import SettingsComponent from "./SettingsComponent";
 import { useAuth } from "./security/AuthContext";
 
 function AuthenticatedRoute({ children }) {
     const authContext = useAuth()
 
-    if (authContext.isAuthenticated)
+    if (authContext.isAuthenticated) {
         return children
+    }
 
     return <Navigate to="/" />
 }
 
 export default function MainComponent() {
     return (
-        <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <div className="col-sm-10 ml-sm-auto mt-4">
             <Routes>
                 <Route path='/' element={<LoginComponent/>}/>
-                <Route path='/accounts' element={
+                <Route path='/portfolio' element={
                     <AuthenticatedRoute>
                         <PortfolioComponent/>
                     </AuthenticatedRoute>
@@ -34,6 +36,11 @@ export default function MainComponent() {
                 <Route path='/reports' element={
                     <AuthenticatedRoute>
                         <ReportsComponent/>
+                    </AuthenticatedRoute>
+                }/>
+                <Route path='/settings' element={
+                    <AuthenticatedRoute>
+                        <SettingsComponent/>
                     </AuthenticatedRoute>
                 }/>
                 <Route path='/logout' element={
