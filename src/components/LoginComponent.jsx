@@ -33,11 +33,11 @@ export default function LoginComponent() {
 
     return (
             <div className="row">
-                <div className="col-sm-3"></div>
-                <div className="col-sm-9">
+                <div className="col-sm-2"></div>
+                <div className="col-sm-8">
                     <h1 className="h2 mb-5 text-royal-blue fw-bold">Login eBanking</h1>
                     <div className="row text-royal-blue">
-                        <div className="col-sm-4">
+                        <div className="col-sm-5">
                             <h1 className="h4 mb-5 fw-bold">Enter your username and password</h1>
                             {showErrorMessage && <div className="errorMessage">Authentication failed. Please check your credentials.</div>}
                             <form>
@@ -54,9 +54,9 @@ export default function LoginComponent() {
                                 </div>
                             </form>
                         </div>
-                        <div className="col-sm-4"></div>
-                        <div className="col-sm-4 bg-light-royal-blue">
-                            <div className="mx-5 mt-5 mb-5">
+                        <div className="col-sm-2"></div>
+                        <div className="col-sm-5 bg-light-royal-blue">
+                            <div className="mx-3 mt-3 mb-3">
                                 <p className="fw-bold">Account for testing purposes</p>
                                 <p>Username: user</p>
                                 <p>Password: 12345</p>

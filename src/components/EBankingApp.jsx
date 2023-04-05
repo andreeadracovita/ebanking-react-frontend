@@ -1,8 +1,8 @@
 import { BrowserRouter } from "react-router-dom"
-import FooterComponent from "./FooterComponent"
-import HeaderComponent from "./HeaderComponent"
 import AuthProvider from "./security/AuthContext"
-import BodyComponent from './BodyComponent'
+import BodyComponent from './common/BodyComponent'
+import HeaderComponent from "./common/HeaderComponent"
+import FooterComponent from "./common/FooterComponent"
 
 export default function EBankingApp() {
     return (

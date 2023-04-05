@@ -1,12 +1,14 @@
 import { Navigate, Route, Routes } from "react-router";
-import PortfolioComponent from "./PortfolioComponent";
-import ErrorComponent from "./ErrorComponent";
-import LoginComponent from "./LoginComponent";
-import LogoutComponent from "./LogoutComponent";
-import PaymentsComponent from "./PaymentsComponent";
-import ReportsComponent from "./ReportsComponent";
-import SettingsComponent from "./SettingsComponent";
-import { useAuth } from "./security/AuthContext";
+import PortfolioComponent from "../PortfolioComponent";
+import ErrorComponent from "../ErrorComponent";
+import LoginComponent from "../LoginComponent";
+import LogoutComponent from "../LogoutComponent";
+import ReportsComponent from "../ReportsComponent";
+import SettingsComponent from "../SettingsComponent";
+import { useAuth } from "../security/AuthContext";
+import ExchangeComponent from "../payments/ExchangeComponent";
+import PaymentOtherComponent from "../payments/PaymentOtherComponent";
+import PaymentSelfComponent from "../payments/PaymentSelfComponent";
 
 function AuthenticatedRoute({ children }) {
     const authContext = useAuth()
@@ -20,7 +22,7 @@ function AuthenticatedRoute({ children }) {
 
 export default function MainComponent() {
     return (
-        <div className="col-sm-9 ml-sm-auto mt-4 ms-4">
+        <div className="col-sm-9 py-3 mt-4 ms-4">
             <Routes>
                 <Route path='/' element={<LoginComponent/>}/>
                 <Route path='/portfolio' element={
@@ -28,9 +30,19 @@ export default function MainComponent() {
                         <PortfolioComponent/>
                     </AuthenticatedRoute>
                 }/>
-                <Route path='/payments' element={
+                <Route path='/payment/self' element={
                     <AuthenticatedRoute>
-                        <PaymentsComponent/>
+                        <PaymentSelfComponent/>
+                    </AuthenticatedRoute>
+                }/>
+                <Route path='/payment/other' element={
+                    <AuthenticatedRoute>
+                        <PaymentOtherComponent/>
+                    </AuthenticatedRoute>
+                }/>
+                <Route path='/exchange' element={
+                    <AuthenticatedRoute>
+                        <ExchangeComponent/>
                     </AuthenticatedRoute>
                 }/>
                 <Route path='/reports' element={

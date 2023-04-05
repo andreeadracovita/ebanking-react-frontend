@@ -1,9 +1,9 @@
 export default function ErrorComponent() {
     return (
-        <div className="container">
-            <h1> We are working really hard!</h1>
+        <div>
+            <h1 className="h2 mb-5 text-royal-blue fw-bold"> We are working really hard!</h1>
             <div>
-                Apologies for the 404. Reach out to our team at a@a.com
+                Apologies for the 404.
             </div>
         </div>
     )

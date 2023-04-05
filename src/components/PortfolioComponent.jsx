@@ -17,7 +17,7 @@ export default function PortfolioComponent() {
 
     const [cards, setCards] = useState([])
 
-    useEffect (() => refreshContent(), [])
+    useEffect (() => refreshContent())
 
     const authContext = useAuth()
     const username = authContext.username
@@ -46,11 +46,6 @@ export default function PortfolioComponent() {
                 setCards(response.data)
             })
             .catch(error => console.log(error))
-    }
-
-    function convertWordToTitleCase(word) {
-        return word.charAt(0)
-          .toUpperCase() + word.slice(1).toLowerCase();
     }
 
     function hideCardCharacters(cardNumber) {
