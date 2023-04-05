@@ -4,14 +4,11 @@ import {CanvasJSChart} from 'canvasjs-react-charts'
 export default function SplineChartComponent() {
     const options = {
         animationEnabled: true,
-        title:{
-            text: "Balance"
-        },
         axisX: {
             valueFormatString: "MMM"
         },
         axisY: {
-            title: "Sales (in USD)",
+            title: "Balance",
             prefix: "$"
         },
         data: [{
