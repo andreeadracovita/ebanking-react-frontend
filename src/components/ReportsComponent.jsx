@@ -6,13 +6,15 @@ import { useAuth } from "./security/AuthContext";
 
 export default function ReportsComponent() {
 
+    const [loadContent, setLoadContent] = useState()
+
     const [accounts, setAccounts] = useState([])
 
     const [transactions, setTransactions] = useState([])
 
     const [selectedAccount, setSelectedAccount] = useState()
 
-    useEffect (() => refreshAccounts(), [])
+    useEffect (() => refreshAccounts(), [loadContent])
 
     const authContext = useAuth()
     const username = authContext.username
@@ -21,6 +23,7 @@ export default function ReportsComponent() {
         retrieveAllBankAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data)
+                setLoadContent(true)
                 if (accounts.length > 0) {
                     setSelectedAccount(accounts[0])
                 }
@@ -43,66 +46,69 @@ export default function ReportsComponent() {
 
     return (
         <div>
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Reports</h1>
-            <Dropdown className="mb-5">
-                <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
-                    { selectedAccount &&
-                        <div>
-                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                <span>{selectedAccount.accountName}</span>
-                                <span className="account-balance">{selectedAccount.balance.toLocaleString("de-DE")}</span>
+            { loadContent &&
+            <div>
+                <h1 className="h2 mb-5 text-royal-blue fw-bold">Reports</h1>
+                <Dropdown className="mb-5">
+                    <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
+                        { selectedAccount &&
+                            <div>
+                                <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                    <span>{selectedAccount.accountName}</span>
+                                    <span className="account-balance">{selectedAccount.balance.toLocaleString("de-DE")}</span>
+                                </div>
+                                <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                    <span className="account-number">{selectedAccount.accountNumber}</span>
+                                    <span>{selectedAccount.currency}</span>
+                                </div>
                             </div>
-                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                <span className="account-number">{selectedAccount.accountNumber}</span>
-                                <span>{selectedAccount.currency}</span>
-                            </div>
-                        </div>
-                    }
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                    {
-                        accounts.filter(account => selectedAccount && account.accountNumber != selectedAccount.accountNumber)
-                            .map(
-                                account => (
-                                    <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={(account) => handleSelectedAccountChange(account)}>
-                                        <div>
-                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                <span>{account.accountName}</span>
-                                                <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
-                                            </div>
-                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                <span className="account-number">{account.accountNumber}</span>
-                                                <span>{account.currency}</span>
-                                            </div>
-                                        </div>
-                                    </Dropdown.Item>
-                                )
-                        )
-                    }
-                </Dropdown.Menu>
-            </Dropdown>
-            <div className="table-responsive">
-                <table className="table table-striped table-sm">
-                    <tbody>
+                        }
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
                         {
-                            transactions.map(
-                                transaction => (
-                                    <tr key={transaction.id}>
-                                        <td>{transaction.date.toString()}</td>
-                                        {transaction.fromAccountNumber == selectedAccount && 
-                                            <td className="text-danger">-{transaction.amount}</td>
-                                        }
-                                        {transaction.fromAccountNumber != selectedAccount && 
-                                            <td className="text-success">+{transaction.amount}</td>
-                                        }
-                                    </tr>
-                                )
+                            accounts.filter(account => selectedAccount && account.accountNumber != selectedAccount.accountNumber)
+                                .map(
+                                    account => (
+                                        <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={(account) => handleSelectedAccountChange(account)}>
+                                            <div>
+                                                <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                    <span>{account.accountName}</span>
+                                                    <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
+                                                </div>
+                                                <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                    <span className="account-number">{account.accountNumber}</span>
+                                                    <span>{account.currency}</span>
+                                                </div>
+                                            </div>
+                                        </Dropdown.Item>
+                                    )
                             )
                         }
-                    </tbody>
-                </table>
-            </div>
-            <SplineChartComponent/>
+                    </Dropdown.Menu>
+                </Dropdown>
+                <div className="table-responsive">
+                    <table className="table table-striped table-sm">
+                        <tbody>
+                            {
+                                transactions.map(
+                                    transaction => (
+                                        <tr key={transaction.id}>
+                                            <td>{transaction.date.toString()}</td>
+                                            {transaction.fromAccountNumber == selectedAccount && 
+                                                <td className="text-danger">-{transaction.amount}</td>
+                                            }
+                                            {transaction.fromAccountNumber != selectedAccount && 
+                                                <td className="text-success">+{transaction.amount}</td>
+                                            }
+                                        </tr>
+                                    )
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <SplineChartComponent/>
+            </div>}
         </div>
     )
 }

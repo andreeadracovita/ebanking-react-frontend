@@ -15,7 +15,7 @@ export default function PaymentSelfComponent() {
     //     fail = 'fail'
     // }
 
-    const [paymentState, setPaymentState] = useState('start')
+    const [paymentState, setPaymentState] = useState()
 
     const [accounts, setAccounts] = useState([])
 
@@ -31,7 +31,7 @@ export default function PaymentSelfComponent() {
     const username = authContext.username
     const navigate = useNavigate()
 
-    useEffect (() => refreshPage(), [])
+    useEffect (() => refreshPage(), [paymentState])
 
     var transaction = {
         id: -1,
@@ -42,8 +42,6 @@ export default function PaymentSelfComponent() {
     }
 
     function refreshPage() {
-        setPaymentState('start');
-
         retrieveAllLocalBankAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data)
@@ -53,6 +51,7 @@ export default function PaymentSelfComponent() {
                 if (accounts.length > 1) {
                     setSelectedToAccount(accounts[1])
                 }
+                setPaymentState('start');
             })
             .catch(error => console.log(error))
     }
