@@ -61,6 +61,21 @@ footer {
   transition: all border-color ease-in-out .15s, box-shadow ease-in-out .15s ease-out; */
 }
 
+.select-field-account {
+  background-color: #fff;
+  color: #000;
+  border-color: #0504aa;
+  border-style: solid;
+  border-width: 3px;
+  padding: 5px;
+  width: 360px;
+  height: 100px;
+}
+
+.select-field-account:hover, .select-field-account:focus, .select-field-account:active {
+  border-color: #0204ff;
+}
+
 .btn-royal-blue {
   background-color: #0504aa;
   color: #fff;

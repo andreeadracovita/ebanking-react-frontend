@@ -17,7 +17,7 @@ export default function PortfolioComponent() {
 
     const [cards, setCards] = useState([])
 
-    useEffect (() => refreshContent())
+    useEffect (() => refreshContent(), [])
 
     const authContext = useAuth()
     const username = authContext.username

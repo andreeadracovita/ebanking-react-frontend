@@ -11,7 +11,7 @@ export default function SidebarComponent() {
     const username = authContext.username
     const isAuthenticated = authContext.isAuthenticated
 
-    useEffect (() => refreshCustomerName())
+    useEffect (() => refreshCustomerName(), [])
 
     function refreshCustomerName() {
         retrieveCustomerNameForUsernameApi(username)
@@ -26,7 +26,7 @@ export default function SidebarComponent() {
             <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 mt-4 mb-4">
                 <span className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 300 300" stroke="currentColor" fill="none">
-                        <path d="M60.211946,238.921002Q86.416185,186.512524,150,186.512524t89.788054,52.408478" transform="matrix(1.299709 0 0 1.299709-44.95635-38.704958)" strokeWidth="16" stroke-linecap="round"/>
+                        <path d="M60.211946,238.921002Q86.416185,186.512524,150,186.512524t89.788054,52.408478" transform="matrix(1.299709 0 0 1.299709-44.95635-38.704958)" strokeWidth="16" strokeLinecap="round"/>
                         <ellipse rx="76.396917" ry="76.396917" transform="matrix(.898154 0 0 0.898154 150 99.132923)" strokeWidth="24"/>
                     </svg>
                     <span className="d-none d-sm-inline ms-2 fw-bold">Welcome, {customerName}</span>
@@ -50,8 +50,8 @@ export default function SidebarComponent() {
                             </svg>
                             <span className="ms-2 d-none d-sm-inline">Payments</span>
                         </Link>
-                        <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
-                            <li class="w-100">
+                        <ul className="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                            <li className="w-100">
                                 <Link to="/payment/self" className="nav-link px-0 ms-3">
                                     <span className="d-none d-sm-inline">To myself</span>
                                 </Link>
