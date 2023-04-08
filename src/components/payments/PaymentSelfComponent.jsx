@@ -27,7 +27,7 @@ export default function PaymentSelfComponent() {
 
     const [amount, setAmount] = useState()
 
-    const [description, setDescription] = useState();
+    const [description, setDescription] = useState()
 
     const authContext = useAuth()
     const username = authContext.username
@@ -35,13 +35,15 @@ export default function PaymentSelfComponent() {
 
     useEffect (() => refreshPage(), [loadContent])
 
-    var transaction = {
+    const transactionDefault = {
         id: -1,
         fromAccountNumber: null,
         toAccountNumber: null,
         amount: 0,
         description: ''
     }
+
+    const [transaction, setTransaction] = useState(transactionDefault)
 
     function refreshPage() {
         retrieveAllLocalBankAccountsForUsernameApi(username)
@@ -59,12 +61,12 @@ export default function PaymentSelfComponent() {
             .catch(error => console.log(error))
     }
 
-    function handleSelectFromAccountChange(accountNumber) {
-        setSelectedFromAccount(accountNumber)
+    function handleSelectFromAccountChange(account) {
+        setSelectedFromAccount(account)
     }
 
-    function handleSelectToAccountChange(accountNumber) {
-        setSelectedToAccount(accountNumber)
+    function handleSelectToAccountChange(account) {
+        setSelectedToAccount(account)
     }
 
     function checkAmountInput(event) {
@@ -95,14 +97,15 @@ export default function PaymentSelfComponent() {
 
     // Handle button actions
     function onSubmitForm() {
-        transaction = {
+        const newTransaction = {
             id: -1,
-            fromAccountNumber: selectedFromAccount.accountNumber.value,
-            toAccountNumber: selectedToAccount.accountNumber.value,
-            amount: amount.value,
-            description: description.value
+            fromAccountNumber: selectedFromAccount.accountNumber,
+            toAccountNumber: selectedToAccount.accountNumber,
+            amount: amount,
+            description: description
         }
 
+        setTransaction(newTransaction)
         setPaymentState('confirm')
     }
 
@@ -111,9 +114,6 @@ export default function PaymentSelfComponent() {
     }
 
     function onConfirmForm() {
-        console.log('Transaction:')
-        console.log(transaction)
-
         createTransactionApi(username, transaction)
             .then(response => {
                 console.log(response)
@@ -174,7 +174,7 @@ export default function PaymentSelfComponent() {
                                         accounts.filter(account => selectedToAccount && account.accountNumber != selectedToAccount.accountNumber && account.accountNumber != selectedFromAccount.accountNumber)
                                             .map(
                                                 account => (
-                                                    <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={(account) => handleSelectFromAccountChange(account)}>
+                                                    <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectFromAccountChange(account)}>
                                                         <div>
                                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                                 <span>{account.accountName}</span>
@@ -234,10 +234,10 @@ export default function PaymentSelfComponent() {
                             <h1 className="h4 mb-2 text-royal-blue fw-bold">Transfer details</h1>
 
                             <div className="mb-3">
-                                <input className="input-field" type="number" name="amount" placeholder="Amount" onChange={handleAmountChange} onKeyDown={checkAmountInput}/>
+                                <input className="input-field" type="number" name="amount" placeholder="Amount" value={amount} onChange={handleAmountChange} onKeyDown={checkAmountInput}/>
                             </div>
                             <div className="mb-5">
-                                <input className="input-field" type="text" name="description" placeholder="Description" onChange={handleDescriptionChange} />
+                                <input className="input-field" type="text" name="description" placeholder="Description" value={description} onChange={handleDescriptionChange} />
                             </div>
 
                             <div>
@@ -249,8 +249,18 @@ export default function PaymentSelfComponent() {
                     </div>}
                 {paymentState == 'confirm' &&
                     <div>
-                        <div>
-                            List completed fields.
+                        <div className="bg-light-royal-blue p-2 mb-3">
+                            <p>From account:</p>
+                            <p className="fw-bold">{transaction.fromAccountNumber}</p>
+                            <br/>
+                            <p>To account:</p>
+                            <p className="fw-bold">{transaction.toAccountNumber}</p>
+                            <br/>
+                            <p>Amount:</p>
+                            <p className="fw-bold">{transaction.amount}</p>
+                            <br/>
+                            <p>Description:</p>
+                            <p className="fw-bold">{transaction.description}</p>
                         </div>
                         <div>
                             <button className="btn btn-royal-blue px-5 mb-3" type="button" name="confirm" onClick={onConfirmForm}>Sign</button>

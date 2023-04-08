@@ -6,15 +6,13 @@ import { useAuth } from "./security/AuthContext";
 
 export default function ReportsComponent() {
 
-    const [loadContent, setLoadContent] = useState()
-
     const [accounts, setAccounts] = useState([])
 
     const [transactions, setTransactions] = useState([])
 
-    const [selectedAccount, setSelectedAccount] = useState()
+    const [selectedAccount, setSelectedAccount] = useState(null)
 
-    useEffect (() => refreshAccounts(), [loadContent])
+    useEffect (() => refreshAccounts(), [selectedAccount, transactions])
 
     const authContext = useAuth()
     const username = authContext.username
@@ -23,16 +21,16 @@ export default function ReportsComponent() {
         retrieveAllBankAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data)
-                setLoadContent(true)
-                if (accounts.length > 0) {
+                if (selectedAccount == null && accounts.length > 0) {
                     setSelectedAccount(accounts[0])
+                    refreshTransactions()
                 }
             })
             .catch(error => console.log(error))
     }
 
-    function refreshTransactions(account) {
-        retrieveAllTransactionsForBankAccountNumberApi(username, account)
+    function refreshTransactions() {
+        retrieveAllTransactionsForBankAccountNumberApi(username, selectedAccount.accountNumber)
             .then(response => {
                 setTransactions(response.data)
             })
@@ -41,17 +39,16 @@ export default function ReportsComponent() {
 
     function handleSelectedAccountChange(account) {
         setSelectedAccount(account)
-        refreshTransactions(selectedAccount)
+        refreshTransactions()
     }
 
     return (
         <div>
-            { loadContent &&
-            <div>
-                <h1 className="h2 mb-5 text-royal-blue fw-bold">Reports</h1>
-                <Dropdown className="mb-5">
-                    <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
-                        { selectedAccount &&
+            <h1 className="h2 mb-5 text-royal-blue fw-bold">Reports</h1>
+            { selectedAccount &&
+                <span>
+                    <Dropdown className="mb-4">
+                        <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                             <div>
                                 <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                     <span>{selectedAccount.accountName}</span>
@@ -62,53 +59,51 @@ export default function ReportsComponent() {
                                     <span>{selectedAccount.currency}</span>
                                 </div>
                             </div>
-                        }
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        {
-                            accounts.filter(account => selectedAccount && account.accountNumber != selectedAccount.accountNumber)
-                                .map(
-                                    account => (
-                                        <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={(account) => handleSelectedAccountChange(account)}>
-                                            <div>
-                                                <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                    <span>{account.accountName}</span>
-                                                    <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
-                                                </div>
-                                                <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                    <span className="account-number">{account.accountNumber}</span>
-                                                    <span>{account.currency}</span>
-                                                </div>
-                                            </div>
-                                        </Dropdown.Item>
-                                    )
-                            )
-                        }
-                    </Dropdown.Menu>
-                </Dropdown>
-                <div className="table-responsive">
-                    <table className="table table-striped table-sm">
-                        <tbody>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
                             {
-                                transactions.map(
-                                    transaction => (
-                                        <tr key={transaction.id}>
-                                            <td>{transaction.date.toString()}</td>
-                                            {transaction.fromAccountNumber == selectedAccount && 
-                                                <td className="text-danger">-{transaction.amount}</td>
-                                            }
-                                            {transaction.fromAccountNumber != selectedAccount && 
-                                                <td className="text-success">+{transaction.amount}</td>
-                                            }
-                                        </tr>
-                                    )
+                                accounts.map(
+                                        account => (
+                                            <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectedAccountChange(account)}>
+                                                <div>
+                                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                        <span>{account.accountName}</span>
+                                                        <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
+                                                    </div>
+                                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                        <span className="account-number">{account.accountNumber}</span>
+                                                        <span>{account.currency}</span>
+                                                    </div>
+                                                </div>
+                                            </Dropdown.Item>
+                                        )
                                 )
                             }
-                        </tbody>
-                    </table>
-                </div>
-                <SplineChartComponent/>
-            </div>}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    <div className="table-responsive">
+                        <table className="table table-striped table-sm">
+                            <tbody>
+                                {
+                                    transactions.map(
+                                        transaction => (
+                                            <tr key={transaction.id}>
+                                                <td>{transaction.issueDate.toString()}</td>
+                                                {transaction.fromAccountNumber == selectedAccount && 
+                                                    <td className="text-danger fw-bold">-{transaction.amount}</td>
+                                                }
+                                                {transaction.toAccountNumber == selectedAccount && 
+                                                    <td className="text-success  fw-bold">+{transaction.amount}</td>
+                                                }
+                                            </tr>
+                                        )
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </span>}
+            {/* <SplineChartComponent/> */}
         </div>
     )
 }

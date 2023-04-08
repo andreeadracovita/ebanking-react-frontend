@@ -28,4 +28,4 @@ export const retrieveAllTransactionsForBankAccountNumberApi
     = (username, accountNumber) => apiClient.get(`/${username}/${accountNumber}/transactions`)
 
 export const createTransactionApi
-    = (username, transaction) => apiClient.post(`/${username}/transactions`, transaction)
+    = (username, transaction) => apiClient.post(`/${username}/transaction`, transaction)
