@@ -27,7 +27,7 @@ export default function PaymentSelfComponent() {
 
     const [amount, setAmount] = useState()
 
-    const [description, setDescription] = useState()
+    const [description, setDescription] = useState('')
 
     const authContext = useAuth()
     const username = authContext.username
@@ -149,9 +149,9 @@ export default function PaymentSelfComponent() {
         <div>
         { loadContent && 
             <div>
+                <h1 className="h2 mb-5 text-royal-blue fw-bold">Send money to myself</h1>
                 { paymentState == 'start' &&
                     <div>
-                        <h1 className="h2 mb-5 text-royal-blue fw-bold">Send money to myself</h1>
                         <form>
                             <h1 className="h4 mb-2 text-royal-blue fw-bold">From account</h1>
                             <Dropdown className="mb-4">
@@ -234,7 +234,7 @@ export default function PaymentSelfComponent() {
                             <h1 className="h4 mb-2 text-royal-blue fw-bold">Transfer details</h1>
 
                             <div className="mb-3">
-                                <input className="input-field" type="number" name="amount" placeholder="Amount" value={amount} onChange={handleAmountChange} onKeyDown={checkAmountInput}/>
+                                <input className="input-field" type="number" name="amount" placeholder="Amount" onChange={handleAmountChange} onKeyDown={checkAmountInput}/>
                             </div>
                             <div className="mb-5">
                                 <input className="input-field" type="text" name="description" placeholder="Description" value={description} onChange={handleDescriptionChange} />
@@ -249,34 +249,36 @@ export default function PaymentSelfComponent() {
                     </div>}
                 {paymentState == 'confirm' &&
                     <div>
-                        <div className="bg-light-royal-blue p-2 mb-3">
-                            <p>From account:</p>
-                            <p className="fw-bold">{transaction.fromAccountNumber}</p>
-                            <br/>
-                            <p>To account:</p>
-                            <p className="fw-bold">{transaction.toAccountNumber}</p>
-                            <br/>
-                            <p>Amount:</p>
-                            <p className="fw-bold">{transaction.amount}</p>
-                            <br/>
-                            <p>Description:</p>
-                            <p className="fw-bold">{transaction.description}</p>
+                        <div className="d-flex justify-content-center">
+                            <div className="bg-light-royal-blue p-3 mb-3 text-left w-50">
+                                <p>From account:</p>
+                                <p className="ms-3 fw-bold">{transaction.fromAccountNumber}</p>
+                                <br/>
+                                <p>To account:</p>
+                                <p className="ms-3 fw-bold">{transaction.toAccountNumber}</p>
+                                <br/>
+                                <p>Amount:</p>
+                                <p className="ms-3 fw-bold">{transaction.amount} {selectedFromAccount.currency}</p>
+                                <br/>
+                                <p>Description:</p>
+                                <p className="ms-3 fw-bold">{transaction.description}</p>
+                            </div>
                         </div>
-                        <div>
+                        <div className="text-center">
                             <button className="btn btn-royal-blue px-5 mb-3" type="button" name="confirm" onClick={onConfirmForm}>Sign</button>
                             <br/>
-                            <button className="btn btn-royal-blue px-5" type="button" name="back" onClick={onBack}>Back</button>
+                            <button className="btn btn-secondary px-5" type="button" name="back" onClick={onBack}>Back</button>
                         </div>
                     </div>}
                 {paymentState == 'success' &&
-                    <div>
-                        <div>
-                            Success.
+                    <div className="text-center">
+                        <div className="mb-5 fw-bold">
+                            You transferred {transaction.amount} {selectedFromAccount.currency} to {selectedToAccount.accountName}.
                         </div>
                         <div>
-                            <button className="btn btn-royal-blue px-5 mb-3" type="button" name="anotherPayment" onClick={onNewPaymentClicked}>Another payment</button>
+                            <button className="btn btn-royal-blue px-5 mb-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                             <br/>
-                            <button className="btn btn-royal-blue px-5" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
+                            <button className="btn btn-secondary px-5" type="button" name="anotherPayment" onClick={onNewPaymentClicked}>Another payment</button>
                         </div>
                     </div>}
                 {paymentState == 'fail' &&
@@ -284,7 +286,7 @@ export default function PaymentSelfComponent() {
                         <div>
                             Your transaction initiation failed.
                             <br/>
-                            Response reason.
+                            [Response reason.]
                         </div>
                         <div>
                             <button className="btn btn-royal-blue px-5 mb-3" type="button" name="anotherPayment" onClick={onRetryPaymentClicked}>Retry payment.</button>
