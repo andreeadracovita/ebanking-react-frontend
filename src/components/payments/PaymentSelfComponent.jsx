@@ -2,38 +2,33 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useAuth } from "../security/AuthContext";
-import { createTransactionApi, retrieveAllLocalBankAccountsForUsernameApi } from "../api/EBankingApiService";
+import { retrieveAllLocalBankAccountsForUsernameApi } from "../api/EBankingApiService";
+import PaymentConfirmComponent from "./PaymentConfirmComponent";
+import PaymentSuccessComponent from "./PaymentSuccessComponent";
+import PaymentFailureComponent from "./PaymentFailureComponent";
 
-const MAX_DESC_LENGTH = 20
+const MAX_DESC_LENGTH = 20;
 
 export default function PaymentSelfComponent() {
 
-    // enum state {
-    //     start = 'start',
-    //     confirm = 'confirm',
-    //     success = 'success',
-    //     fail = 'fail'
-    // }
+    // PaymentState { 'start', 'confirm', 'success', 'fail' }
 
     const [loadContent, setLoadContent] = useState();
-
     const [paymentState, setPaymentState] = useState();
 
     const [accounts, setAccounts] = useState([]);
-
     const [selectedFromAccount, setSelectedFromAccount] = useState();
-
     const [selectedToAccount, setSelectedToAccount] = useState();
-
     const [amount, setAmount] = useState();
-
     const [description, setDescription] = useState('');
 
     const transactionDefault = {
         id: -1,
         fromAccountNumber: null,
         toAccountNumber: null,
+        beneficiaryName: null,
         amount: 0,
+        currency: 0,
         description: ''
     };
 
@@ -111,6 +106,7 @@ export default function PaymentSelfComponent() {
             fromAccountNumber: selectedFromAccount.accountNumber,
             toAccountNumber: selectedToAccount.accountNumber,
             amount: amount,
+            currency: selectedFromAccount.currency,
             description: description
         };
 
@@ -122,23 +118,7 @@ export default function PaymentSelfComponent() {
         navigate('/portfolio');
     }
 
-    function onConfirmForm() {
-        createTransactionApi(username, transaction)
-            .then(response => {
-                console.log(response);
-                setPaymentState('success');
-            })
-            .catch(error => {
-                console.log(error);
-                setPaymentState('fail');
-            });
-    }
-
-    function onBack() {
-        setPaymentState('start');
-    }
-
-    function onNewPaymentClicked() {
+    function resetPaymentForm() {
         if (accounts.length > 0) {
             setSelectedFromAccount(accounts[0]);
         }
@@ -147,11 +127,6 @@ export default function PaymentSelfComponent() {
         }
         setAmount(null);
         setDescription(null);
-        setPaymentState('start');
-    }
-
-    function onRetryPaymentClicked() {
-        setPaymentState('start');
     }
 
     return (
@@ -180,7 +155,7 @@ export default function PaymentSelfComponent() {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                 {
-                                    accounts.filter(account => selectedToAccount && account.accountNumber != selectedFromAccount.accountNumber)
+                                    accounts.filter(account => selectedFromAccount && account.accountNumber != selectedFromAccount.accountNumber)
                                         .map(
                                             account => (
                                                 <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectFromAccountChange(account)}>
@@ -220,7 +195,7 @@ export default function PaymentSelfComponent() {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                 {
-                                    accounts.filter(account => selectedToAccount && account.accountNumber != selectedToAccount.accountNumber && account.accountNumber != selectedFromAccount.accountNumber)
+                                    accounts.filter(account => selectedToAccount && selectedFromAccount && account.accountNumber != selectedToAccount.accountNumber && account.accountNumber != selectedFromAccount.accountNumber)
                                         .map(
                                             account => (
                                                 <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectToAccountChange(account)}>
@@ -242,7 +217,6 @@ export default function PaymentSelfComponent() {
                             </Dropdown>
 
                             <h1 className="h4 mb-2 text-royal-blue fw-bold">Transfer details</h1>
-
                             <div className="mb-3">
                                 <input className="input-field" type="number" name="amount" placeholder="Amount" onChange={handleAmountChange} onKeyDown={checkAmountInput}/>
                             </div>
@@ -258,60 +232,20 @@ export default function PaymentSelfComponent() {
                         </form>
                     </div>}
 
-                {paymentState == 'confirm' &&
-                    <div>
-                        <div className="d-flex justify-content-center">
-                            <div className="bg-light-royal-blue p-3 mb-3 text-left w-50">
-                                <p>From account:</p>
-                                <p className="ms-3 fw-bold">{transaction.fromAccountNumber}</p>
-                                <br/>
-                                <p>To account:</p>
-                                <p className="ms-3 fw-bold">{transaction.toAccountNumber}</p>
-                                <br/>
-                                <p>Amount:</p>
-                                <p className="ms-3 fw-bold">{transaction.amount} {selectedFromAccount.currency}</p>
-                                <br/>
-                                <p>Description:</p>
-                                <p className="ms-3 fw-bold">{transaction.description}</p>
-                            </div>
-                        </div>
-                        <div className="text-center">
-                            <button className="btn btn-royal-blue px-5 mb-3" type="button" name="confirm" onClick={onConfirmForm}>Sign</button>
-                            <br/>
-                            <button className="btn btn-secondary px-5" type="button" name="back" onClick={onBack}>Back</button>
-                        </div>
-                    </div>
+                {
+                    paymentState == 'confirm' &&
+                    <PaymentConfirmComponent transaction={transaction} setPaymentState={setPaymentState}/>
                 }
                 {
                     paymentState == 'success' &&
-                    <div className="text-center">
-                        <div className="mb-5 fw-bold">
-                            You transferred {transaction.amount} {selectedFromAccount.currency} to {selectedToAccount.accountName}.
-                        </div>
-                        <div>
-                            <button className="btn btn-royal-blue px-5 mb-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
-                            <br/>
-                            <button className="btn btn-secondary px-5" type="button" name="anotherPayment" onClick={onNewPaymentClicked}>Another payment</button>
-                        </div>
-                    </div>
+                    <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={selectedToAccount.accountName} setPaymentState={setPaymentState} resetPaymentForm={resetPaymentForm}/>
                 }
                 {
                     paymentState == 'fail' &&
-                    <div className="text-center">
-                        <div className="mb-5 fw-bold">
-                            Your transaction initiation failed.
-                            <br/>
-                            [Response reason.]
-                        </div>
-                        <div>
-                            <button className="btn btn-royal-blue px-5 mb-3" type="button" name="anotherPayment" onClick={onRetryPaymentClicked}>Retry payment.</button>
-                            <br/>
-                            <button className="btn btn-royal-blue px-5" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
-                        </div>
-                    </div>
+                    <PaymentFailureComponent setPaymentState={setPaymentState}/>
                 }
             </div>
         }
         </div>
-    )
+    );
 }
