@@ -15,8 +15,9 @@ export default function ReportsComponent() {
     const [loadContent, setLoadContent] = useState()
 
     useEffect (() => refreshAccounts(), [])
+    useEffect (() => setValuesAfterAccountsLoad(), [accounts]) // catch accounts load
     useEffect (() => refreshTransactions(), [selectedAccount])
-    useEffect (() => setLoadContent(true), [transactions])
+    useEffect (() => initPage(), [transactions])
 
     const authContext = useAuth()
     const username = authContext.username
@@ -25,20 +26,27 @@ export default function ReportsComponent() {
         retrieveAllBankAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data)
-                if (selectedAccount == null && accounts.length > 0) {
-                    setSelectedAccount(response.data[0])
-                }
             })
             .catch(error => console.log(error))
+    }
+
+    function setValuesAfterAccountsLoad() {
+        if (selectedAccount == null && accounts.length > 0) {
+            setSelectedAccount(accounts[0]);
+        }
+    }
+
+    function initPage() {
+        setLoadContent(true);
     }
 
     function refreshTransactions() {
         if (selectedAccount != null) {
             retrieveAllTransactionsForBankAccountNumberApi(username, selectedAccount.accountNumber)
-            .then(response => {
-                setTransactions(response.data)
-            })
-            .catch(error => console.log(error))
+                .then(response => {
+                    setTransactions(response.data)
+                })
+                .catch(error => console.log(error))
         }
     }
 
@@ -91,7 +99,7 @@ export default function ReportsComponent() {
                     {
                         transactions.map(
                             transaction => (
-                                <span>
+                                <span key={transaction.id}>
                                     <div className="row">
                                         <div className="col-1">{transaction.issueDate.toString()}</div>
                                         <div className="col-11">

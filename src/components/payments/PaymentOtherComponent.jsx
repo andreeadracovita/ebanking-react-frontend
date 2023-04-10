@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../security/AuthContext";
 import { useNavigate } from "react-router";
-import { retrieveAllLocalBankAccountsForUsernameApi, retrieveCheckingAccountsForUsernameApi } from "../api/EBankingApiService";
 import { Dropdown } from "react-bootstrap";
+
+import { retrieveCheckingAccountsForUsernameApi } from "../api/EBankingApiService";
+import { useAuth } from "../security/AuthContext";
 import PaymentConfirmComponent from "./PaymentConfirmComponent";
 import PaymentSuccessComponent from "./PaymentSuccessComponent";
 import PaymentFailureComponent from "./PaymentFailureComponent";
@@ -23,6 +24,8 @@ export default function PaymentOtherComponent() {
     const [amount, setAmount] = useState();
     const [description, setDescription] = useState('');
 
+    const [showError, setShowError] = useState(false);
+
     const transactionDefault = {
         id: -1,
         fromAccountNumber: null,
@@ -40,8 +43,8 @@ export default function PaymentOtherComponent() {
     const navigate = useNavigate();
 
     useEffect (() => refreshAccounts(), []); // once at page load
-
     useEffect (() => setValuesAfterAccountsLoad(), [accounts]); // catch accounts load
+    useEffect (() => initPage(), [selectedFromAccount]); // catch selected accounts load
 
     function refreshAccounts() {
         retrieveCheckingAccountsForUsernameApi(username)
@@ -55,6 +58,9 @@ export default function PaymentOtherComponent() {
         if (selectedFromAccount == null && accounts.length > 0) {
             setSelectedFromAccount(accounts[0]);
         }
+    }
+
+    function initPage() {
         setPaymentState('start');
         setLoadContent(true);
     }
@@ -99,6 +105,11 @@ export default function PaymentOtherComponent() {
 
     // Handle button actions
     function onSubmitForm() {
+        if (!validForm()) {
+            setShowError(true);
+            return;
+        }
+
         const newTransaction = {
             id: -1,
             fromAccountNumber: selectedFromAccount.accountNumber,
@@ -111,6 +122,10 @@ export default function PaymentOtherComponent() {
 
         setTransaction(newTransaction);
         setPaymentState('confirm');
+    }
+
+    function validForm() {
+        return true;
     }
 
     function onPortfolioRedirect() {
@@ -134,6 +149,9 @@ export default function PaymentOtherComponent() {
                 <h1 className="h2 mb-5 text-royal-blue fw-bold">Send money to someone else</h1>
                 { paymentState == 'start' &&
                     <div>
+                        {
+                            showError && <span className="text-danger mb-3">Show errors here.</span>
+                        }
                         <form>
                             <h1 className="h4 mb-2 text-royal-blue fw-bold">From account</h1>
                             <Dropdown className="mb-4">
@@ -153,7 +171,7 @@ export default function PaymentOtherComponent() {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                 {
-                                    accounts.filter(account => selectedFromAccount && account.accountNumber != selectedFromAccount.accountNumber)
+                                    accounts.filter(account => selectedFromAccount && account.accountNumber !== selectedFromAccount.accountNumber)
                                         .map(
                                             account => (
                                                 <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectFromAccountChange(account)}>
