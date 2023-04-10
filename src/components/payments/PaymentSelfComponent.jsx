@@ -15,25 +15,19 @@ export default function PaymentSelfComponent() {
     //     fail = 'fail'
     // }
 
-    const [loadContent, setLoadContent] = useState()
+    const [loadContent, setLoadContent] = useState();
 
-    const [paymentState, setPaymentState] = useState()
+    const [paymentState, setPaymentState] = useState();
 
-    const [accounts, setAccounts] = useState([])
+    const [accounts, setAccounts] = useState([]);
 
-    const [selectedFromAccount, setSelectedFromAccount] = useState()
+    const [selectedFromAccount, setSelectedFromAccount] = useState();
 
-    const [selectedToAccount, setSelectedToAccount] = useState()
+    const [selectedToAccount, setSelectedToAccount] = useState();
 
-    const [amount, setAmount] = useState()
+    const [amount, setAmount] = useState();
 
-    const [description, setDescription] = useState('')
-
-    const authContext = useAuth()
-    const username = authContext.username
-    const navigate = useNavigate()
-
-    useEffect (() => refreshPage(), [loadContent])
+    const [description, setDescription] = useState('');
 
     const transactionDefault = {
         id: -1,
@@ -41,32 +35,47 @@ export default function PaymentSelfComponent() {
         toAccountNumber: null,
         amount: 0,
         description: ''
-    }
+    };
 
-    const [transaction, setTransaction] = useState(transactionDefault)
+    const [transaction, setTransaction] = useState(transactionDefault);
 
-    function refreshPage() {
+    const authContext = useAuth();
+    const username = authContext.username;
+    const navigate = useNavigate();
+
+    useEffect (() => refreshAccounts(), []); // once at page load
+
+    useEffect (() => setValuesAfterAccountsLoad(), [accounts]); // catch accounts load
+
+    function refreshAccounts() {
         retrieveAllLocalBankAccountsForUsernameApi(username)
             .then(response => {
-                setAccounts(response.data)
-                if (accounts.length > 0) {
-                    setSelectedFromAccount(accounts[0])
-                }
-                if (accounts.length > 1) {
-                    setSelectedToAccount(accounts[1])
-                }
-                setPaymentState('start');
-                setLoadContent(true)
+                setAccounts(response.data);
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error));
+    }
+
+    function setValuesAfterAccountsLoad() {
+        if (selectedFromAccount == null && accounts.length > 0) {
+            setSelectedFromAccount(accounts[0]);
+        }
+        if (selectedToAccount == null && accounts.length > 1) {
+            setSelectedToAccount(accounts[1]);
+        }
+        setPaymentState('start');
+        setLoadContent(true);
     }
 
     function handleSelectFromAccountChange(account) {
-        setSelectedFromAccount(account)
+        const prevSelectedFromAccount = selectedFromAccount;
+        setSelectedFromAccount(account);
+        if (account == selectedToAccount) {
+            setSelectedToAccount(prevSelectedFromAccount);
+        }
     }
 
     function handleSelectToAccountChange(account) {
-        setSelectedToAccount(account)
+        setSelectedToAccount(account);
     }
 
     function checkAmountInput(event) {
@@ -82,16 +91,16 @@ export default function PaymentSelfComponent() {
 
     function handleAmountChange(event) {
         if (!/^[0-9]+(\.[0-9]{1,2})?$/.test(event.target.value)) {
-            event.preventDefault()
-            return
+            event.preventDefault();
+            return;
         }
 
-        setAmount(event.target.value)
+        setAmount(event.target.value);
     }
 
     function handleDescriptionChange(event) {
         if (event.target.value.length < MAX_DESC_LENGTH) {
-            setDescription(event.target.value)
+            setDescription(event.target.value);
         }
     }
 
@@ -103,46 +112,46 @@ export default function PaymentSelfComponent() {
             toAccountNumber: selectedToAccount.accountNumber,
             amount: amount,
             description: description
-        }
+        };
 
-        setTransaction(newTransaction)
-        setPaymentState('confirm')
+        setTransaction(newTransaction);
+        setPaymentState('confirm');
     }
 
     function onPortfolioRedirect() {
-        navigate('/portfolio')
+        navigate('/portfolio');
     }
 
     function onConfirmForm() {
         createTransactionApi(username, transaction)
             .then(response => {
-                console.log(response)
-                setPaymentState('success')
+                console.log(response);
+                setPaymentState('success');
             })
             .catch(error => {
-                console.log(error)
-                setPaymentState('fail')
-            })
+                console.log(error);
+                setPaymentState('fail');
+            });
     }
 
     function onBack() {
-        setPaymentState('start')
+        setPaymentState('start');
     }
 
     function onNewPaymentClicked() {
         if (accounts.length > 0) {
-            setSelectedFromAccount(accounts[0])
+            setSelectedFromAccount(accounts[0]);
         }
         if (accounts.length > 1) {
-            setSelectedToAccount(accounts[1])
+            setSelectedToAccount(accounts[1]);
         }
-        setAmount(null)
-        setDescription(null)
-        setPaymentState('start')
+        setAmount(null);
+        setDescription(null);
+        setPaymentState('start');
     }
 
     function onRetryPaymentClicked() {
-        setPaymentState('start')
+        setPaymentState('start');
     }
 
     return (
@@ -170,64 +179,65 @@ export default function PaymentSelfComponent() {
                                     }
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
-                                    {
-                                        accounts.filter(account => selectedToAccount && account.accountNumber != selectedToAccount.accountNumber && account.accountNumber != selectedFromAccount.accountNumber)
-                                            .map(
-                                                account => (
-                                                    <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectFromAccountChange(account)}>
-                                                        <div>
-                                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                                <span>{account.accountName}</span>
-                                                                <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
-                                                            </div>
-                                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                                <span className="account-number">{account.accountNumber}</span>
-                                                                <span>{account.currency}</span>
-                                                            </div>
+                                {
+                                    accounts.filter(account => selectedToAccount && account.accountNumber != selectedFromAccount.accountNumber)
+                                        .map(
+                                            account => (
+                                                <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectFromAccountChange(account)}>
+                                                    <div>
+                                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                            <span>{account.accountName}</span>
+                                                            <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
                                                         </div>
-                                                    </Dropdown.Item>
-                                                )
+                                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                            <span className="account-number">{account.accountNumber}</span>
+                                                            <span>{account.currency}</span>
+                                                        </div>
+                                                    </div>
+                                                </Dropdown.Item>
+                                            )
                                         )
-                                    }
+                                }
                                 </Dropdown.Menu>
                             </Dropdown>
 
                             <h1 className="h4 mb-2 text-royal-blue fw-bold">To account</h1>
                             <Dropdown className="mb-4">
                                 <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
-                                    { selectedToAccount &&
-                                        <div>
-                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                <span>{selectedToAccount.accountName}</span>
-                                                <span className="account-balance">{selectedToAccount.balance.toLocaleString("de-DE")}</span>
-                                            </div>
-                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                <span className="account-number">{selectedToAccount.accountNumber}</span>
-                                                <span>{selectedToAccount.currency}</span>
-                                            </div>
+                                { 
+                                    selectedToAccount &&
+                                    <div>
+                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                            <span>{selectedToAccount.accountName}</span>
+                                            <span className="account-balance">{selectedToAccount.balance.toLocaleString("de-DE")}</span>
                                         </div>
-                                    }
+                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                            <span className="account-number">{selectedToAccount.accountNumber}</span>
+                                            <span>{selectedToAccount.currency}</span>
+                                        </div>
+                                    </div>
+                                }
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
-                                    {
-                                        accounts.filter(account => selectedToAccount && account.accountNumber != selectedToAccount.accountNumber && account.accountNumber != selectedFromAccount.accountNumber)
-                                            .map(
-                                                account => (
-                                                    <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={(account) => handleSelectToAccountChange(account)}>
-                                                        <div>
-                                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                                <span>{account.accountName}</span>
-                                                                <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
-                                                            </div>
-                                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                                <span className="account-number">{account.accountNumber}</span>
-                                                                <span>{account.currency}</span>
-                                                            </div>
+                                {
+                                    accounts.filter(account => selectedToAccount && account.accountNumber != selectedToAccount.accountNumber && account.accountNumber != selectedFromAccount.accountNumber)
+                                        .map(
+                                            account => (
+                                                <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectToAccountChange(account)}>
+                                                    <div>
+                                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                            <span>{account.accountName}</span>
+                                                            <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
                                                         </div>
-                                                    </Dropdown.Item>
-                                                )
+                                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                            <span className="account-number">{account.accountNumber}</span>
+                                                            <span>{account.currency}</span>
+                                                        </div>
+                                                    </div>
+                                                </Dropdown.Item>
+                                            )
                                         )
-                                    }
+                                }
                                 </Dropdown.Menu>
                             </Dropdown>
 
@@ -243,10 +253,11 @@ export default function PaymentSelfComponent() {
                             <div>
                                 <button className="btn btn-royal-blue px-5 mb-3" type="button" name="submit" onClick={onSubmitForm}>Next</button>
                                 <br/>
-                                <button className="btn btn-royal-blue px-5" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
+                                <button className="btn btn-secondary px-5" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
                             </div>
                         </form>
                     </div>}
+
                 {paymentState == 'confirm' &&
                     <div>
                         <div className="d-flex justify-content-center">
@@ -269,8 +280,10 @@ export default function PaymentSelfComponent() {
                             <br/>
                             <button className="btn btn-secondary px-5" type="button" name="back" onClick={onBack}>Back</button>
                         </div>
-                    </div>}
-                {paymentState == 'success' &&
+                    </div>
+                }
+                {
+                    paymentState == 'success' &&
                     <div className="text-center">
                         <div className="mb-5 fw-bold">
                             You transferred {transaction.amount} {selectedFromAccount.currency} to {selectedToAccount.accountName}.
@@ -280,10 +293,12 @@ export default function PaymentSelfComponent() {
                             <br/>
                             <button className="btn btn-secondary px-5" type="button" name="anotherPayment" onClick={onNewPaymentClicked}>Another payment</button>
                         </div>
-                    </div>}
-                {paymentState == 'fail' &&
-                    <div>
-                        <div>
+                    </div>
+                }
+                {
+                    paymentState == 'fail' &&
+                    <div className="text-center">
+                        <div className="mb-5 fw-bold">
                             Your transaction initiation failed.
                             <br/>
                             [Response reason.]
@@ -293,7 +308,8 @@ export default function PaymentSelfComponent() {
                             <br/>
                             <button className="btn btn-royal-blue px-5" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                         </div>
-                    </div>}
+                    </div>
+                }
             </div>
         }
         </div>
