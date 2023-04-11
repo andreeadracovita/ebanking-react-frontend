@@ -22,7 +22,7 @@ function AuthenticatedRoute({ children }) {
 
 export default function MainComponent() {
     return (
-        <div className="col-sm-9 py-3 mt-4 ms-4">
+        <div className="col-sm-8 py-3 mt-4 ms-4">
             <Routes>
                 <Route path='/' element={<LoginComponent/>}/>
                 <Route path='/portfolio' element={

@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react"
+import { Accordion } from "react-bootstrap";
+import { useNavigate } from "react-router";
+
 import { useAuth } from "./security/AuthContext";
 import {
     retrieveAllCardsForUsernameApi,
@@ -6,50 +9,93 @@ import {
     retrieveCreditAccountsForUsernameApi,
     retrieveSavingsAccountsForUsernameApi
 } from "./api/EBankingApiService"
+import Wallet from "../assets/wallet.svg"
+import Currency from "../assets/currency.svg"
+import Report from "../assets/report.svg"
+import Customize from "../assets/customize.svg"
+import Delete from "../assets/delete.svg"
+import Details from "../assets/details.svg"
+import PiggyBank from "../assets/piggy-bank.svg"
+import Lock from "../assets/lock.svg"
 
 export default function PortfolioComponent() {
 
-    const [checkingAccounts, setCheckingAccounts] = useState([])
+    const [checkingAccounts, setCheckingAccounts] = useState([]);
+    const [savingsAccounts, setSavingsAccounts] = useState([]);
+    const [creditAccounts, setCreditAccounts] = useState([]);
+    const [cards, setCards] = useState([]);
 
-    const [savingsAccounts, setSavingsAccounts] = useState([])
+    useEffect (() => refreshContent(), []);
 
-    const [creditAccounts, setCreditAccounts] = useState([])
+    const authContext = useAuth();
+    const username = authContext.username;
 
-    const [cards, setCards] = useState([])
-
-    useEffect (() => refreshContent(), [])
-
-    const authContext = useAuth()
-    const username = authContext.username
+    const navigate = useNavigate();
 
     function refreshContent() {
         retrieveCheckingAccountsForUsernameApi(username)
             .then(response => {
-                setCheckingAccounts(response.data)
+                setCheckingAccounts(response.data);
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error));
         
         retrieveSavingsAccountsForUsernameApi(username)
             .then(response => {
-                setSavingsAccounts(response.data)
+                setSavingsAccounts(response.data);
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error));
 
         retrieveCreditAccountsForUsernameApi(username)
             .then(response => {
-                setCreditAccounts(response.data)
+                setCreditAccounts(response.data);
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error));
         
         retrieveAllCardsForUsernameApi(username)
             .then(response => {
-                setCards(response.data)
+                setCards(response.data);
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error));
     }
 
     function hideCardCharacters(cardNumber) {
         return '**** **** **** ' + cardNumber.slice(12);
+    }
+
+    function redirectPaymentOther(account) {
+        navigate('/payment/other');
+    }
+
+    function redirectExchange(account) {
+        navigate('/exchange');
+    }
+
+    function redirectReport(account) {
+        navigate('/reports');
+    }
+
+    function redirectAccountDetails(account) {
+
+    }
+
+    function redirectCustomize(account) {
+
+    }
+
+    function redirectClose(account) {
+
+    }
+
+    function redirectReimburseCredit(account) {
+
+    }
+
+    function redirectCardDetails(card) {
+
+    }
+
+    function redirectBlock(card) {
+
     }
 
     return (
@@ -67,23 +113,72 @@ export default function PortfolioComponent() {
                         </span>
                         <button className="btn btn-royal-blue" onClick={() => {}}>+</button>
                     </div>
+                    <Accordion className="mt-3" defaultActiveKey="">
                     {
                         checkingAccounts.map(
                             account => (
-                                <div className="mt-3" key={account.accountNumber}>
-                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                        <span>{account.accountName}</span>
-                                        <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
-                                    </div>
-                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                        <span className="account-number">{account.accountNumber}</span>
-                                        <span>{account.currency}</span>
-                                    </div>
-                                </div>
+                                <Accordion.Item key={account.accountNumber} eventKey={account.accountNumber}>
+                                    <Accordion.Header>
+                                        <div className="mt-3 me-2 w-100">
+                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                <span>{account.accountName}</span>
+                                                <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
+                                            </div>
+                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                <span className="account-number">{account.accountNumber}</span>
+                                                <span>{account.currency}</span>
+                                            </div>
+                                        </div>
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                        <div className="d-flex justify-content-around">
+                                            {
+                                                account.currency === 'CHF' &&
+                                                <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectPaymentOther(account)}>
+                                                    <img className="" src={Wallet} alt="Wallet" width="48px" height="48px" />
+                                                    <br/>
+                                                    <span>Payment in CHF</span>
+                                                </div>
+                                            }
+                                            {
+                                                account.currency !== 'CHF' &&
+                                                <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectExchange(account)}>
+                                                    <img className="" src={Currency} alt="Currency" width="48px" height="48px" />
+                                                    <br/>
+                                                    <span>Exchange currency</span>
+                                                </div>
+                                            }
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectReport(account)}>
+                                                <img className="" src={Report} alt="Report" width="48px" height="48px" />
+                                                <br/>
+                                                <span>Report</span>
+                                            </div>
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectAccountDetails(account)}>
+                                                <img className="" src={Details} alt="Details" width="48px" height="48px" />
+                                                <br/>
+                                                <span>Account details</span>
+                                            </div>
+                                        </div>
+                                        <div className="d-flex justify-content-around mt-3">
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectCustomize(account)}>
+                                                <img className="" src={Customize} alt="Customize" width="40px" height="40px" />
+                                                <br/>
+                                                <span>Customize account</span>
+                                            </div>
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectClose(account)}>
+                                                <img className="" src={Delete} alt="Delete" width="40px" height="40px" />
+                                                <br/>
+                                                <span>Close account</span>
+                                            </div>
+                                        </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
                             )
                         )
                     }
+                    </Accordion>
                 </div>
+
                 <div className="col bg-light pt-2 pb-2">
                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                         <span className="h4 text-royal-blue">
@@ -92,24 +187,43 @@ export default function PortfolioComponent() {
                             </svg>
                             <span className="ms-3">Credits</span>
                         </span>
-                        <button className="btn btn-royal-blue" onClick={() => {}}>+</button>
                     </div>
+                    <Accordion className="mt-3" defaultActiveKey="">
                     {
                         creditAccounts.map(
                             credit => (
-                                <div className="mt-3" key={credit.accountNumber}>
-                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                        <span>{credit.accountName}</span>
-                                        <span className="account-balance">{credit.balance.toLocaleString("de-DE")}</span>
-                                    </div>
-                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                        <span className="account-number">{credit.accountNumber}</span>
-                                        <span>{credit.currency}</span>
-                                    </div>
-                                </div>
+                                <Accordion.Item key={credit.accountNumber} eventKey={credit.accountNumber}>
+                                    <Accordion.Header>
+                                        <div className="mt-3 me-2 w-100">
+                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                <span>{credit.accountName}</span>
+                                                <span className="account-balance">{credit.balance.toLocaleString("de-DE")}</span>
+                                            </div>
+                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                <span className="account-number">{credit.accountNumber}</span>
+                                                <span>{credit.currency}</span>
+                                            </div>
+                                        </div>
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                        <div className="d-flex justify-content-around">
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectReimburseCredit(credit)}>
+                                                <img className="" src={Currency} alt="Wallet" width="48px" height="48px" />
+                                                <br/>
+                                                <span>Reimburse</span>
+                                            </div>
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectReport(credit)}>
+                                                <img className="" src={Report} alt="Report" width="48px" height="48px" />
+                                                <br/>
+                                                <span>Report</span>
+                                            </div>
+                                        </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
                             )
                         )
                     }
+                    </Accordion>
                 </div>
             </div>
             <div className="row pb-2 mb-3">
@@ -123,22 +237,54 @@ export default function PortfolioComponent() {
                         </span>
                         <button className="btn btn-royal-blue" onClick={() => {}}>+</button>
                     </div>
+                    <Accordion className="mt-3" defaultActiveKey="">
                     {
                         savingsAccounts.map(
                             saving => (
-                                <div className="mt-3" key={saving.accountNumber}>
-                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                        <span>{saving.accountName}</span>
-                                        <span className="account-balance">{saving.balance.toLocaleString("de-DE")}</span>
-                                    </div>
-                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                        <span className="account-number">{saving.accountNumber}</span>
-                                        <span>{saving.currency}</span>
-                                    </div>
-                                </div>
+                                <Accordion.Item key={saving.accountNumber} eventKey={saving.accountNumber}>
+                                    <Accordion.Header>
+                                        <div className="mt-3 me-2 w-100">
+                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                <span>{saving.accountName}</span>
+                                                <span className="account-balance">{saving.balance.toLocaleString("de-DE")}</span>
+                                            </div>
+                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                <span className="account-number">{saving.accountNumber}</span>
+                                                <span>{saving.currency}</span>
+                                            </div>
+                                        </div>
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                        <div className="d-flex justify-content-around">
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectPaymentOther(saving)}>
+                                                <img className="" src={PiggyBank} alt="PiggyBank" width="48px" height="48px" />
+                                                <br/>
+                                                <span>Save</span>
+                                            </div>
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectReport(saving)}>
+                                                <img className="" src={Report} alt="Report" width="48px" height="48px" />
+                                                <br/>
+                                                <span>Report</span>
+                                            </div>
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectCustomize(saving)}>
+                                                <img className="" src={Customize} alt="Customize" width="40px" height="48px" />
+                                                <br/>
+                                                <span>Customize account</span>
+                                            </div>
+                                        </div>
+                                        <div className="d-flex ms-5 mt-3">
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectClose(saving)}>
+                                                <img className="" src={Delete} alt="Delete" width="40px" height="40px" />
+                                                <br/>
+                                                <span>Close account</span>
+                                            </div>
+                                        </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
                             )
                         )
                     }
+                    </Accordion>
                 </div>
                 <div className="col bg-light pt-2 pb-2">
                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
@@ -150,19 +296,39 @@ export default function PortfolioComponent() {
                         </span>
                         <button className="btn btn-royal-blue" onClick={() => {}}>+</button>
                     </div>
+                    <Accordion className="mt-3" defaultActiveKey="">
                     {
                         cards.map(
                             card => (
-                                <div className="mt-3" key={card.cardNumber}>
-                                    <span>{card.cardName}</span>
-                                    <br/>
-                                    <span className="account-number">{hideCardCharacters(card.cardNumber)}</span>
-                                </div>
+                                <Accordion.Item key={card.cardNumber} eventKey={card.cardName}>
+                                <Accordion.Header>
+                                    <div className="mt-3 me-2 w-100">
+                                        <span>{card.cardName}</span>
+                                        <br/>
+                                        <span className="account-number">{hideCardCharacters(card.cardNumber)}</span>
+                                    </div>
+                                </Accordion.Header>
+                                <Accordion.Body>
+                                    <div className="d-flex justify-content-around">
+                                        <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectCardDetails(card)}>
+                                            <img className="" src={Details} alt="Details" width="48px" height="48px" />
+                                            <br/>
+                                            <span>Details</span>
+                                        </div>
+                                        <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectBlock(card)}>
+                                            <img className="" src={Lock} alt="Lock" width="48px" height="48px" />
+                                            <br/>
+                                            <span>Block</span>
+                                        </div>
+                                    </div>
+                                </Accordion.Body>
+                            </Accordion.Item>
                             )
                         )
                     }
+                    </Accordion>
                 </div>
             </div>
         </div>
-    )
+    );
 }

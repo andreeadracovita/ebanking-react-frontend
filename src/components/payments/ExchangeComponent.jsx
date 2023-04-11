@@ -8,8 +8,6 @@ import PaymentSuccessComponent from "./PaymentSuccessComponent";
 import PaymentFailureComponent from "./PaymentFailureComponent";
 import { retrieveCheckingAccountsForUsernameApi } from "../api/EBankingApiService";
 
-const MAX_DESC_LENGTH = 20;
-
 const exchangeRate = {
     CHF:  1,
     EUR: 0.9,
