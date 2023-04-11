@@ -118,7 +118,8 @@ export default function PaymentSelfComponent() {
             toAccountNumber: selectedToAccount.accountNumber,
             amount: amount,
             currency: selectedFromAccount.currency,
-            description: description
+            description: description,
+            exchangeRate: 1.0
         };
 
         setTransaction(newTransaction);
@@ -252,7 +253,7 @@ export default function PaymentSelfComponent() {
 
                 {
                     paymentState == 'confirm' &&
-                    <PaymentConfirmComponent transaction={transaction} setPaymentState={setPaymentState}/>
+                    <PaymentConfirmComponent paymentType='self' transaction={transaction} setPaymentState={setPaymentState}/>
                 }
                 {
                     paymentState == 'success' &&

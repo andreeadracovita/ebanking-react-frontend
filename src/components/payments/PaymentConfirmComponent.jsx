@@ -1,7 +1,7 @@
 import { createTransactionApi } from "../api/EBankingApiService";
 import { useAuth } from "../security/AuthContext";
 
-export default function PaymentConfirmComponent({ paymentType, transaction, setPaymentState }) {
+export default function PaymentConfirmComponent({ paymentType, transaction, setPaymentState, targetCurrency }) {
 
     const authContext = useAuth();
     const username = authContext.username;
@@ -26,15 +26,31 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setP
         <div>
             <div className="d-flex justify-content-center">
                 <div className="bg-light-royal-blue p-3 mb-3 text-left w-50">
-                    <p>Amount:</p>
-                    <p className="ms-3 fw-bold">{transaction.amount} {transaction.currency}</p>
+                    {
+                        (paymentType !== 'exchange') &&
+                        <span>
+                            <p>Amount:</p>
+                            <p className="ms-3 fw-bold">{transaction.amount} {transaction.currency}</p>
+                        </span>
+                    }
+                    {
+                        paymentType == 'exchange' &&
+                        <span>
+                            <p>Exchanged amount:</p>
+                            <p className="ms-3 fw-bold">{transaction.amount} {transaction.currency}</p>
+                            <p>Exchange rate:</p>
+                            <p className="ms-3 fw-bold">1 {targetCurrency} = {transaction.exchangeRate} {transaction.currency} </p>
+                            <p>Transferred amount:</p>
+                            <p className="ms-3 fw-bold">{(transaction.amount / transaction.exchangeRate).toFixed(2)} {targetCurrency}</p>
+                        </span>
+                    }
                     <br/>
                     <p>From account:</p>
                     <p className="ms-3 fw-bold">{transaction.fromAccountNumber}</p>
                     <br/>
                     <hr/>
                     {
-                        paymentType == 'Other' &&
+                        paymentType == 'other' &&
                         <span>
                             <p>Beneficiary name:</p>
                             <p className="ms-3 fw-bold">{transaction.beneficiaryName}</p>
@@ -42,9 +58,14 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setP
                     }
                     <p>To account:</p>
                     <p className="ms-3 fw-bold">{transaction.toAccountNumber}</p>
-                    <br/>
-                    <p>Payment details:</p>
-                    <p className="ms-3 fw-bold">{transaction.description}</p>
+                    {
+                        paymentType !== 'exchange' &&
+                        <span>
+                            <br/>
+                            <p>Payment details:</p>
+                            <p className="ms-3 fw-bold">{transaction.description}</p>
+                        </span>
+                    }
                 </div>
             </div>
             <div className="text-center">

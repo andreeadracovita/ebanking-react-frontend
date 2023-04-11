@@ -10,6 +10,12 @@ import { retrieveCheckingAccountsForUsernameApi } from "../api/EBankingApiServic
 
 const MAX_DESC_LENGTH = 20;
 
+const exchangeRate = {
+    CHF:  1,
+    EUR: 0.9,
+    USD: 0.8
+};
+
 export default function ExchangeComponent() {
 
     // PaymentState { 'start', 'confirm', 'success', 'fail' }
@@ -21,6 +27,8 @@ export default function ExchangeComponent() {
     const [selectedFromAccount, setSelectedFromAccount] = useState();
     const [selectedToAccount, setSelectedToAccount] = useState();
     const [amount, setAmount] = useState();
+    const [debitAmount, setDebitAmount] = useState();
+    const [convertedAmount, setConvertedAmount] = useState();
     const [currencySelect, setCurrencySelect] = useState();
 
     const [showError, setShowError] = useState(false);
@@ -45,6 +53,7 @@ export default function ExchangeComponent() {
     useEffect (() => setFromAccountAfterAccountsLoad(), [accounts]); // catch accounts load
     useEffect (() => setToAccountAfterFromAccountLoad(), [selectedFromAccount]); // catch from account load
     useEffect (() => initPage(), [selectedToAccount]); // catch selected accounts load
+    useEffect (() => recomputeTransactionAmounts(), [amount, currencySelect])
 
     function refreshAccounts() {
         retrieveCheckingAccountsForUsernameApi(username)
@@ -57,14 +66,15 @@ export default function ExchangeComponent() {
     function setFromAccountAfterAccountsLoad() {
         if (selectedFromAccount == null && accounts.length > 0) {
             setSelectedFromAccount(accounts[0]);
+            setCurrencySelect(accounts[0].currency)
         }
     }
 
     function setToAccountAfterFromAccountLoad() {
         if (accounts.length > 0) {
             const firstInvCurrencyAccounts = accounts.filter(account => account.currency !== selectedFromAccount.currency);
-            if (selectedToAccount == null && firstInvCurrencyAccounts.length > 1) {
-                setSelectedToAccount(firstInvCurrencyAccounts[1]);
+            if (selectedToAccount == null && firstInvCurrencyAccounts.length > 0) {
+                setSelectedToAccount(firstInvCurrencyAccounts[0]);
             }
         }
     }
@@ -106,6 +116,32 @@ export default function ExchangeComponent() {
         setAmount(event.target.value);
     }
 
+    function chooseRate(currency) {
+        var rate = 1;
+        if (currency == 'EUR') {
+            rate = exchangeRate.EUR;
+        } else if (currency == 'USD') {
+            rate = exchangeRate.USD;
+        }
+        return rate;
+    }
+
+    function recomputeTransactionAmounts() {
+        if  (selectedFromAccount && selectedToAccount) {
+            if (currencySelect == selectedFromAccount.currency) {
+                setDebitAmount(amount);
+                setConvertedAmount((amount / chooseRate(selectedToAccount.currency)).toFixed(2));
+            } else {
+                setDebitAmount((amount * chooseRate(currencySelect)).toFixed(2));
+                setConvertedAmount(amount);
+            }
+        }
+    }
+
+    function handleCurrencySelectChange(event) {
+        setCurrencySelect(event.target.value)
+    }
+
     // Handle button actions
     function onSubmitForm() {
         if (!validForm()) {
@@ -117,9 +153,10 @@ export default function ExchangeComponent() {
             id: -1,
             fromAccountNumber: selectedFromAccount.accountNumber,
             toAccountNumber: selectedToAccount.accountNumber,
-            amount: amount,
+            amount: debitAmount,
             currency: selectedFromAccount.currency,
-            description: 'Exchange currency'
+            description: 'Exchange currency',
+            exchangeRate: chooseRate(selectedToAccount.currency)
         };
 
         setTransaction(newTransaction);
@@ -142,6 +179,8 @@ export default function ExchangeComponent() {
             setSelectedToAccount(accounts[1]);
         }
         setAmount(null);
+        setDebitAmount(null);
+        setConvertedAmount(null);
         setCurrencySelect(0);
     }
 
@@ -200,23 +239,28 @@ export default function ExchangeComponent() {
                             <h1 className="h4 mb-2 text-royal-blue fw-bold">Amount to exchange</h1>
                             <div className="mb-3">
                                 <input className="input-field" type="number" name="amount" placeholder="Amount" onChange={handleAmountChange} onKeyDown={checkAmountInput}/>
-                                <select className="btn btn-royal-blue ms-3" name="currency" onChange={setCurrencySelect} value={currencySelect}>
+                                <select className="btn btn-royal-blue ms-3" name="currency" onChange={handleCurrencySelectChange} value={currencySelect}>
                                     { selectedFromAccount && <option value={selectedFromAccount.currency}>{selectedFromAccount.currency}</option> }
                                     { selectedToAccount && <option value={selectedToAccount.currency}>{selectedToAccount.currency}</option> }
                                 </select>
                             </div>
                             <div className="mb-3">
                                 <span>Exchange rate: </span>
-                                <span className="account-balance">1 {selectedToAccount && selectedToAccount.currency} = $RATE$ {selectedFromAccount && selectedFromAccount.currency}</span>
+                                <span className="account-balance">1 {selectedToAccount && selectedToAccount.currency} = {selectedFromAccount && <span>{chooseRate(selectedFromAccount.currency)} {selectedFromAccount.currency}</span>}</span>
                             </div>
-                            <div className="mb-3">
-                                <span>Debit amount: </span>
-                                <span className="account-balance">{amount} {currencySelect}</span>
-                            </div>
-                            <div className="mb-3">
-                                <span>Converted amount: </span>
-                                <span className="account-balance">Amount in other currency</span>
-                            </div>
+                            {
+                                amount &&
+                                <span>
+                                    <div className="mb-3">
+                                        <span>Debit amount: </span>
+                                        {amount && <span className="account-balance">{debitAmount} {selectedFromAccount.currency}</span>}
+                                    </div>
+                                    <div className="mb-3">
+                                        <span>Converted amount: </span>
+                                        <span className="account-balance">{convertedAmount} {selectedToAccount.currency}</span>
+                                    </div>
+                                </span>
+                            }
 
                             <h1 className="h4 mb-2 text-royal-blue fw-bold">To account</h1>
                             <Dropdown className="mb-4">
@@ -268,11 +312,11 @@ export default function ExchangeComponent() {
 
                 {
                     paymentState == 'confirm' &&
-                    <PaymentConfirmComponent transaction={transaction} setPaymentState={setPaymentState}/>
+                    <PaymentConfirmComponent paymentType='exchange' transaction={transaction} setPaymentState={setPaymentState} targetCurrency={selectedToAccount.currency}/>
                 }
                 {
                     paymentState == 'success' &&
-                    <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={selectedToAccount.accountName} setPaymentState={setPaymentState} resetPaymentForm={resetPaymentForm}/>
+                    <PaymentSuccessComponent amount={{value:convertedAmount, currency:selectedToAccount.currency}} destination={selectedToAccount.accountName} setPaymentState={setPaymentState} resetPaymentForm={resetPaymentForm}/>
                 }
                 {
                     paymentState == 'fail' &&

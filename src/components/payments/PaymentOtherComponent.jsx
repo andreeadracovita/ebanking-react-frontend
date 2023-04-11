@@ -117,7 +117,8 @@ export default function PaymentOtherComponent() {
             beneficiaryName: beneficiaryName,
             amount: amount,
             currency: selectedFromAccount.currency,
-            description: description
+            description: description,
+            exchangeRate: 1.0
         };
 
         setTransaction(newTransaction);
@@ -218,7 +219,7 @@ export default function PaymentOtherComponent() {
 
                 {
                     paymentState == 'confirm' &&
-                    <PaymentConfirmComponent transaction={transaction} setPaymentState={setPaymentState}/>
+                    <PaymentConfirmComponent paymentType='other' transaction={transaction} setPaymentState={setPaymentState}/>
                 }
                 {
                     paymentState == 'success' &&
