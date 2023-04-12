@@ -21,6 +21,9 @@ export const retrieveSavingsAccountsForUsernameApi
 export const retrieveAllLocalBankAccountsForUsernameApi
     = (username) => apiClient.get(`/${username}/accounts/local`);
 
+export const retrieveAllLocalCheckingBankAccountsForUsernameApi
+    = (username) => apiClient.get(`/${username}/accounts/checking/local`);
+
 export const retrieveAllForeignBankAccountsForUsernameApi
     = (username) => apiClient.get(`/${username}/accounts/foreign`);
 

@@ -172,19 +172,6 @@ export default function ExchangeComponent() {
         navigate('/portfolio');
     }
 
-    function resetPaymentForm() {
-        if (accounts.length > 0) {
-            setSelectedFromAccount(accounts[0]);
-        }
-        if (accounts.length > 1) {
-            setSelectedToAccount(accounts[1]);
-        }
-        setAmount(null);
-        setDebitAmount(null);
-        setConvertedAmount(null);
-        setCurrencySelect(0);
-    }
-
     return (
         <div>
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Exchange money</h1>
@@ -314,7 +301,7 @@ export default function ExchangeComponent() {
             }
             {
                 paymentState == 'success' &&
-                <PaymentSuccessComponent amount={{value:convertedAmount, currency:selectedToAccount.currency}} destination={selectedToAccount.accountName} setPaymentState={setPaymentState} resetPaymentForm={resetPaymentForm}/>
+                <PaymentSuccessComponent amount={{value:convertedAmount, currency:selectedToAccount.currency}} destination={selectedToAccount.accountName} setPaymentState={setPaymentState}/>
             }
             {
                 paymentState == 'fail' &&

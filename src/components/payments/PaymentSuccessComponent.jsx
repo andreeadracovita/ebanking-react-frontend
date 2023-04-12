@@ -22,7 +22,7 @@ export default function PaymentSuccessComponent({ amount, destination, setPaymen
             <div>
                 <button className="btn btn-royal-blue px-5 mb-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 <br/>
-                <button className="btn btn-secondary px-5" type="button" name="anotherPayment" onClick={onNewPaymentClicked}>Another payment</button>
+                { resetPaymentForm && <button className="btn btn-secondary px-5" type="button" name="anotherPayment" onClick={onNewPaymentClicked}>Another payment</button> }
             </div>
         </div>
     );

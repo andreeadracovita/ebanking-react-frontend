@@ -90,7 +90,7 @@ export default function PortfolioComponent() {
     }
 
     function redirectReimburseCredit(account) {
-
+        navigate('/creditcard/reimburse', { state: { account: account }});
     }
 
     function redirectCardDetails(card) {
@@ -211,7 +211,7 @@ export default function PortfolioComponent() {
                                     <Accordion.Body>
                                         <div className="d-flex justify-content-around">
                                             <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectReimburseCredit(credit)}>
-                                                <img className="" src={Currency} alt="Wallet" width="48px" height="48px" />
+                                                <img className="" src={Wallet} alt="Wallet" width="48px" height="48px" />
                                                 <br/>
                                                 <span>Reimburse</span>
                                             </div>
