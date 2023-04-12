@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { deleteBankAccountApi } from './api/EBankingApiService';
 import { useAuth } from './security/AuthContext';
 
-export default function DeleteConfirmComponent() {
+export default function DeleteAccountComponent() {
     const [deleteState, setDeleteState] = useState('confirm');
     const [showBalanceError, setShowBalanceError] = useState();
 
