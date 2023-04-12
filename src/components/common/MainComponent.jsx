@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router";
+
 import PortfolioComponent from "../PortfolioComponent";
 import ErrorComponent from "../ErrorComponent";
 import LoginComponent from "../LoginComponent";
@@ -9,6 +10,9 @@ import { useAuth } from "../security/AuthContext";
 import ExchangeComponent from "../payments/ExchangeComponent";
 import PaymentOtherComponent from "../payments/PaymentOtherComponent";
 import PaymentSelfComponent from "../payments/PaymentSelfComponent";
+import OpenAccountComponent from "../add/OpenAccountComponent";
+import OpenSavingsComponent from "../add/OpenSavingsComponent";
+import DeleteConfirmComponent from "../DeleteConfirmComponent";
 
 function AuthenticatedRoute({ children }) {
     const authContext = useAuth()
@@ -28,6 +32,21 @@ export default function MainComponent() {
                 <Route path='/portfolio' element={
                     <AuthenticatedRoute>
                         <PortfolioComponent/>
+                    </AuthenticatedRoute>
+                }/>
+                <Route path='/open-account' element={
+                    <AuthenticatedRoute>
+                        <OpenAccountComponent/>
+                    </AuthenticatedRoute>
+                }/>
+                <Route path='/open-savings' element={
+                    <AuthenticatedRoute>
+                        <OpenSavingsComponent/>
+                    </AuthenticatedRoute>
+                }/>
+                <Route path='/delete/account' element={
+                    <AuthenticatedRoute>
+                        <DeleteConfirmComponent/>
                     </AuthenticatedRoute>
                 }/>
                 <Route path='/payment/self' element={

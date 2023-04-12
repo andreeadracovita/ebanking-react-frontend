@@ -82,8 +82,8 @@ export default function PortfolioComponent() {
 
     }
 
-    function redirectClose(account) {
-
+    function redirectDeleteAccount(account) {
+        navigate('/delete/account', {state:{account: account}});
     }
 
     function redirectReimburseCredit(account) {
@@ -111,7 +111,7 @@ export default function PortfolioComponent() {
                             </svg>
                             <span className="ms-3">Accounts</span>
                         </span>
-                        <button className="btn btn-royal-blue" onClick={() => {}}>+</button>
+                        <button className="btn btn-royal-blue" onClick={() => { navigate('/open-account') }}>+</button>
                     </div>
                     <Accordion className="mt-3" defaultActiveKey="">
                     {
@@ -165,7 +165,7 @@ export default function PortfolioComponent() {
                                                 <br/>
                                                 <span>Customize account</span>
                                             </div>
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectClose(account)}>
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectDeleteAccount(account)}>
                                                 <img className="" src={Delete} alt="Delete" width="40px" height="40px" />
                                                 <br/>
                                                 <span>Close account</span>
@@ -235,7 +235,7 @@ export default function PortfolioComponent() {
                             </svg>
                             <span className="ms-3">Savings</span>
                         </span>
-                        <button className="btn btn-royal-blue" onClick={() => {}}>+</button>
+                        <button className="btn btn-royal-blue" onClick={() => { navigate('/open-savings') }}>+</button>
                     </div>
                     <Accordion className="mt-3" defaultActiveKey="">
                     {
@@ -273,7 +273,7 @@ export default function PortfolioComponent() {
                                             </div>
                                         </div>
                                         <div className="d-flex ms-5 mt-3">
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectClose(saving)}>
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectDeleteAccount(saving)}>
                                                 <img className="" src={Delete} alt="Delete" width="40px" height="40px" />
                                                 <br/>
                                                 <span>Close account</span>

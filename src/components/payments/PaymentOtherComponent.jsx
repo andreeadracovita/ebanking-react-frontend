@@ -7,8 +7,7 @@ import { useAuth } from "../security/AuthContext";
 import PaymentConfirmComponent from "./PaymentConfirmComponent";
 import PaymentSuccessComponent from "./PaymentSuccessComponent";
 import PaymentFailureComponent from "./PaymentFailureComponent";
-
-const MAX_DESC_LENGTH = 20;
+import { MAX_DESCRIPTION_LENGTH } from "../common/constants/Constants";
 
 export default function PaymentOtherComponent() {
 
@@ -98,7 +97,7 @@ export default function PaymentOtherComponent() {
     }
 
     function handleDescriptionChange(event) {
-        if (event.target.value.length < MAX_DESC_LENGTH) {
+        if (event.target.value.length < MAX_DESCRIPTION_LENGTH) {
             setDescription(event.target.value);
         }
     }

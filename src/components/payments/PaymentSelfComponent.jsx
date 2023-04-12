@@ -7,8 +7,7 @@ import { retrieveAllLocalBankAccountsForUsernameApi } from "../api/EBankingApiSe
 import PaymentConfirmComponent from "./PaymentConfirmComponent";
 import PaymentSuccessComponent from "./PaymentSuccessComponent";
 import PaymentFailureComponent from "./PaymentFailureComponent";
-
-const MAX_DESC_LENGTH = 20;
+import { MAX_DESCRIPTION_LENGTH } from "../common/constants/Constants";
 
 export default function PaymentSelfComponent() {
 
@@ -100,7 +99,7 @@ export default function PaymentSelfComponent() {
     }
 
     function handleDescriptionChange(event) {
-        if (event.target.value.length < MAX_DESC_LENGTH) {
+        if (event.target.value.length < MAX_DESCRIPTION_LENGTH) {
             setDescription(event.target.value);
         }
     }

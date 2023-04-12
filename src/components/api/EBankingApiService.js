@@ -1,5 +1,11 @@
 import { apiClient } from "./ApiClient";
 
+export const Currency = {
+    CHF: 0,
+    EUR: 1,
+    USD: 2
+}
+
 export const retrieveCustomerNameForUsernameApi
     = (username) => apiClient.get(`/${username}/customername`)
 
@@ -27,5 +33,14 @@ export const retrieveAllCardsForUsernameApi
 export const retrieveAllTransactionsForBankAccountNumberApi
     = (username, accountNumber) => apiClient.get(`/${username}/${accountNumber}/transactions`)
 
+export const createCheckingAccountApi
+    = (username, currency) => apiClient.post(`/${username}/account/checking/${currency}`)
+
+export const createSavingsAccountApi
+    = (username) => apiClient.post(`/${username}/account/savings`)
+
 export const createTransactionApi
     = (username, transaction) => apiClient.post(`/${username}/transaction`, transaction)
+
+export const deleteBankAccountApi
+    = (username, accountNumber) => apiClient.delete(`/${username}/accounts/${accountNumber}`)
