@@ -1,33 +1,30 @@
-import { useEffect, useState } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
-import SplineChartComponent from "./SplineChartComponent";
-import { retrieveAllBankAccountsForUsernameApi, retrieveAllTransactionsForBankAccountNumberApi } from "./api/EBankingApiService";
-import { useAuth } from "./security/AuthContext";
+import { useEffect, useState } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
+
+import SplineChartComponent from './SplineChartComponent';
+import { retrieveAllBankAccountsForUsernameApi, retrieveAllTransactionsForBankAccountNumberApi } from './api/EBankingApiService';
+import { useAuth } from './security/AuthContext';
 
 export default function ReportsComponent() {
+    const [accounts, setAccounts] = useState([]);
+    const [transactions, setTransactions] = useState([]);
+    const [selectedAccount, setSelectedAccount] = useState(null);
+    const [loadContent, setLoadContent] = useState();
 
-    const [accounts, setAccounts] = useState([])
+    useEffect (() => refreshAccounts(), []);
+    useEffect (() => setValuesAfterAccountsLoad(), [accounts]); // catch accounts load
+    useEffect (() => refreshTransactions(), [selectedAccount]);
+    useEffect (() => initPage(), [transactions]);
 
-    const [transactions, setTransactions] = useState([])
-
-    const [selectedAccount, setSelectedAccount] = useState(null)
-
-    const [loadContent, setLoadContent] = useState()
-
-    useEffect (() => refreshAccounts(), [])
-    useEffect (() => setValuesAfterAccountsLoad(), [accounts]) // catch accounts load
-    useEffect (() => refreshTransactions(), [selectedAccount])
-    useEffect (() => initPage(), [transactions])
-
-    const authContext = useAuth()
-    const username = authContext.username
+    const authContext = useAuth();
+    const username = authContext.username;
 
     function refreshAccounts() {
         retrieveAllBankAccountsForUsernameApi(username)
             .then(response => {
-                setAccounts(response.data)
+                setAccounts(response.data);
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error));
     }
 
     function setValuesAfterAccountsLoad() {
@@ -44,15 +41,15 @@ export default function ReportsComponent() {
         if (selectedAccount != null) {
             retrieveAllTransactionsForBankAccountNumberApi(username, selectedAccount.accountNumber)
                 .then(response => {
-                    setTransactions(response.data)
+                    setTransactions(response.data);
                 })
-                .catch(error => console.log(error))
+                .catch(error => console.log(error));
         }
     }
 
     function handleSelectedAccountChange(account) {
-        setSelectedAccount(account)
-        refreshTransactions()
+        setSelectedAccount(account);
+        refreshTransactions();
     }
 
     return (
@@ -137,5 +134,5 @@ export default function ReportsComponent() {
                 </span>}
             {/* <SplineChartComponent/> */}
         </div>
-    )
+    );
 }

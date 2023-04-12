@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { Dropdown } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Dropdown } from 'react-bootstrap';
 
-import { useAuth } from "../security/AuthContext";
-import PaymentConfirmComponent from "./PaymentConfirmComponent";
-import PaymentSuccessComponent from "./PaymentSuccessComponent";
-import PaymentFailureComponent from "./PaymentFailureComponent";
-import { retrieveCheckingAccountsForUsernameApi } from "../api/EBankingApiService";
+import { useAuth } from '../security/AuthContext';
+import PaymentConfirmComponent from './PaymentConfirmComponent';
+import PaymentSuccessComponent from './PaymentSuccessComponent';
+import PaymentFailureComponent from './PaymentFailureComponent';
+import { retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
 
 const exchangeRate = {
     CHF:  1,
@@ -15,7 +15,6 @@ const exchangeRate = {
 };
 
 export default function ExchangeComponent() {
-
     // PaymentState { 'start', 'confirm', 'success', 'fail' }
 
     const [loadContent, setLoadContent] = useState();
@@ -51,7 +50,7 @@ export default function ExchangeComponent() {
     useEffect (() => setFromAccountAfterAccountsLoad(), [accounts]); // catch accounts load
     useEffect (() => setToAccountAfterFromAccountLoad(), [selectedFromAccount]); // catch from account load
     useEffect (() => initPage(), [selectedToAccount]); // catch selected accounts load
-    useEffect (() => recomputeTransactionAmounts(), [amount, currencySelect])
+    useEffect (() => recomputeTransactionAmounts(), [amount, currencySelect]);
 
     function refreshAccounts() {
         retrieveCheckingAccountsForUsernameApi(username)
@@ -64,7 +63,7 @@ export default function ExchangeComponent() {
     function setFromAccountAfterAccountsLoad() {
         if (selectedFromAccount == null && accounts.length > 0) {
             setSelectedFromAccount(accounts[0]);
-            setCurrencySelect(accounts[0].currency)
+            setCurrencySelect(accounts[0].currency);
         }
     }
 
@@ -137,7 +136,7 @@ export default function ExchangeComponent() {
     }
 
     function handleCurrencySelectChange(event) {
-        setCurrencySelect(event.target.value)
+        setCurrencySelect(event.target.value);
     }
 
     // Handle button actions

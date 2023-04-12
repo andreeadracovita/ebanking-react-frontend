@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { Dropdown } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Dropdown } from 'react-bootstrap';
 
-import { retrieveCheckingAccountsForUsernameApi } from "../api/EBankingApiService";
-import { useAuth } from "../security/AuthContext";
-import PaymentConfirmComponent from "./PaymentConfirmComponent";
-import PaymentSuccessComponent from "./PaymentSuccessComponent";
-import PaymentFailureComponent from "./PaymentFailureComponent";
-import { MAX_DESCRIPTION_LENGTH } from "../common/constants/Constants";
+import { retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
+import { useAuth } from '../security/AuthContext';
+import PaymentConfirmComponent from './PaymentConfirmComponent';
+import PaymentSuccessComponent from './PaymentSuccessComponent';
+import PaymentFailureComponent from './PaymentFailureComponent';
+import { MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
 
 export default function PaymentOtherComponent() {
-
     // PaymentState { 'start', 'confirm', 'success', 'fail' }
 
     const [loadContent, setLoadContent] = useState();

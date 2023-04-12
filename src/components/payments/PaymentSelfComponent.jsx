@@ -1,16 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
 
-import { useAuth } from "../security/AuthContext";
-import { retrieveAllLocalBankAccountsForUsernameApi } from "../api/EBankingApiService";
-import PaymentConfirmComponent from "./PaymentConfirmComponent";
-import PaymentSuccessComponent from "./PaymentSuccessComponent";
-import PaymentFailureComponent from "./PaymentFailureComponent";
-import { MAX_DESCRIPTION_LENGTH } from "../common/constants/Constants";
+import { useAuth } from '../security/AuthContext';
+import { retrieveAllLocalBankAccountsForUsernameApi } from '../api/EBankingApiService';
+import PaymentConfirmComponent from './PaymentConfirmComponent';
+import PaymentSuccessComponent from './PaymentSuccessComponent';
+import PaymentFailureComponent from './PaymentFailureComponent';
+import { MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
 
 export default function PaymentSelfComponent() {
-
     // PaymentState { 'start', 'confirm', 'success', 'fail' }
 
     const [loadContent, setLoadContent] = useState();

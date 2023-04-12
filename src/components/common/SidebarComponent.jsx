@@ -1,17 +1,17 @@
-import { Link } from "react-router-dom";
-import { useAuth } from "../security/AuthContext";
-import { useEffect, useState } from "react";
-import { retrieveCustomerNameForUsernameApi } from "../api/EBankingApiService";
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
+import { useAuth } from '../security/AuthContext';
+import { retrieveCustomerNameForUsernameApi } from '../api/EBankingApiService';
 
 export default function SidebarComponent() {
-
     const [customerName, setCustomerName] = useState();
 
-    const authContext = useAuth()
-    const username = authContext.username
-    const isAuthenticated = authContext.isAuthenticated
+    const authContext = useAuth();
+    const username = authContext.username;
+    const isAuthenticated = authContext.isAuthenticated;
 
-    useEffect (() => refreshCustomerName(), [])
+    useEffect (() => refreshCustomerName(), []);
 
     function refreshCustomerName() {
         retrieveCustomerNameForUsernameApi(username)
@@ -102,5 +102,5 @@ export default function SidebarComponent() {
                 </ul>
             </div>
         </div>
-    )
+    );
 }

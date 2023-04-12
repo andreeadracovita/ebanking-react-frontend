@@ -1,18 +1,17 @@
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 
-import { deleteBankAccountApi } from "./api/EBankingApiService";
-import { useAuth } from "./security/AuthContext";
+import { deleteBankAccountApi } from './api/EBankingApiService';
+import { useAuth } from './security/AuthContext';
 
 export default function DeleteConfirmComponent() {
-
     const [deleteState, setDeleteState] = useState('confirm');
     const [showBalanceError, setShowBalanceError] = useState();
 
     const authContext = useAuth();
     const username = authContext.username;
     const navigate = useNavigate();
-    
+
     const location = useLocation();
     const account = location.state.account;
 

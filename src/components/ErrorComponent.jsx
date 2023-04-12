@@ -6,5 +6,5 @@ export default function ErrorComponent() {
                 Apologies for the 404.
             </div>
         </div>
-    )
+    );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {CanvasJSChart} from 'canvasjs-react-charts'
+import { CanvasJSChart } from 'canvasjs-react-charts';
 
 export default function SplineChartComponent() {
     const options = {
@@ -30,13 +30,14 @@ export default function SplineChartComponent() {
                 { x: new Date(2017, 11), y: 38400 }
             ]
         }]
-    }
+    };
+
     return (
-    <div>
-        <CanvasJSChart options = {options}
-            /* onRef={ref => this.chart = ref} */
-        />
-        {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
-    </div>
+        <div>
+            <CanvasJSChart options = {options}
+                /* onRef={ref => this.chart = ref} */
+            />
+            {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
+        </div>
     );
 }

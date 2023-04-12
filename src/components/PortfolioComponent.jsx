@@ -1,25 +1,24 @@
-import { useEffect, useState } from "react"
-import { Accordion } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from 'react';
+import { Accordion } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
 
-import { useAuth } from "./security/AuthContext";
+import { useAuth } from './security/AuthContext';
 import {
     retrieveAllCardsForUsernameApi,
     retrieveCheckingAccountsForUsernameApi,
     retrieveCreditAccountsForUsernameApi,
     retrieveSavingsAccountsForUsernameApi
-} from "./api/EBankingApiService"
-import Wallet from "../assets/wallet.svg"
-import Currency from "../assets/currency.svg"
-import Report from "../assets/report.svg"
-import Customize from "../assets/customize.svg"
-import Delete from "../assets/delete.svg"
-import Details from "../assets/details.svg"
-import PiggyBank from "../assets/piggy-bank.svg"
-import Lock from "../assets/lock.svg"
+} from './api/EBankingApiService';
+import Wallet from '../assets/wallet.svg';
+import Currency from '../assets/currency.svg';
+import Report from '../assets/report.svg';
+import Customize from '../assets/customize.svg';
+import Delete from '../assets/delete.svg';
+import Details from '../assets/details.svg';
+import PiggyBank from '../assets/piggy-bank.svg';
+import Lock from '../assets/lock.svg';
 
 export default function PortfolioComponent() {
-
     const [checkingAccounts, setCheckingAccounts] = useState([]);
     const [savingsAccounts, setSavingsAccounts] = useState([]);
     const [creditAccounts, setCreditAccounts] = useState([]);

@@ -1,4 +1,3 @@
-
 export default function FooterComponent() {
     return (
         <footer className="footer">
@@ -6,5 +5,5 @@ export default function FooterComponent() {
                 TERMS OF SERVICE | PRIVACY POLICY | COMPANY INFO | CONTACT
             </div> */}
         </footer>
-    )
+    );
 }

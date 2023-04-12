@@ -1,8 +1,7 @@
-import { createTransactionApi } from "../api/EBankingApiService";
-import { useAuth } from "../security/AuthContext";
+import { createTransactionApi } from '../api/EBankingApiService';
+import { useAuth } from '../security/AuthContext';
 
 export default function PaymentConfirmComponent({ paymentType, transaction, setPaymentState, targetCurrency }) {
-
     const authContext = useAuth();
     const username = authContext.username;
 

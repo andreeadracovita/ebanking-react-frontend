@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router";
+import { useNavigate } from 'react-router';
 
 export default function PaymentFailureComponent({ setPaymentState }) {
-
     const navigate = useNavigate();
 
     function onRetryPaymentClicked() {

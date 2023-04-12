@@ -1,27 +1,27 @@
-import { Navigate, Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from 'react-router';
 
-import PortfolioComponent from "../PortfolioComponent";
-import ErrorComponent from "../ErrorComponent";
-import LoginComponent from "../LoginComponent";
-import LogoutComponent from "../LogoutComponent";
-import ReportsComponent from "../ReportsComponent";
-import SettingsComponent from "../SettingsComponent";
-import { useAuth } from "../security/AuthContext";
-import ExchangeComponent from "../payments/ExchangeComponent";
-import PaymentOtherComponent from "../payments/PaymentOtherComponent";
-import PaymentSelfComponent from "../payments/PaymentSelfComponent";
-import OpenAccountComponent from "../add/OpenAccountComponent";
-import OpenSavingsComponent from "../add/OpenSavingsComponent";
-import DeleteConfirmComponent from "../DeleteConfirmComponent";
+import PortfolioComponent from '../PortfolioComponent';
+import ErrorComponent from '../ErrorComponent';
+import LoginComponent from '../LoginComponent';
+import LogoutComponent from '../LogoutComponent';
+import ReportsComponent from '../ReportsComponent';
+import SettingsComponent from '../SettingsComponent';
+import { useAuth } from '../security/AuthContext';
+import ExchangeComponent from '../payments/ExchangeComponent';
+import PaymentOtherComponent from '../payments/PaymentOtherComponent';
+import PaymentSelfComponent from '../payments/PaymentSelfComponent';
+import OpenAccountComponent from '../add/OpenAccountComponent';
+import OpenSavingsComponent from '../add/OpenSavingsComponent';
+import DeleteConfirmComponent from '../DeleteConfirmComponent';
 
 function AuthenticatedRoute({ children }) {
-    const authContext = useAuth()
+    const authContext = useAuth();
 
     if (authContext.isAuthenticated) {
-        return children
+        return children;
     }
 
-    return <Navigate to="/" />
+    return <Navigate to="/" />;
 }
 
 export default function MainComponent() {
@@ -82,5 +82,5 @@ export default function MainComponent() {
                 <Route path='*' element={<ErrorComponent/>}/>
             </Routes>
         </div>
-    )
+    );
 }

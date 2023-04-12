@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
-import { Dropdown } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from 'react';
+import { Dropdown } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
 
-import { Currency, createCheckingAccountApi } from "../api/EBankingApiService";
-import { useAuth } from "../security/AuthContext";
+import { Currency, createCheckingAccountApi } from '../api/EBankingApiService';
+import { useAuth } from '../security/AuthContext';
 
 export default function OpenAccountComponent() {
-
     // openAccountState { 'start', 'confirm', 'success' }
 
     const [openAccountState, setOpenAccountState] = useState('start');

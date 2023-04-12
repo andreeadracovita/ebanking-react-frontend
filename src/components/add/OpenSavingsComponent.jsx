@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
-import { useAuth } from "../security/AuthContext";
-import { createSavingsAccountApi } from "../api/EBankingApiService";
+import { useAuth } from '../security/AuthContext';
+import { createSavingsAccountApi } from '../api/EBankingApiService';
 
 export default function OpenSavingsComponent() {
     // openAccountState { 'start', 'confirm', 'success' }
