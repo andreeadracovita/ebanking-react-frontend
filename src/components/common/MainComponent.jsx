@@ -14,6 +14,7 @@ import OpenAccountComponent from '../add/OpenAccountComponent';
 import OpenSavingsComponent from '../add/OpenSavingsComponent';
 import DeleteAccountComponent from '../DeleteAccountComponent';
 import ReimburseComponent from '../payments/ReimburseComponent';
+import CustomizeAccountComponent from '../CustomizeAccountComponent';
 
 function AuthenticatedRoute({ children }) {
     const authContext = useAuth();
@@ -68,6 +69,11 @@ export default function MainComponent() {
                 <Route path='/creditcard/reimburse' element={
                     <AuthenticatedRoute>
                         <ReimburseComponent/>
+                    </AuthenticatedRoute>
+                }/>
+                <Route path='/account/customize' element={
+                    <AuthenticatedRoute>
+                        <CustomizeAccountComponent/>
                     </AuthenticatedRoute>
                 }/>
                 <Route path='/reports' element={

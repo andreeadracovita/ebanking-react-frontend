@@ -47,3 +47,6 @@ export const createTransactionApi
 
 export const deleteBankAccountApi
     = (username, accountNumber) => apiClient.delete(`/${username}/accounts/${accountNumber}`);
+
+export const updateBankAccountNameApi
+    = (username, accountNumber, name) => apiClient.put(`/${username}/accounts/${accountNumber}`, name);

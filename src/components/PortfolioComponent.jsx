@@ -82,7 +82,7 @@ export default function PortfolioComponent() {
     }
 
     function redirectCustomize(account) {
-
+        navigate('/account/customize', { state: { account: account } })
     }
 
     function redirectDeleteAccount(account) {
