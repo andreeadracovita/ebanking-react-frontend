@@ -62,15 +62,19 @@ export default function PortfolioComponent() {
     }
 
     function redirectPaymentOther(account) {
-        navigate('/payment/other');
+        navigate('/payment/other', { state: { fromAccount: account } });
     }
 
     function redirectExchange(account) {
-        navigate('/exchange');
+        navigate('/exchange', { state: { fromAccount: account } });
+    }
+
+    function redirectSave(account) {
+        navigate('/payment/self', { state: { toAccount: account } });
     }
 
     function redirectReport(account) {
-        navigate('/reports');
+        navigate('/reports', { state: { account: account } });
     }
 
     function redirectAccountDetails(account) {
@@ -82,7 +86,7 @@ export default function PortfolioComponent() {
     }
 
     function redirectDeleteAccount(account) {
-        navigate('/delete/account', {state:{account: account}});
+        navigate('/delete/account', { state: { account: account } });
     }
 
     function redirectReimburseCredit(account) {
@@ -255,7 +259,7 @@ export default function PortfolioComponent() {
                                     </Accordion.Header>
                                     <Accordion.Body>
                                         <div className="d-flex justify-content-around">
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectPaymentOther(saving)}>
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectSave(saving)}>
                                                 <img className="" src={PiggyBank} alt="PiggyBank" width="48px" height="48px" />
                                                 <br/>
                                                 <span>Save</span>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { Dropdown } from 'react-bootstrap';
 
 import { retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
@@ -39,6 +39,7 @@ export default function PaymentOtherComponent() {
     const authContext = useAuth();
     const username = authContext.username;
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect (() => refreshAccounts(), []); // once at page load
     useEffect (() => setValuesAfterAccountsLoad(), [accounts]); // catch accounts load
@@ -53,8 +54,12 @@ export default function PaymentOtherComponent() {
     }
 
     function setValuesAfterAccountsLoad() {
-        if (selectedFromAccount == null && accounts.length > 0) {
-            setSelectedFromAccount(accounts[0]);
+        if (selectedFromAccount == null) {
+            if (location && location.state && location.state.fromAccount) {
+                setSelectedFromAccount(location.state.fromAccount);
+            } else if (accounts.length > 0) {
+                setSelectedFromAccount(accounts[0]);
+            }
         }
     }
 

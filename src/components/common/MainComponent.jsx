@@ -12,7 +12,7 @@ import PaymentOtherComponent from '../payments/PaymentOtherComponent';
 import PaymentSelfComponent from '../payments/PaymentSelfComponent';
 import OpenAccountComponent from '../add/OpenAccountComponent';
 import OpenSavingsComponent from '../add/OpenSavingsComponent';
-import DeleteConfirmComponent from '../DeleteConfirmComponent';
+import DeleteAccountComponent from '../DeleteAccountComponent';
 
 function AuthenticatedRoute({ children }) {
     const authContext = useAuth();
@@ -46,7 +46,7 @@ export default function MainComponent() {
                 }/>
                 <Route path='/delete/account' element={
                     <AuthenticatedRoute>
-                        <DeleteConfirmComponent/>
+                        <DeleteAccountComponent/>
                     </AuthenticatedRoute>
                 }/>
                 <Route path='/payment/self' element={

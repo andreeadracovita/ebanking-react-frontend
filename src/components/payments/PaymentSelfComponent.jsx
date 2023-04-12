@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 
@@ -38,6 +38,7 @@ export default function PaymentSelfComponent() {
     const authContext = useAuth();
     const username = authContext.username;
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect (() => refreshAccounts(), []); // once at page load
     useEffect (() => setValuesAfterAccountsLoad(), [accounts]); // catch accounts load
@@ -55,8 +56,13 @@ export default function PaymentSelfComponent() {
         if (selectedFromAccount == null && accounts.length > 0) {
             setSelectedFromAccount(accounts[0]);
         }
-        if (selectedToAccount == null && accounts.length > 1) {
-            setSelectedToAccount(accounts[1]);
+
+        if (selectedToAccount == null) {
+            if (location && location.state && location.state.toAccount) {
+                setSelectedToAccount(location.state.toAccount);
+            } else if (accounts.length > 1) {
+                setSelectedToAccount(accounts[1]);
+            }
         }
     }
 

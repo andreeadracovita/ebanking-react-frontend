@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { useLocation } from 'react-router';
 
 import SplineChartComponent from './SplineChartComponent';
 import { retrieveAllBankAccountsForUsernameApi, retrieveAllTransactionsForBankAccountNumberApi } from './api/EBankingApiService';
@@ -16,6 +17,8 @@ export default function ReportsComponent() {
     useEffect (() => refreshTransactions(), [selectedAccount]);
     useEffect (() => initPage(), [transactions]);
 
+    const location = useLocation();
+
     const authContext = useAuth();
     const username = authContext.username;
 
@@ -28,6 +31,11 @@ export default function ReportsComponent() {
     }
 
     function setValuesAfterAccountsLoad() {
+        if (location && location.state && location.state.account) {
+            setSelectedAccount(location.state.account);
+            return;
+        }
+
         if (selectedAccount == null && accounts.length > 0) {
             setSelectedAccount(accounts[0]);
         }
