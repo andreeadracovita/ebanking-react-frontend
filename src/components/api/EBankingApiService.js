@@ -6,6 +6,9 @@ export const Currency = {
     USD: 2
 };
 
+export const retrieveCustomerNameForIdApi
+    = (username, id) => apiClient.get(`/${username}/customer/${id}`);
+
 export const retrieveCustomerNameForUsernameApi
     = (username) => apiClient.get(`/${username}/customername`);
 
@@ -30,11 +33,17 @@ export const retrieveAllForeignBankAccountsForUsernameApi
 export const retrieveAllBankAccountsForUsernameApi
     = (username) => apiClient.get(`/${username}/accounts`);
 
+export const retrieveBankAccountForAccountNumberApi
+    = (username, id) => apiClient.get(`/${username}/accounts/${id}`);
+
 export const retrieveAllCardsForUsernameApi
     = (username) => apiClient.get(`/${username}/cards`);
 
 export const retrieveAllTransactionsForBankAccountNumberApi
     = (username, accountNumber) => apiClient.get(`/${username}/${accountNumber}/transactions`);
+
+export const retrieveAvailabilityDateForCardNumberApi
+    = (username, id) => apiClient.get(`/${username}/cards/${id}/availabilityDate`);
 
 export const createCheckingAccountApi
     = (username, currency) => apiClient.post(`/${username}/account/checking/${currency}`);
@@ -50,3 +59,9 @@ export const deleteBankAccountApi
 
 export const updateBankAccountNameApi
     = (username, accountNumber, name) => apiClient.put(`/${username}/accounts/${accountNumber}`, name);
+
+export const updateCardActivateApi
+    = (username, cardNumber) => apiClient.put(`/${username}/cards/${cardNumber}/activate`);
+
+export const updateCardDeactivateApi
+    = (username, cardNumber) => apiClient.put(`/${username}/cards/${cardNumber}/deactivate`);

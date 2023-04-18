@@ -7,7 +7,9 @@ import {
     retrieveAllCardsForUsernameApi,
     retrieveCheckingAccountsForUsernameApi,
     retrieveCreditAccountsForUsernameApi,
-    retrieveSavingsAccountsForUsernameApi
+    retrieveSavingsAccountsForUsernameApi,
+    updateCardActivateApi,
+    updateCardDeactivateApi
 } from './api/EBankingApiService';
 import Wallet from '../assets/wallet.svg';
 import Currency from '../assets/currency.svg';
@@ -17,6 +19,8 @@ import Delete from '../assets/delete.svg';
 import Details from '../assets/details.svg';
 import PiggyBank from '../assets/piggy-bank.svg';
 import Lock from '../assets/lock.svg';
+import LockOpen from '../assets/lock-open.svg';
+import { hideCardCharacters } from './common/helpers/HelperFunctions';
 
 export default function PortfolioComponent() {
     const [checkingAccounts, setCheckingAccounts] = useState([]);
@@ -57,10 +61,6 @@ export default function PortfolioComponent() {
             .catch(error => console.log(error));
     }
 
-    function hideCardCharacters(cardNumber) {
-        return '**** **** **** ' + cardNumber.slice(12);
-    }
-
     function redirectPaymentOther(account) {
         navigate('/payment/other', { state: { fromAccount: account } });
     }
@@ -78,7 +78,7 @@ export default function PortfolioComponent() {
     }
 
     function redirectAccountDetails(account) {
-
+        navigate('/account/details', { state: {account: account } })
     }
 
     function redirectCustomize(account) {
@@ -94,11 +94,31 @@ export default function PortfolioComponent() {
     }
 
     function redirectCardDetails(card) {
-
+        navigate('/card/details', { state: { card: card } });
     }
 
-    function redirectBlock(card) {
+    function onBlockCardClicked(card) {
+        updateCardDeactivateApi(username, card.cardNumber)
+            .then(() => {
+                retrieveAllCardsForUsernameApi(username)
+                    .then(response => {
+                        setCards(response.data);
+                    })
+                    .catch(error => console.log(error));
+            })
+            .catch(error => console.log(error));
+    }
 
+    function onUnblockCardClicked(card) {
+        updateCardActivateApi(username, card.cardNumber)
+            .then(() => {
+                retrieveAllCardsForUsernameApi(username)
+                    .then(response => {
+                        setCards(response.data);
+                    })
+                    .catch(error => console.log(error));
+            })
+            .catch(error => console.log(error));
     }
 
     return (
@@ -306,9 +326,13 @@ export default function PortfolioComponent() {
                                 <Accordion.Item key={card.cardNumber} eventKey={card.cardName}>
                                 <Accordion.Header>
                                     <div className="mt-3 me-2 w-100">
-                                        <span>{card.cardName}</span>
-                                        <br/>
-                                        <span className="account-number">{hideCardCharacters(card.cardNumber)}</span>
+                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                            <span>{card.cardName}</span>
+                                            <span className="account-balance">{card.status}</span>
+                                        </div>
+                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                            <span className="account-number">{hideCardCharacters(card.cardNumber)}</span>
+                                        </div>
                                     </div>
                                 </Accordion.Header>
                                 <Accordion.Body>
@@ -318,11 +342,22 @@ export default function PortfolioComponent() {
                                             <br/>
                                             <span>Details</span>
                                         </div>
-                                        <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectBlock(card)}>
-                                            <img className="" src={Lock} alt="Lock" width="48px" height="48px" />
-                                            <br/>
-                                            <span>Block</span>
-                                        </div>
+                                        {
+                                            card.status === 'ACTIVE' &&
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => onBlockCardClicked(card)}>
+                                                <img className="" src={Lock} alt="Lock" width="48px" height="48px" />
+                                                <br/>
+                                                <span>Block</span>
+                                            </div>
+                                        }
+                                        {
+                                            card.status === 'INACTIVE' &&
+                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => onUnblockCardClicked(card)}>
+                                                <img className="" src={LockOpen} alt="LockOpen" width="48px" height="48px" />
+                                                <br/>
+                                                <span>Unblock</span>
+                                            </div>
+                                        }
                                     </div>
                                 </Accordion.Body>
                             </Accordion.Item>
