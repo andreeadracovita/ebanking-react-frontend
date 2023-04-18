@@ -148,6 +148,7 @@ footer {
   cursor: pointer;
 }
 
-.overlay-bg {
-  background-color: #00000023;
+.portfolio-accordion-button:hover {
+  color: #0504aa;
+  cursor: pointer;
 }

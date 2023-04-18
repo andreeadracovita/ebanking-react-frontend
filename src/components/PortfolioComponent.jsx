@@ -11,15 +11,15 @@ import {
     updateCardActivateApi,
     updateCardDeactivateApi
 } from './api/EBankingApiService';
-import Wallet from '../assets/wallet.svg';
-import Currency from '../assets/currency.svg';
-import Report from '../assets/report.svg';
-import Customize from '../assets/customize.svg';
-import Delete from '../assets/delete.svg';
-import Details from '../assets/details.svg';
-import PiggyBank from '../assets/piggy-bank.svg';
-import Lock from '../assets/lock.svg';
-import LockOpen from '../assets/lock-open.svg';
+import { ReactComponent as WalletIcon } from '../assets/wallet.svg';
+import { ReactComponent as CurrencyIcon } from '../assets/currency.svg';
+import { ReactComponent as ReportIcon } from '../assets/report.svg';
+import { ReactComponent as CustomizeIcon } from '../assets/customize.svg';
+import { ReactComponent as DeleteIcon } from '../assets/delete.svg';
+import { ReactComponent as DetailsIcon } from '../assets/details.svg';
+import { ReactComponent as PiggyBankIcon } from '../assets/piggy-bank.svg';
+import { ReactComponent as LockIcon } from '../assets/lock.svg';
+import { ReactComponent as LockOpenIcon } from '../assets/lock-open.svg';
 import { hideCardCharacters } from './common/helpers/HelperFunctions';
 
 export default function PortfolioComponent() {
@@ -157,39 +157,39 @@ export default function PortfolioComponent() {
                                         <div className="d-flex justify-content-around">
                                             {
                                                 account.currency === 'CHF' &&
-                                                <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectPaymentOther(account)}>
-                                                    <img className="" src={Wallet} alt="Wallet" width="48px" height="48px" />
+                                                <div className="text-center portfolio-accordion-button" onClick={() => redirectPaymentOther(account)}>
+                                                    <WalletIcon width="48" height="48"/>
                                                     <br/>
                                                     <span>Payment in CHF</span>
                                                 </div>
                                             }
                                             {
                                                 account.currency !== 'CHF' &&
-                                                <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectExchange(account)}>
-                                                    <img className="" src={Currency} alt="Currency" width="48px" height="48px" />
+                                                <div className="text-center portfolio-accordion-button" onClick={() => redirectExchange(account)}>
+                                                    <CurrencyIcon width="48" height="48"/>
                                                     <br/>
                                                     <span>Exchange currency</span>
                                                 </div>
                                             }
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectReport(account)}>
-                                                <img className="" src={Report} alt="Report" width="48px" height="48px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => redirectReport(account)}>
+                                                <ReportIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Report</span>
                                             </div>
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectAccountDetails(account)}>
-                                                <img className="" src={Details} alt="Details" width="48px" height="48px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => redirectAccountDetails(account)}>
+                                                <DetailsIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Account details</span>
                                             </div>
                                         </div>
                                         <div className="d-flex justify-content-around mt-3">
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectCustomize(account)}>
-                                                <img className="" src={Customize} alt="Customize" width="40px" height="40px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => redirectCustomize(account)}>
+                                                <CustomizeIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Customize account</span>
                                             </div>
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectDeleteAccount(account)}>
-                                                <img className="" src={Delete} alt="Delete" width="40px" height="40px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => redirectDeleteAccount(account)}>
+                                                <DeleteIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Close account</span>
                                             </div>
@@ -230,13 +230,13 @@ export default function PortfolioComponent() {
                                     </Accordion.Header>
                                     <Accordion.Body>
                                         <div className="d-flex justify-content-around">
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectReimburseCredit(credit)}>
-                                                <img className="" src={Wallet} alt="Wallet" width="48px" height="48px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => redirectReimburseCredit(credit)}>
+                                                <WalletIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Reimburse</span>
                                             </div>
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectReport(credit)}>
-                                                <img className="" src={Report} alt="Report" width="48px" height="48px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => redirectReport(credit)}>
+                                                <ReportIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Report</span>
                                             </div>
@@ -279,25 +279,25 @@ export default function PortfolioComponent() {
                                     </Accordion.Header>
                                     <Accordion.Body>
                                         <div className="d-flex justify-content-around">
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectSave(saving)}>
-                                                <img className="" src={PiggyBank} alt="PiggyBank" width="48px" height="48px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => redirectSave(saving)}>
+                                                <PiggyBankIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Save</span>
                                             </div>
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectReport(saving)}>
-                                                <img className="" src={Report} alt="Report" width="48px" height="48px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => redirectReport(saving)}>
+                                                <ReportIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Report</span>
                                             </div>
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectCustomize(saving)}>
-                                                <img className="" src={Customize} alt="Customize" width="40px" height="48px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => redirectCustomize(saving)}>
+                                                <CustomizeIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Customize account</span>
                                             </div>
                                         </div>
                                         <div className="d-flex ms-5 mt-3">
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectDeleteAccount(saving)}>
-                                                <img className="" src={Delete} alt="Delete" width="40px" height="40px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => redirectDeleteAccount(saving)}>
+                                                <DeleteIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Close account</span>
                                             </div>
@@ -337,23 +337,23 @@ export default function PortfolioComponent() {
                                 </Accordion.Header>
                                 <Accordion.Body>
                                     <div className="d-flex justify-content-around">
-                                        <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => redirectCardDetails(card)}>
-                                            <img className="" src={Details} alt="Details" width="48px" height="48px" />
+                                        <div className="text-center portfolio-accordion-button" onClick={() => redirectCardDetails(card)}>
+                                            <DetailsIcon width="48" height="48"/>
                                             <br/>
                                             <span>Details</span>
                                         </div>
                                         {
                                             card.status === 'ACTIVE' &&
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => onBlockCardClicked(card)}>
-                                                <img className="" src={Lock} alt="Lock" width="48px" height="48px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => onBlockCardClicked(card)}>
+                                                <LockIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Block</span>
                                             </div>
                                         }
                                         {
                                             card.status === 'INACTIVE' &&
-                                            <div className="text-center text-royal-blue portfolio-accordion-button" onClick={() => onUnblockCardClicked(card)}>
-                                                <img className="" src={LockOpen} alt="LockOpen" width="48px" height="48px" />
+                                            <div className="text-center portfolio-accordion-button" onClick={() => onUnblockCardClicked(card)}>
+                                                <LockOpenIcon width="48" height="48"/>
                                                 <br/>
                                                 <span>Unblock</span>
                                             </div>
