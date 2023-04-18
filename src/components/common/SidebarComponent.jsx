@@ -43,11 +43,11 @@ export default function SidebarComponent() {
                         </Link>
                     </li>
                     <li>
-                        <Link className="nav-link px-0 align-middle" to="#submenu1" data-bs-toggle="collapse">
+                        <Link className="nav-link px-0 align-middle" to="#submenupayments" data-bs-toggle="collapse">
                             <PaymentsIcon width="24" height="24"/>
                             <span className="ms-2 d-none d-sm-inline">Payments</span>
                         </Link>
-                        <ul className="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                        <ul className="collapse nav flex-column ms-1" id="submenupayments" data-bs-parent="#menu">
                             <li className="w-100">
                                 <Link to="/payment/self" className="nav-link px-0 ms-3">
                                     <span className="d-none d-sm-inline">To myself</span>
@@ -72,10 +72,17 @@ export default function SidebarComponent() {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link align-middle px-0" to="/settings">
+                        <Link className="nav-link align-middle px-0" to="#submenusettings" data-bs-toggle="collapse">
                             <SettingsIcon width="24" height="24"/>
                             <span className="ms-2 d-none d-sm-inline">Settings</span>
                         </Link>
+                        <ul className="collapse nav flex-column ms-1" id="submenusettings" data-bs-parent="#menu">
+                            <li className="w-100">
+                                <Link to="/settings/password" className="nav-link px-0 ms-3">
+                                    <span className="d-none d-sm-inline">Change password</span>
+                                </Link>
+                            </li>
+                        </ul>
                     </li>
                     <li className="nav-item">
                         {isAuthenticated &&

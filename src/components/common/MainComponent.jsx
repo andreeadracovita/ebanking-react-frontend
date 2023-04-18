@@ -1,12 +1,11 @@
 import { Navigate, Route, Routes } from 'react-router';
 
+import { useAuth } from '../security/AuthContext';
 import PortfolioComponent from '../PortfolioComponent';
 import ErrorComponent from '../ErrorComponent';
 import LoginComponent from '../LoginComponent';
 import LogoutComponent from '../LogoutComponent';
 import ReportsComponent from '../ReportsComponent';
-import SettingsComponent from '../SettingsComponent';
-import { useAuth } from '../security/AuthContext';
 import ExchangeComponent from '../payments/ExchangeComponent';
 import PaymentOtherComponent from '../payments/PaymentOtherComponent';
 import PaymentSelfComponent from '../payments/PaymentSelfComponent';
@@ -17,6 +16,7 @@ import ReimburseComponent from '../payments/ReimburseComponent';
 import CustomizeAccountComponent from '../CustomizeAccountComponent';
 import BankAccountDetailsComponent from '../BankAccountDetailsComponent';
 import CardDetailsComponent from '../CardDetailsComponent';
+import PasswordComponent from '../PasswordComponent';
 
 function AuthenticatedRoute({ children }) {
     const authContext = useAuth();
@@ -93,9 +93,9 @@ export default function MainComponent() {
                         <ReportsComponent/>
                     </AuthenticatedRoute>
                 }/>
-                <Route path='/settings' element={
+                <Route path='/settings/password' element={
                     <AuthenticatedRoute>
-                        <SettingsComponent/>
+                        <PasswordComponent/>
                     </AuthenticatedRoute>
                 }/>
                 <Route path='/logout' element={

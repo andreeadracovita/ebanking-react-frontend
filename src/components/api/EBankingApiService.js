@@ -58,10 +58,13 @@ export const deleteBankAccountApi
     = (username, accountNumber) => apiClient.delete(`/${username}/accounts/${accountNumber}`);
 
 export const updateBankAccountNameApi
-    = (username, accountNumber, name) => apiClient.put(`/${username}/accounts/${accountNumber}`, name);
+    = (username, accountNumber, payload) => apiClient.put(`/${username}/accounts/${accountNumber}`, payload);
 
 export const updateCardActivateApi
     = (username, cardNumber) => apiClient.put(`/${username}/cards/${cardNumber}/activate`);
 
 export const updateCardDeactivateApi
     = (username, cardNumber) => apiClient.put(`/${username}/cards/${cardNumber}/deactivate`);
+
+export const updateUserPasscodeApi
+    = (username, payload) => apiClient.put(`/${username}/passcode`, payload);
