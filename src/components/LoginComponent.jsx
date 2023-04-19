@@ -30,12 +30,12 @@ export default function LoginComponent() {
 
     return (
         <div className="row">
-            <div className="col-sm-2"></div>
-            <div className="col-sm-8">
+            <div className="sidebar"></div>
+            <div className="col-9 text-nowrap">
                 <h1 className="h2 mb-5 text-royal-blue fw-bold">Login eBanking</h1>
-                <div className="row text-royal-blue">
-                    <div className="col-sm-5">
-                        <h1 className="h4 mb-5 fw-bold">Enter your username and password</h1>
+                <div className="row text-royal-blue flex-nowrap">
+                    <div className="d-block">
+                        <h1 className="h5 mb-5 fw-bold">Enter your username and password</h1>
                         {showErrorMessage && <div className="errorMessage">Authentication failed. Please check your credentials.</div>}
                         <form>
                             <div className="mb-5">
@@ -51,8 +51,7 @@ export default function LoginComponent() {
                             </div>
                         </form>
                     </div>
-                    <div className="col-sm-2"></div>
-                    <div className="col-sm-5 bg-light-royal-blue">
+                    <div className="d-none d-xl-block bg-light-royal-blue" style={{width: 428 + 'px'}}>
                         <div className="mx-3 mt-3 mb-3">
                             <p className="fw-bold">Account for testing purposes</p>
                             <p>Username: user</p>

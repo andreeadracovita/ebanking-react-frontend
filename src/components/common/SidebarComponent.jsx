@@ -28,7 +28,7 @@ export default function SidebarComponent() {
     }
 
     return (
-        <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-royal-blue">
+        <div className="bg-royal-blue sidebar">
             <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 mt-4 mb-4">
                 <span className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <UserIcon width="24" height="24"/>
@@ -49,17 +49,17 @@ export default function SidebarComponent() {
                         </Link>
                         <ul className="collapse nav flex-column ms-1" id="submenupayments" data-bs-parent="#menu">
                             <li className="w-100">
-                                <Link to="/payment/self" className="nav-link px-0 ms-3">
+                                <Link to="/payment/self" className="nav-link px-0 ms-5">
                                     <span className="d-none d-sm-inline">To myself</span>
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/payment/other" className="nav-link px-0 ms-3">
+                                <Link to="/payment/other" className="nav-link px-0 ms-5">
                                     <span className="d-none d-sm-inline">To someone else</span>
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/exchange" className="nav-link px-0 ms-3">
+                                <Link to="/exchange" className="nav-link px-0 ms-5">
                                     <span className="d-none d-sm-inline">Exchange</span>
                                 </Link>
                             </li>
@@ -78,7 +78,7 @@ export default function SidebarComponent() {
                         </Link>
                         <ul className="collapse nav flex-column ms-1" id="submenusettings" data-bs-parent="#menu">
                             <li className="w-100">
-                                <Link to="/settings/password" className="nav-link px-0 ms-3">
+                                <Link to="/settings/password" className="nav-link px-0 ms-5">
                                     <span className="d-none d-sm-inline">Change password</span>
                                 </Link>
                             </li>

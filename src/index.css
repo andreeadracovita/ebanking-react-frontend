@@ -21,8 +21,8 @@ footer {
   height: 40px;
 }
 
-.customNavColor {
-  background-color: blue;
+.sidebar {
+  width: 288px;
 }
 
 .bg-royal-blue {
@@ -41,7 +41,7 @@ footer {
   border-color: #0504aa;
   border-style: solid;
   border-width: 3px;
-  width: 360px;
+  width: 340px;
   height: 60px;
   padding: 10px;
   color: #0504aa;
