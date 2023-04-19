@@ -145,7 +145,7 @@ export default function PortfolioComponent() {
                                         <div className="mt-3 me-2 w-100">
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                 <span>{account.accountName}</span>
-                                                <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
+                                                <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
                                             </div>
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                 <span className="account-number">{account.accountNumber}</span>
@@ -220,7 +220,7 @@ export default function PortfolioComponent() {
                                         <div className="mt-3 me-2 w-100">
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                 <span>{credit.accountName}</span>
-                                                <span className="account-balance">{credit.balance.toLocaleString("de-DE")}</span>
+                                                <span className="account-balance">{credit.balance.toLocaleString("de-CH")}</span>
                                             </div>
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                 <span className="account-number">{credit.accountNumber}</span>
@@ -269,7 +269,7 @@ export default function PortfolioComponent() {
                                         <div className="mt-3 me-2 w-100">
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                 <span>{saving.accountName}</span>
-                                                <span className="account-balance">{saving.balance.toLocaleString("de-DE")}</span>
+                                                <span className="account-balance">{saving.balance.toLocaleString("de-CH")}</span>
                                             </div>
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                 <span className="account-number">{saving.accountNumber}</span>

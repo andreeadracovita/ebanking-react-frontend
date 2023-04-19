@@ -159,7 +159,7 @@ export default function ReimburseComponent() {
                                     <div>
                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                             <span>{selectedFromAccount.accountName}</span>
-                                            <span className="account-balance">{selectedFromAccount.balance.toLocaleString("de-DE")}</span>
+                                            <span className="account-balance">{selectedFromAccount.balance.toLocaleString("de-CH")}</span>
                                         </div>
                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                             <span className="account-number">{selectedFromAccount.accountNumber}</span>
@@ -177,7 +177,7 @@ export default function ReimburseComponent() {
                                                 <div>
                                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                         <span>{account.accountName}</span>
-                                                        <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
+                                                        <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
                                                     </div>
                                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                         <span className="account-number">{account.accountNumber}</span>

@@ -62,7 +62,7 @@ export default function CustomizeAccountComponent() {
                     <div>
                         <p>{account.accountName}</p>
                         <p>{account.accountNumber}</p>
-                        <p>{account.balance.toLocaleString("de-DE")} {account.currency}</p>
+                        <p>{account.balance.toLocaleString("de-CH")} {account.currency}</p>
                     </div>
                     <form>
                         <div className="mb-5">

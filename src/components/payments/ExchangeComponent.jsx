@@ -7,7 +7,9 @@ import PaymentConfirmComponent from './PaymentConfirmComponent';
 import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
 import { retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
+import { checkAmountInput } from '../common/helpers/HelperFunctions';
 
+// Reference currency: CHF
 const exchangeRate = {
     CHF:  1,
     EUR: 0.9,
@@ -20,6 +22,7 @@ export default function ExchangeComponent() {
     const [paymentState, setPaymentState] = useState();
 
     const [accounts, setAccounts] = useState([]);
+    const [targetAccounts, setTargetAccounts] = useState([]);
     const [selectedFromAccount, setSelectedFromAccount] = useState();
     const [selectedToAccount, setSelectedToAccount] = useState();
     const [amount, setAmount] = useState();
@@ -74,10 +77,16 @@ export default function ExchangeComponent() {
 
     function setToAccountAfterFromAccountLoad() {
         if (selectedFromAccount && currencySelect && accounts.length > 0) {
-            const firstInvCurrencyAccounts = accounts.filter(account => account.currency !== selectedFromAccount.currency);
-            if (selectedToAccount == null && firstInvCurrencyAccounts.length > 0) {
-                setSelectedToAccount(firstInvCurrencyAccounts[0]);
+            let targetCurrencyAccounts = [];
+            if (selectedFromAccount.currency == 'CHF') {
+                targetCurrencyAccounts = accounts.filter(account => account.currency !== 'CHF');
+            } else {
+                targetCurrencyAccounts = accounts.filter(account => account.currency === 'CHF');
             }
+            if (selectedToAccount == null && targetCurrencyAccounts.length > 0) {
+                setSelectedToAccount(targetCurrencyAccounts[0]);
+            }
+            setTargetAccounts(targetCurrencyAccounts);
         }
     }
 
@@ -90,22 +99,13 @@ export default function ExchangeComponent() {
         setSelectedFromAccount(account);
         if (account.accountNumber == selectedToAccount.accountNumber) {
             setSelectedToAccount(prevSelectedFromAccount);
+            return;
         }
+        setToAccountAfterFromAccountLoad();
     }
 
     function handleSelectToAccountChange(account) {
         setSelectedToAccount(account);
-    }
-
-    function checkAmountInput(event) {
-        var key = event.keyCode;
-
-        // Allow input if arrows, delete, backspace, digits and point keys were pressed 
-        if(key == 37 || key == 38 || key == 39 || key == 40 || key == 8 || key == 46 ||
-            /[0-9]|\./.test(event.key)) {
-            return;
-        }
-        event.preventDefault();
     }
 
     function handleAmountChange(event) {
@@ -157,8 +157,10 @@ export default function ExchangeComponent() {
             amount: debitAmount,
             currency: selectedFromAccount.currency,
             description: 'Exchange currency',
-            exchangeRate: chooseRate(selectedToAccount.currency)
+            exchangeRate: 1 / chooseRate(selectedToAccount.currency)
         };
+
+        console.log(newTransaction);
 
         setTransaction(newTransaction);
         setPaymentState('confirm');
@@ -190,7 +192,7 @@ export default function ExchangeComponent() {
                                     <div>
                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                             <span>{selectedFromAccount.accountName}</span>
-                                            <span className="account-balance">{selectedFromAccount.balance.toLocaleString("de-DE")}</span>
+                                            <span className="account-balance">{selectedFromAccount.balance.toLocaleString("de-CH")}</span>
                                         </div>
                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                             <span className="account-number">{selectedFromAccount.accountNumber}</span>
@@ -207,7 +209,7 @@ export default function ExchangeComponent() {
                                                 <div>
                                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                         <span>{account.accountName}</span>
-                                                        <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
+                                                        <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
                                                     </div>
                                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                         <span className="account-number">{account.accountNumber}</span>
@@ -231,7 +233,7 @@ export default function ExchangeComponent() {
                         </div>
                         <div className="mb-3">
                             <span>Exchange rate: </span>
-                            <span className="account-balance">1 {selectedToAccount && selectedToAccount.currency} = {selectedFromAccount && <span>{chooseRate(selectedFromAccount.currency)} {selectedFromAccount.currency}</span>}</span>
+                            <span className="account-balance">1 {selectedToAccount && selectedToAccount.currency} = {selectedFromAccount && selectedToAccount && <span>{(chooseRate(selectedToAccount.currency)).toFixed(4)} {selectedFromAccount.currency}</span>}</span>
                         </div>
                         {
                             amount &&
@@ -255,7 +257,7 @@ export default function ExchangeComponent() {
                                 <div>
                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                         <span>{selectedToAccount.accountName}</span>
-                                        <span className="account-balance">{selectedToAccount.balance.toLocaleString("de-DE")}</span>
+                                        <span className="account-balance">{selectedToAccount.balance.toLocaleString("de-CH")}</span>
                                     </div>
                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                         <span className="account-number">{selectedToAccount.accountNumber}</span>
@@ -266,14 +268,13 @@ export default function ExchangeComponent() {
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                             {
-                                accounts.filter(account => selectedFromAccount && account.currency !== selectedFromAccount.currency)
-                                    .map(
+                                targetAccounts.map(
                                         account => (
                                             <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectToAccountChange(account)}>
                                                 <div>
                                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                         <span>{account.accountName}</span>
-                                                        <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
+                                                        <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
                                                     </div>
                                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                         <span className="account-number">{account.accountNumber}</span>

@@ -38,9 +38,9 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setP
                             <p>Exchanged amount:</p>
                             <p className="ms-3 fw-bold">{transaction.amount} {transaction.currency}</p>
                             <p>Exchange rate:</p>
-                            <p className="ms-3 fw-bold">1 {targetCurrency} = {transaction.exchangeRate} {transaction.currency} </p>
+                            <p className="ms-3 fw-bold">1 {targetCurrency} = {(1 / transaction.exchangeRate).toFixed(4)} {transaction.currency} </p>
                             <p>Transferred amount:</p>
-                            <p className="ms-3 fw-bold">{(transaction.amount / transaction.exchangeRate).toFixed(2)} {targetCurrency}</p>
+                            <p className="ms-3 fw-bold">{(transaction.amount * transaction.exchangeRate).toFixed(2)} {targetCurrency}</p>
                         </span>
                     }
                     <br/>

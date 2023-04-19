@@ -13,7 +13,7 @@ export default function ReportsComponent() {
     const [loadContent, setLoadContent] = useState();
 
     useEffect (() => refreshAccounts(), []);
-    useEffect (() => setValuesAfterAccountsLoad(), [accounts]); // catch accounts load
+    useEffect (() => setValuesAfterAccountsLoad(), [accounts]);
     useEffect (() => refreshTransactions(), [selectedAccount]);
     useEffect (() => initPage(), [transactions]);
 
@@ -71,11 +71,11 @@ export default function ReportsComponent() {
                                 <div>
                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                         <span>{selectedAccount.accountName}</span>
-                                        <span className="account-balance">{selectedAccount.balance.toLocaleString("de-DE")}</span>
+                                        <span className="account-balance">{selectedAccount.balance.toLocaleString("de-CH")}</span>
                                     </div>
                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                        <span className="account-number">{selectedAccount.accountNumber}</span>
-                                        <span>{selectedAccount.currency}</span>
+                                        <span className="account-number small">{selectedAccount.accountNumber}</span>
+                                        <span className="small">{selectedAccount.currency}</span>
                                     </div>
                                 </div>}
                         </Dropdown.Toggle>
@@ -87,11 +87,11 @@ export default function ReportsComponent() {
                                                 <div>
                                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                         <span>{account.accountName}</span>
-                                                        <span className="account-balance">{account.balance.toLocaleString("de-DE")}</span>
+                                                        <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
                                                     </div>
                                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                        <span className="account-number">{account.accountNumber}</span>
-                                                        <span>{account.currency}</span>
+                                                        <span className="account-number small">{account.accountNumber}</span>
+                                                        <span className="small">{account.currency}</span>
                                                     </div>
                                                 </div>
                                             </Dropdown.Item>
@@ -111,17 +111,17 @@ export default function ReportsComponent() {
                                             { transaction.fromAccountNumber == selectedAccount.accountNumber && 
                                                 <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                     <span>{transaction.toAccountNumber}</span>
-                                                    <span className="text-danger fw-bold">-{transaction.amount}</span>
+                                                    <span className="text-danger fw-bold">-{(transaction.amount).toLocaleString("de-CH")}</span>
                                                 </div>
                                             }
                                             { transaction.toAccountNumber == selectedAccount.accountNumber && 
                                                 <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                     <span>{transaction.fromAccountNumber}</span>
-                                                    <span className="text-success fw-bold">+{transaction.amount}</span>
+                                                    <span className="text-success fw-bold">+{(transaction.amount * transaction.exchangeRate).toLocaleString("de-CH")}</span>
                                                 </div>
                                             }
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                <span className="account-number">
+                                                <span className="account-number small">
                                                     { transaction.fromAccountNumber == selectedAccount.accountNumber && 
                                                         <span>Outgoing</span>
                                                     }
@@ -129,7 +129,7 @@ export default function ReportsComponent() {
                                                         <span>Incoming</span>
                                                     }
                                                 </span>
-                                                <span>{selectedAccount.currency}</span>
+                                                <span className="small">{selectedAccount.currency}</span>
                                             </div>
                                         </div>
                                     </div>
