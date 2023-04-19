@@ -29,6 +29,9 @@ export default function ExchangeComponent() {
     const [debitAmount, setDebitAmount] = useState();
     const [convertedAmount, setConvertedAmount] = useState();
     const [currencySelect, setCurrencySelect] = useState();
+    const [targetCurrency, setTargetCurrency] = useState('CHF');
+
+    const referenceCurrency = 'CHF';
 
     const [showError, setShowError] = useState(false);
 
@@ -52,8 +55,9 @@ export default function ExchangeComponent() {
     useEffect (() => refreshAccounts(), []); // once at page load
     useEffect (() => setFromAccountAfterAccountsLoad(), [accounts]); // catch accounts load
     useEffect (() => setToAccountAfterFromAccountLoad(), [selectedFromAccount]); // catch from account load
-    useEffect (() => initPage(), [selectedToAccount]); // catch selected accounts load
-    useEffect (() => recomputeTransactionAmounts(), [amount, currencySelect]);
+    useEffect (() => computeTarget(), [selectedFromAccount, selectedToAccount]); // catch selected accounts load
+    useEffect (() => initPage(), [targetCurrency]); // render page after all loads
+    useEffect (() => recomputeTransactionAmounts(), [selectedFromAccount, selectedToAccount, amount, currencySelect, targetCurrency]);
 
     function refreshAccounts() {
         retrieveCheckingAccountsForUsernameApi(username)
@@ -90,8 +94,18 @@ export default function ExchangeComponent() {
         }
     }
 
+    function computeTarget() {
+        if (selectedFromAccount && selectedFromAccount.currency != 'CHF') {
+            setTargetCurrency(selectedFromAccount.currency);
+        } else if (selectedToAccount) {
+            setTargetCurrency(selectedToAccount.currency);
+        }
+    }
+
     function initPage() {
-        setPaymentState('start');
+        if (selectedFromAccount && selectedToAccount && targetCurrency) {
+            setPaymentState('start');
+        }
     }
 
     function handleSelectFromAccountChange(account) {
@@ -131,9 +145,17 @@ export default function ExchangeComponent() {
         if  (selectedFromAccount && selectedToAccount) {
             if (currencySelect == selectedFromAccount.currency) {
                 setDebitAmount(amount);
-                setConvertedAmount((amount / chooseRate(selectedToAccount.currency)).toFixed(2));
+                if (selectedFromAccount.currency == referenceCurrency) {
+                    setConvertedAmount((amount / exchangeRate[selectedToAccount.currency]).toFixed(2));
+                } else {
+                    setConvertedAmount((amount * exchangeRate[targetCurrency]).toFixed(2));
+                }
             } else {
-                setDebitAmount((amount * chooseRate(currencySelect)).toFixed(2));
+                if (selectedFromAccount.currency == referenceCurrency) {
+                    setDebitAmount((amount * exchangeRate[targetCurrency]).toFixed(2));
+                } else {
+                    setDebitAmount((amount / exchangeRate[targetCurrency]).toFixed(2));
+                }
                 setConvertedAmount(amount);
             }
         }
@@ -157,7 +179,7 @@ export default function ExchangeComponent() {
             amount: debitAmount,
             currency: selectedFromAccount.currency,
             description: 'Exchange currency',
-            exchangeRate: 1 / chooseRate(selectedToAccount.currency)
+            exchangeRate: 1 / exchangeRate[selectedToAccount.currency]
         };
 
         console.log(newTransaction);
@@ -233,7 +255,7 @@ export default function ExchangeComponent() {
                         </div>
                         <div className="mb-3">
                             <span>Exchange rate: </span>
-                            <span className="account-balance">1 {selectedToAccount && selectedToAccount.currency} = {selectedFromAccount && selectedToAccount && <span>{(chooseRate(selectedToAccount.currency)).toFixed(4)} {selectedFromAccount.currency}</span>}</span>
+                            <span className="account-balance">1 {targetCurrency} = {(exchangeRate[targetCurrency]).toFixed(4)} {referenceCurrency}</span>
                         </div>
                         {
                             amount &&
