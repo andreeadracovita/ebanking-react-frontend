@@ -49,12 +49,20 @@ export default function PasswordComponent() {
         updateUserPasscodeApi(username, payload)
             .then(response => {
                 console.log(response);
-                setChangeState('success');
+                handlePasscodeChanged();
             })
             .catch(error => {
                 console.log(error);
                 setShowServerError(true);
             });
+    }
+
+    async function handlePasscodeChanged() {
+        if (await authContext.login(username, newPasscode)) {
+            setChangeState('success');
+        } else {
+            setShowServerError(true);
+        }
     }
 
     function onPortfolioRedirect() {
