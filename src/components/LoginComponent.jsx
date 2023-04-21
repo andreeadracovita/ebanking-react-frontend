@@ -1,12 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import FormControl from '@mui/material/FormControl';
 
 import { useAuth } from './security/AuthContext';
+import { checkPasscodeInput } from './common/helpers/HelperFunctions';
 
 export default function LoginComponent() {
     const [username, setUsername] = useState('user');
     const [password, setPassword] = useState('12345');
     const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
     const authContext = useAuth();
@@ -24,6 +34,12 @@ export default function LoginComponent() {
     function handlePasswordChange(event) {
         setPassword(event.target.value);
     }
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
 
     async function handleSubmit() {
         if (await authContext.login(username, password)) {
@@ -43,22 +59,49 @@ export default function LoginComponent() {
                     <div className="d-block">
                         <h1 className="h5 mb-5 fw-bold">Enter your username and password</h1>
                         {showErrorMessage && <div className="errorMessage">Authentication failed. Please check your credentials.</div>}
-                        <form>
-                            <div className="mb-5">
-                                <input className="input-field" type="text" name="username" placeholder="Username" value={username} onChange={handleUsernameChange} />
-                                <p className="fw-bold">Example: c1234567</p>
-                            </div>
-                            <div className="mb-5">
-                                <input className="input-field" type="password" name="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
-                            </div>
-                            <p className="text-decoration-underline fw-bold mb-5">Forgot your password?</p>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                             <div>
+                                <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
+                                    <InputLabel htmlFor="outlined-adornment-password">Username</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-password"
+                                        type='text'
+                                        value={username}
+                                        onChange={handleUsernameChange}
+                                        label="Username"
+                                    />
+                                </FormControl>
+                                <br/>
+                                <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={password}
+                                        onChange={handlePasswordChange}
+                                        onKeyDown={checkPasscodeInput}
+                                        endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                            >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                        }
+                                        label="Password"
+                                    />
+                                </FormControl>
+                                <br/>
                                 <button className="btn btn-royal-blue px-5" type="button" name="login" onClick={handleSubmit}>Next</button>
                             </div>
-                        </form>
+                        </Box>
                     </div>
-                    <div className="d-none d-xl-block bg-light-royal-blue" style={{width: 428 + 'px'}}>
-                        <div className="mx-3 mt-3 mb-3">
+                    <div className="d-none d-xl-block bg-light-royal-blue" style={{width: 442 + 'px'}}>
+                        <div className="m-4">
                             <p className="fw-bold">Account for testing purposes</p>
                             <p>Username: user</p>
                             <p>Password: 12345</p>
@@ -67,8 +110,6 @@ export default function LoginComponent() {
                             <p>- Access transactions and reports anytime, anywhere</p>
                             <p>- Make Payments at home</p>
                             <p>- Open accounts at home</p>
-                            <br/>
-                            <p className="text-decoration-underline">Find out more [Link here]</p>
                         </div>
                     </div>
                 </div>
