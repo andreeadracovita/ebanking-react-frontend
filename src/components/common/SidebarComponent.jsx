@@ -29,7 +29,7 @@ export default function SidebarComponent() {
 
     return (
         <div className="bg-royal-blue sidebar">
-            <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 mt-4 mb-4">
+            <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 mt-5 mb-4">
                 <span className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <UserIcon width="24" height="24"/>
                     <span className="d-none d-sm-inline ms-2 fw-bold">Welcome, {customerName}</span>
@@ -86,7 +86,7 @@ export default function SidebarComponent() {
                     </li>
                     <li className="nav-item">
                         {isAuthenticated &&
-                            <Link className="nav-link align-middle px-0" to="/logout" onClick={authContext.logout}>
+                            <Link className="nav-link align-middle px-0" to="/" onClick={authContext.logout}>
                                 <LogoutIcon width="24" height="24"/>
                                 <span className="ms-2 d-none d-sm-inline">Logout</span>
                             </Link>}

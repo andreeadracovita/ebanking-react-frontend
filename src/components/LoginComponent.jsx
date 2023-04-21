@@ -51,68 +51,70 @@ export default function LoginComponent() {
     }
 
     return (
-        <div className="row">
-            <div className="sidebar"></div>
-            <div className="col-9 text-nowrap">
-                <h1 className="h2 mb-5 text-royal-blue fw-bold">Login eBanking</h1>
-                <div className="row text-royal-blue flex-nowrap">
-                    <div className="d-block">
-                        <h1 className="h5 mb-5 fw-bold">Enter your username and password</h1>
-                        {showErrorMessage && <div className="errorMessage">Authentication failed. Please check your credentials.</div>}
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                            <div>
-                                <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
-                                    <InputLabel htmlFor="outlined-adornment-password">Username</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        type='text'
-                                        value={username}
-                                        onChange={handleUsernameChange}
-                                        label="Username"
-                                    />
-                                </FormControl>
-                                <br/>
-                                <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
-                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        value={password}
-                                        onChange={handlePasswordChange}
-                                        onKeyDown={checkPasscodeInput}
-                                        endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                            >
-                                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                        }
-                                        label="Password"
-                                    />
-                                </FormControl>
-                                <br/>
-                                <button className="btn btn-royal-blue px-5" type="button" name="login" onClick={handleSubmit}>Next</button>
-                            </div>
-                        </Box>
-                    </div>
-                    <div className="d-none d-xl-block bg-light-royal-blue" style={{width: 442 + 'px'}}>
-                        <div className="m-4">
-                            <p className="fw-bold">Account for testing purposes</p>
-                            <p>Username: user</p>
-                            <p>Password: 12345</p>
+        <div className="m-5">
+            <h1 className="d-none d-xl-block h2 mb-5 fw-bold text-center text-royal-blue">Login eBanking</h1>
+            <div className="d-flex justify-content-center">
+                <span className="text-nowrap">
+                    <h1 className="d-xl-none h2 mb-5 fw-bold text-center text-royal-blue">Login eBanking</h1>
+                    <h1 className="h5 mb-5 fw-bold text-royal-blue">Enter your username and password</h1>
+                    {showErrorMessage && <div className="errorMessage mb-3">Authentication failed. Please check your credentials.</div>}
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }} className="text-center">
+                        <div>
+                            <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                                <InputLabel htmlFor="outlined-adornment-username">Username</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-username"
+                                    type='text'
+                                    value={username}
+                                    onChange={handleUsernameChange}
+                                    label="Username"
+                                />
+                            </FormControl>
                             <br/>
-                            <p className="fw-bold">Not using eBanking yet?</p>
-                            <p>- Access transactions and reports anytime, anywhere</p>
-                            <p>- Make Payments at home</p>
-                            <p>- Open accounts at home</p>
+                            <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    value={password}
+                                    onChange={handlePasswordChange}
+                                    onKeyDown={checkPasscodeInput}
+                                    endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                        >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                    }
+                                    label="Password"
+                                />
+                            </FormControl>
+                            <br/>
+                            <button className="d-none d-xl-block btn btn-royal-blue px-5" type="button" name="login" onClick={handleSubmit}>Next</button>
+                            <button className="d-xl-none btn btn-royal-blue px-5" type="button" name="login" onClick={handleSubmit}>Next</button>
                         </div>
+                    </Box>
+                </span>
+
+                <span className="sidebar d-block"></span>
+
+                <span className="d-none d-xl-block bg-light-royal-blue text-royal-blue" style={{width: 442 + 'px'}}>
+                    <div className="m-4">
+                        <p className="fw-bold">Account for testing purposes</p>
+                        <p>Username: user</p>
+                        <p>Password: 12345</p>
+                        <br/>
+                        <p className="fw-bold">Not using eBanking yet?</p>
+                        <p>- Access transactions and reports anytime, anywhere</p>
+                        <p>- Make Payments at home</p>
+                        <p>- Open accounts at home</p>
                     </div>
-                </div>
+                </span>
             </div>
         </div>
     );

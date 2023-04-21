@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useLocation } from 'react-router';
 
-import SplineChartComponent from './SplineChartComponent';
 import { retrieveAllBankAccountsForUsernameApi, retrieveAllTransactionsForBankAccountNumberApi } from './api/EBankingApiService';
 import { useAuth } from './security/AuthContext';
 
@@ -61,7 +60,7 @@ export default function ReportsComponent() {
     }
 
     return (
-        <div>
+        <div className="col-8">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Reports</h1>
             { loadContent &&
                 <span>
