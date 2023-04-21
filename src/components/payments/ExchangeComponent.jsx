@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { Dropdown } from 'react-bootstrap';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import FormControl from '@mui/material/FormControl';
 
 import { useAuth } from '../security/AuthContext';
 import PaymentConfirmComponent from './PaymentConfirmComponent';
 import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
 import { retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
-import { checkAmountInput } from '../common/helpers/HelperFunctions';
+import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
 
 // Reference currency: CHF
 const exchangeRate = {
@@ -123,22 +127,7 @@ export default function ExchangeComponent() {
     }
 
     function handleAmountChange(event) {
-        if (!/^[0-9]+(\.[0-9]{1,2})?$/.test(event.target.value)) {
-            event.preventDefault();
-            return;
-        }
-
-        setAmount(event.target.value);
-    }
-
-    function chooseRate(currency) {
-        var rate = 1;
-        if (currency == 'EUR') {
-            rate = exchangeRate.EUR;
-        } else if (currency == 'USD') {
-            rate = exchangeRate.USD;
-        }
-        return rate;
+        processSum(event, setAmount);
     }
 
     function recomputeTransactionAmounts() {
@@ -189,6 +178,9 @@ export default function ExchangeComponent() {
     }
 
     function validForm() {
+        if (amount === '' || Number(amount) === 0) {
+            return false;
+        }
         return true;
     }
 
@@ -203,119 +195,134 @@ export default function ExchangeComponent() {
                 paymentState == 'start' &&
                 <div>
                     {
-                        showError && <span className="text-danger mb-3">Show errors here.</span>
+                        showError && 
+                        <span className="text-danger mb-5">
+                            <p>Amount must be completed and larger than 0.</p>
+                        </span>
                     }
-                    <form>
-                        <h1 className="h4 mb-2 text-royal-blue fw-bold">From account</h1>
-                        <Dropdown className="mb-3">
-                            <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                        <div>
+                            <h1 className="h4 mb-3 text-royal-blue fw-bold">From account</h1>
+                            <Dropdown className="mb-5">
+                                <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
+                                    {
+                                        selectedFromAccount &&
+                                        <div>
+                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                <span>{selectedFromAccount.accountName}</span>
+                                                <span className="account-balance">{selectedFromAccount.balance.toLocaleString("de-CH")}</span>
+                                            </div>
+                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                <span className="account-number">{selectedFromAccount.accountNumber}</span>
+                                                <span>{selectedFromAccount.currency}</span>
+                                            </div>
+                                        </div>
+                                    }
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
                                 {
-                                    selectedFromAccount &&
+                                    accounts.map(
+                                            account => (
+                                                <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectFromAccountChange(account)}>
+                                                    <div>
+                                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                            <span>{account.accountName}</span>
+                                                            <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
+                                                        </div>
+                                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                            <span className="account-number">{account.accountNumber}</span>
+                                                            <span>{account.currency}</span>
+                                                        </div>
+                                                    </div>
+                                                </Dropdown.Item>
+                                            )
+                                        )
+                                }
+                                </Dropdown.Menu>
+                            </Dropdown>
+
+                            <h1 className="h4 mb-3 text-royal-blue fw-bold">Amount to exchange</h1>
+                            <div className="">
+                                <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
+                                    <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-amount"
+                                        type='text'
+                                        value={amount}
+                                        onChange={handleAmountChange}
+                                        onKeyDown={checkAmountInput}
+                                        label="Amount"
+                                    />
+                                </FormControl>
+                                <select className="btn btn-royal-blue ms-3" style={{height: 54+'px'}} name="currency" onChange={handleCurrencySelectChange} value={currencySelect}>
+                                    { selectedFromAccount && <option value={selectedFromAccount.currency}>{selectedFromAccount.currency}</option> }
+                                    { selectedToAccount && <option value={selectedToAccount.currency}>{selectedToAccount.currency}</option> }
+                                </select>
+                            </div>
+                            <div className="mb-3">
+                                <span>Exchange rate: </span>
+                                <span className="account-balance">1 {targetCurrency} = {(exchangeRate[targetCurrency]).toFixed(4)} {referenceCurrency}</span>
+                            </div>
+                            {
+                                amount &&
+                                <span>
+                                    <div className="mb-3">
+                                        <span>Debit amount: </span>
+                                        {amount && <span className="account-balance">{debitAmount} {selectedFromAccount.currency}</span>}
+                                    </div>
+                                    <div className="mb-3">
+                                        <span>Converted amount: </span>
+                                        <span className="account-balance">{convertedAmount} {selectedToAccount.currency}</span>
+                                    </div>
+                                </span>
+                            }
+
+                            <h1 className="h4 mb-2 text-royal-blue fw-bold">To account</h1>
+                            <Dropdown className="mb-4">
+                                <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
+                                { 
+                                    selectedToAccount &&
                                     <div>
                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                            <span>{selectedFromAccount.accountName}</span>
-                                            <span className="account-balance">{selectedFromAccount.balance.toLocaleString("de-CH")}</span>
+                                            <span>{selectedToAccount.accountName}</span>
+                                            <span className="account-balance">{selectedToAccount.balance.toLocaleString("de-CH")}</span>
                                         </div>
                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                            <span className="account-number">{selectedFromAccount.accountNumber}</span>
-                                            <span>{selectedFromAccount.currency}</span>
+                                            <span className="account-number">{selectedToAccount.accountNumber}</span>
+                                            <span>{selectedToAccount.currency}</span>
                                         </div>
                                     </div>
                                 }
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                            {
-                                accounts.map(
-                                        account => (
-                                            <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectFromAccountChange(account)}>
-                                                <div>
-                                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                        <span>{account.accountName}</span>
-                                                        <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                {
+                                    targetAccounts.map(
+                                            account => (
+                                                <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectToAccountChange(account)}>
+                                                    <div>
+                                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                            <span>{account.accountName}</span>
+                                                            <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
+                                                        </div>
+                                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                            <span className="account-number">{account.accountNumber}</span>
+                                                            <span>{account.currency}</span>
+                                                        </div>
                                                     </div>
-                                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                        <span className="account-number">{account.accountNumber}</span>
-                                                        <span>{account.currency}</span>
-                                                    </div>
-                                                </div>
-                                            </Dropdown.Item>
+                                                </Dropdown.Item>
+                                            )
                                         )
-                                    )
-                            }
-                            </Dropdown.Menu>
-                        </Dropdown>
+                                }
+                                </Dropdown.Menu>
+                            </Dropdown>
 
-                        <h1 className="h4 mb-2 text-royal-blue fw-bold">Amount to exchange</h1>
-                        <div className="mb-3">
-                            <input className="input-field" type="number" name="amount" placeholder="Amount" onChange={handleAmountChange} onKeyDown={checkAmountInput}/>
-                            <select className="btn btn-royal-blue ms-3" name="currency" onChange={handleCurrencySelectChange} value={currencySelect}>
-                                { selectedFromAccount && <option value={selectedFromAccount.currency}>{selectedFromAccount.currency}</option> }
-                                { selectedToAccount && <option value={selectedToAccount.currency}>{selectedToAccount.currency}</option> }
-                            </select>
+                            <div>
+                                <button className="btn btn-royal-blue btn-form mb-3" type="button" name="submit" onClick={onSubmitForm}>Next</button>
+                                <br/>
+                                <button className="btn btn-secondary btn-form" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
+                            </div>
                         </div>
-                        <div className="mb-3">
-                            <span>Exchange rate: </span>
-                            <span className="account-balance">1 {targetCurrency} = {(exchangeRate[targetCurrency]).toFixed(4)} {referenceCurrency}</span>
-                        </div>
-                        {
-                            amount &&
-                            <span>
-                                <div className="mb-3">
-                                    <span>Debit amount: </span>
-                                    {amount && <span className="account-balance">{debitAmount} {selectedFromAccount.currency}</span>}
-                                </div>
-                                <div className="mb-3">
-                                    <span>Converted amount: </span>
-                                    <span className="account-balance">{convertedAmount} {selectedToAccount.currency}</span>
-                                </div>
-                            </span>
-                        }
-
-                        <h1 className="h4 mb-2 text-royal-blue fw-bold">To account</h1>
-                        <Dropdown className="mb-4">
-                            <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
-                            { 
-                                selectedToAccount &&
-                                <div>
-                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                        <span>{selectedToAccount.accountName}</span>
-                                        <span className="account-balance">{selectedToAccount.balance.toLocaleString("de-CH")}</span>
-                                    </div>
-                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                        <span className="account-number">{selectedToAccount.accountNumber}</span>
-                                        <span>{selectedToAccount.currency}</span>
-                                    </div>
-                                </div>
-                            }
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                            {
-                                targetAccounts.map(
-                                        account => (
-                                            <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectToAccountChange(account)}>
-                                                <div>
-                                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                        <span>{account.accountName}</span>
-                                                        <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
-                                                    </div>
-                                                    <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                        <span className="account-number">{account.accountNumber}</span>
-                                                        <span>{account.currency}</span>
-                                                    </div>
-                                                </div>
-                                            </Dropdown.Item>
-                                        )
-                                    )
-                            }
-                            </Dropdown.Menu>
-                        </Dropdown>
-
-                        <div>
-                            <button className="btn btn-royal-blue px-5 mb-3" type="button" name="submit" onClick={onSubmitForm}>Next</button>
-                            <br/>
-                            <button className="btn btn-secondary px-5" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
-                        </div>
-                    </form>
+                    </Box>
                 </div>}
 
             {

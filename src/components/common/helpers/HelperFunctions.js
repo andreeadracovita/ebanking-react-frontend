@@ -21,5 +21,28 @@ export function checkAmountInput(event) {
         /[0-9]|\./.test(event.key)) {
         return;
     }
+    console.log("Invalid input");
     event.preventDefault();
+}
+
+export function processSum(event, setAmount) {
+    if (event.target.value === '') {
+        setAmount(event.target.value);
+        return;
+    }
+
+    if (!validSum(event.target.value)) {
+        event.preventDefault();
+        console.log("Invalid amount");
+        return;
+    }
+
+    setAmount(event.target.value);
+}
+
+function validSum(value) {
+    if (!/^(0|([1-9][0-9]{0,2})+)(\.(\d{1,2})?)?$/.test(value)) {
+        return false;
+    }
+    return true;
 }

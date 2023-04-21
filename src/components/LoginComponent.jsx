@@ -95,8 +95,8 @@ export default function LoginComponent() {
                                 />
                             </FormControl>
                             <br/>
-                            <button className="d-none d-xl-block btn btn-royal-blue px-5" type="button" name="login" onClick={handleSubmit}>Next</button>
-                            <button className="d-xl-none btn btn-royal-blue px-5" type="button" name="login" onClick={handleSubmit}>Next</button>
+                            <button className="d-none d-xl-block btn btn-royal-blue btn-form" type="button" name="login" onClick={handleSubmit}>Next</button>
+                            <button className="d-xl-none btn btn-royal-blue btn-form" type="button" name="login" onClick={handleSubmit}>Next</button>
                         </div>
                     </Box>
                 </span>

@@ -68,12 +68,14 @@ footer {
   border-style: solid;
   border-width: 3px;
   padding: 5px;
-  width: 360px;
+  width: 450px;
   height: 100px;
 }
 
 .select-field-account:hover, .select-field-account:focus, .select-field-account:active {
   border-color: #0204ff;
+  background-color: #fff;
+  color: #000;
 }
 
 .btn-royal-blue {
@@ -85,6 +87,10 @@ footer {
 .btn-royal-blue:hover, .btn-royal-blue:focus, .btn-royal-blue:active {
   color: #fff;
   background-color: #0204ff;
+}
+
+.btn-form {
+  width: 150px;
 }
 
 .nav-link {

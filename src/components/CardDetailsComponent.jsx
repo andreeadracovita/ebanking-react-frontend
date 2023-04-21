@@ -9,12 +9,14 @@ import {
     updateCardActivateApi,
     updateCardDeactivateApi
 } from './api/EBankingApiService';
+import { Switch } from '@mui/material';
 
 export default function CardDetailsComponent() {
     const [card, setCard] = useState();
     const [loadContent, setLoadContent] = useState();
     const [availabilityDate, setAvailabilityDate] = useState();
     const [attachedAccount, setAttachedAccount] = useState();
+    const [blockSwitch, setBlockSwitch] = useState(false);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -25,9 +27,24 @@ export default function CardDetailsComponent() {
     const authContext = useAuth();
     const username = authContext.username;
 
+    const switchStyle = {
+        "& .MuiSwitch-switchBase": {
+            color: "green"
+        },
+        "& .MuiSwitch-switchBase.Mui-checked": {
+          color: "red"
+        }
+    }
+
     function loadData() {
         if (location.state && location.state.card) {
             setCard(location.state.card);
+
+            if (location.state.card.status === 'ACTIVE') {
+                setBlockSwitch(false);
+            } else {
+                setBlockSwitch(true);
+            }
 
             retrieveAvailabilityDateForCardNumberApi(username, location.state.card.cardNumber)
                 .then(response => {
@@ -49,20 +66,22 @@ export default function CardDetailsComponent() {
         }
     }
 
-    function onBlockCardClicked() {
-        updateCardDeactivateApi(username, card.cardNumber)
-            .then(response => {
-                setCard(response.data);
-            })
-            .catch(error => console.log(error));
-    }
-
-    function onUnblockCardClicked() {
-        updateCardActivateApi(username, card.cardNumber)
-            .then(response => {
-                setCard(response.data);
-            })
-            .catch(error => console.log(error));
+    function handleBlockSwitchChange() {
+        if (blockSwitch === true) {
+            updateCardActivateApi(username, card.cardNumber)
+                .then(response => {
+                    setCard(response.data);
+                    setBlockSwitch(false);
+                })
+                .catch(error => console.log(error));
+        } else {
+            updateCardDeactivateApi(username, card.cardNumber)
+                .then(response => {
+                    setCard(response.data);
+                    setBlockSwitch(true);
+                })
+                .catch(error => console.log(error));
+        }
     }
 
     function onPortfolioRedirect() {
@@ -86,16 +105,20 @@ export default function CardDetailsComponent() {
                     <p>Availability date</p>
                     <p className="ms-3 fw-bold">{availabilityDate}</p>
                     <br/>
-                    { card.status === 'ACTIVE' && <p className="btn btn-warning" onClick={onBlockCardClicked}>Block card</p> }
-                    { card.status === 'INACTIVE' && <p className="btn btn-success" onClick={onUnblockCardClicked}>Unblock card</p> }
-                    <br/>
-                    <p>Attached account</p>
+                    <span>Block card</span>
+                    <Switch 
+                        checked={blockSwitch}
+                        onChange={handleBlockSwitchChange}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                        sx={switchStyle}
+                    />
+                    <p className="mt-5">Attached account</p>
                     <p className="ms-3 fw-bold">{attachedAccount.accountName}</p>
                     <p className="ms-3 fw-bold">{attachedAccount.accountNumber}</p>
                     <p className="ms-3 fw-bold">{attachedAccount.balance.toLocaleString("de-CH")} {attachedAccount.currency}</p>
                     <br/>
 
-                    <button className="btn btn-royal-blue px-5 mt-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
+                    <button className="btn btn-royal-blue btn-form mt-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>
             }
         </div>

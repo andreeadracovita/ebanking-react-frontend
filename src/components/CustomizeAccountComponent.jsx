@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import FormControl from '@mui/material/FormControl';
 
 import { useAuth } from './security/AuthContext';
 import { MAX_DESCRIPTION_LENGTH } from './common/constants/Constants';
@@ -64,16 +68,24 @@ export default function CustomizeAccountComponent() {
                         <p>{account.accountNumber}</p>
                         <p>{account.balance.toLocaleString("de-CH")} {account.currency}</p>
                     </div>
-                    <form>
-                        <div className="mb-5">
-                            <input className="input-field" type="text" name="name" placeholder={account.accountName} onChange={handleNewNameChange} />
-                        </div>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>
+                            <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                                <InputLabel htmlFor="outlined-adornment-account-name">New account name</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-account-name"
+                                    type='text'
+                                    value={newName}
+                                    onChange={handleNewNameChange}
+                                    label="New account name"
+                                />
+                            </FormControl>
+                            <br/>
                             <button className="btn btn-royal-blue px-5 mb-3" type="button" name="submit" onClick={onSubmitForm}>Save changes</button>
                             <br/>
                             <button className="btn btn-secondary px-5" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
                         </div>
-                    </form>
+                    </Box>
                 </div>
             }
             {

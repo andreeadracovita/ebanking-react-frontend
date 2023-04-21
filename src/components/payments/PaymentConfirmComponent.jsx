@@ -23,8 +23,7 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setP
 
     return (
         <div>
-            <div className="d-flex justify-content-center">
-                <div className="bg-light-royal-blue p-3 mb-3 text-left w-50">
+                <div className="bg-light-royal-blue p-5 mb-5 w-50">
                     {
                         (paymentType !== 'exchange') &&
                         <span>
@@ -65,13 +64,10 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setP
                             <p className="ms-3 fw-bold">{transaction.description}</p>
                         </span>
                     }
-                </div>
             </div>
-            <div className="text-center">
-                <button className="btn btn-royal-blue px-5 mb-3" type="button" name="confirm" onClick={onConfirmForm}>Sign</button>
-                <br/>
-                <button className="btn btn-secondary px-5" type="button" name="back" onClick={onBack}>Back</button>
-            </div>
+            <button className="btn btn-royal-blue btn-form mb-3" type="button" name="confirm" onClick={onConfirmForm}>Sign</button>
+            <br/>
+            <button className="btn btn-secondary btn-form" type="button" name="back" onClick={onBack}>Back</button>
         </div>
     );
 }

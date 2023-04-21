@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { Dropdown } from 'react-bootstrap';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import FormControl from '@mui/material/FormControl';
 
 import { retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
 import { useAuth } from '../security/AuthContext';
@@ -8,6 +12,7 @@ import PaymentConfirmComponent from './PaymentConfirmComponent';
 import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
 import { MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
+import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
 
 export default function PaymentOtherComponent() {
     // PaymentState { 'start', 'confirm', 'success', 'fail' }
@@ -80,24 +85,8 @@ export default function PaymentOtherComponent() {
         setBeneficiaryName(event.target.value);
     }
 
-    function checkAmountInput(event) {
-        var key = event.keyCode;
-
-        // Allow input if arrows, delete, backspace, digits and point keys were pressed 
-        if(key == 37 || key == 38 || key == 39 || key == 40 || key == 8 || key == 46 ||
-            /[0-9]|\./.test(event.key)) {
-            return;
-        }
-        event.preventDefault();
-    }
-
     function handleAmountChange(event) {
-        if (!/^[0-9]+(\.[0-9]{1,2})?$/.test(event.target.value)) {
-            event.preventDefault();
-            return;
-        }
-
-        setAmount(event.target.value);
+        processSum(event, setAmount);
     }
 
     function handleDescriptionChange(event) {
@@ -129,6 +118,12 @@ export default function PaymentOtherComponent() {
     }
 
     function validForm() {
+        if (amount === '' || Number(amount) === 0) {
+            return false;
+        }
+        if (toAccountNumber === '' || beneficiaryName === '') {
+            return false;
+        }
         return true;
     }
 
@@ -154,70 +149,106 @@ export default function PaymentOtherComponent() {
                 { paymentState == 'start' &&
                     <div>
                         {
-                            showError && <span className="text-danger mb-3">Show errors here.</span>
+                            showError &&
+                            <span className="text-danger mb-5">
+                                <p>Beneficiary name must be completed.</p>
+                                <p>Beneficiary account must be completed.</p>
+                                <p>Amount must be completed and larger than 0.</p>
+                            </span>
                         }
-                        <form>
-                            <h1 className="h4 mb-2 text-royal-blue fw-bold">From account</h1>
-                            <Dropdown className="mb-4">
-                                <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
-                                    { selectedFromAccount &&
-                                        <div>
-                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                <span>{selectedFromAccount.accountName}</span>
-                                                <span className="account-balance">{selectedFromAccount.balance.toLocaleString("de-CH")}</span>
-                                            </div>
-                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                <span className="account-number">{selectedFromAccount.accountNumber}</span>
-                                                <span>{selectedFromAccount.currency}</span>
-                                            </div>
-                                        </div>
-                                    }
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                {
-                                    accounts.filter(account => selectedFromAccount && account.accountNumber !== selectedFromAccount.accountNumber)
-                                        .map(
-                                            account => (
-                                                <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectFromAccountChange(account)}>
-                                                    <div>
-                                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                            <span>{account.accountName}</span>
-                                                            <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
-                                                        </div>
-                                                        <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                                                            <span className="account-number">{account.accountNumber}</span>
-                                                            <span>{account.currency}</span>
-                                                        </div>
-                                                    </div>
-                                                </Dropdown.Item>
-                                            )
-                                        )
-                                }
-                                </Dropdown.Menu>
-                            </Dropdown>
-
-                            <h1 className="h4 mb-2 text-royal-blue fw-bold">Beneficiary account</h1>
-                            <div className="mb-3">
-                                <input className="input-field" type="text" name="toAccountNumber" placeholder="Fill in account number" value={toAccountNumber} onChange={handleToAccountNumberChange} />
-                            </div>
-                            <div className="mb-4">
-                                <input className="input-field" type="text" name="beneficiaryName" placeholder="Beneficiary name" value={beneficiaryName} onChange={handleBeneficiaryNameChange} />
-                            </div>
-
-                            <h1 className="h4 mb-2 text-royal-blue fw-bold">Transfer details</h1>
-                            <div className="mb-3">
-                                <input className="input-field" type="number" name="amount" placeholder="Amount" onChange={handleAmountChange} onKeyDown={checkAmountInput}/>
-                            </div>
-                            <div className="mb-5">
-                                <input className="input-field" type="text" name="description" placeholder="Description" value={description} onChange={handleDescriptionChange} />
-                            </div>
-
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                             <div>
-                                <button className="btn btn-royal-blue px-5 mb-3" type="button" name="submit" onClick={onSubmitForm}>Next</button>
+                                <h1 className="h4 mb-3 text-royal-blue fw-bold">From account</h1>
+                                <Dropdown className="mb-5">
+                                    <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
+                                        { selectedFromAccount &&
+                                            <div>
+                                                <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                    <span>{selectedFromAccount.accountName}</span>
+                                                    <span className="account-balance">{selectedFromAccount.balance.toLocaleString("de-CH")}</span>
+                                                </div>
+                                                <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                    <span className="account-number">{selectedFromAccount.accountNumber}</span>
+                                                    <span>{selectedFromAccount.currency}</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                    {
+                                        accounts.filter(account => selectedFromAccount && account.accountNumber !== selectedFromAccount.accountNumber)
+                                            .map(
+                                                account => (
+                                                    <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectFromAccountChange(account)}>
+                                                        <div>
+                                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                                <span>{account.accountName}</span>
+                                                                <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
+                                                            </div>
+                                                            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
+                                                                <span className="account-number">{account.accountNumber}</span>
+                                                                <span>{account.currency}</span>
+                                                            </div>
+                                                        </div>
+                                                    </Dropdown.Item>
+                                                )
+                                            )
+                                    }
+                                    </Dropdown.Menu>
+                                </Dropdown>
+
+                                <h1 className="h4 mb-3 text-royal-blue fw-bold">Beneficiary</h1>
+                                <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
+                                    <InputLabel htmlFor="outlined-adornment-account">Account number</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-account"
+                                        type='text'
+                                        value={toAccountNumber}
+                                        onChange={handleToAccountNumberChange}
+                                        label="Account number"
+                                    />
+                                </FormControl>
                                 <br/>
-                                <button className="btn btn-secondary px-5" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
+                                <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                                    <InputLabel htmlFor="outlined-adornment-name">Name</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-name"
+                                        type='text'
+                                        value={beneficiaryName}
+                                        onChange={handleBeneficiaryNameChange}
+                                        label="Name"
+                                    />
+                                </FormControl>
+
+                                <h1 className="h4 mb-3 text-royal-blue fw-bold">Transfer details</h1>
+                                <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
+                                    <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-amount"
+                                        type='text'
+                                        value={amount}
+                                        onChange={handleAmountChange}
+                                        onKeyDown={checkAmountInput}
+                                        label="Amount"
+                                    />
+                                </FormControl>
+                                <br/>
+                                <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                                    <InputLabel htmlFor="outlined-adornment-description">Description</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-description"
+                                        type='text'
+                                        value={description}
+                                        onChange={handleDescriptionChange}
+                                        label="Description"
+                                    />
+                                </FormControl>
+                                <br/>
+                                <button className="btn btn-royal-blue btn-form mb-3" type="button" name="submit" onClick={onSubmitForm}>Next</button>
+                                <br/>
+                                <button className="btn btn-secondary btn-form" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
                             </div>
-                        </form>
+                        </Box>
                     </div>}
 
                 {

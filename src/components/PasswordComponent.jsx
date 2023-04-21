@@ -1,5 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import FormControl from '@mui/material/FormControl';
 
 import { checkPasscodeInput } from './common/helpers/HelperFunctions';
 import { updateUserPasscodeApi } from './api/EBankingApiService';
@@ -8,7 +16,7 @@ import { useAuth } from './security/AuthContext';
 export default function PasswordComponent() {
     const [changeState, setChangeState] = useState('form');
     const [newPasscode, setNewPasscode] = useState('');
-    const [newPasscodeRepeat, setNewPasscodeRepeat] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const [showError, setShowError] = useState(false);
     const [showServerError, setShowServerError] = useState(false);
@@ -26,18 +34,14 @@ export default function PasswordComponent() {
         }
     }
 
-    function handleNewPasscodeRepeatChange(event) {
-        if (event.target.value.length <= 5) {
-            setNewPasscodeRepeat(event.target.value);
-        } else {
-            event.preventDefault();
-        }
-    }
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
 
     function onSubmitForm() {
-        console.log(newPasscode);
-        console.log(newPasscodeRepeat);
-        if (newPasscode == null || newPasscodeRepeat == null || newPasscode != newPasscodeRepeat || newPasscode.length != 5) {
+        if (newPasscode == null || newPasscode.length != 5) {
             setShowError(true);
             return;
         }
@@ -75,31 +79,52 @@ export default function PasswordComponent() {
 
             {
                 changeState === 'form' &&
-                <form>
-                    { 
-                        showError &&
-                        <div className="mb-5">
-                            <p className="text-danger mb-3">Fields must match.</p>
-                            <p className="text-danger">Passcode must be 5 digits long.</p>
-                        </div>
-                    }
-                    { 
-                        showServerError &&
-                        <div className="mb-5">
-                            <p className="text-danger mb-3">Server-side error.</p>
-                        </div>
-                    }
-                    <div className="mb-5">
-                        <input className="input-field mb-3" type="text" name="newPasscode" placeholder="New passcode" value={newPasscode} onChange={handleNewPasscodeChange} onKeyDown={checkPasscodeInput}/>
-                        <br/>
-                        <input className="input-field" type="text" name="newPasscodeRepeat" placeholder="Repeat new passcode" value={newPasscodeRepeat} onChange={handleNewPasscodeRepeatChange} onKeyDown={checkPasscodeInput}/>
-                    </div>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                     <div>
-                        <button className="btn btn-royal-blue px-5 mb-3" type="button" name="submit" onClick={onSubmitForm}>Save changes</button>
+                        { 
+                            showError &&
+                            <div className="mb-5">
+                                <p className="text-danger mb-3">Fields must match.</p>
+                                <p className="text-danger">Passcode must be 5 digits long.</p>
+                            </div>
+                        }
+                        { 
+                            showServerError &&
+                            <div className="mb-5">
+                                <p className="text-danger mb-3">Server-side error.</p>
+                            </div>
+                        }
+
+                
+                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-password"
+                                type={showPassword ? 'text' : 'password'}
+                                value={newPasscode}
+                                onChange={handleNewPasscodeChange}
+                                onKeyDown={checkPasscodeInput}
+                                endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                    >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                                }
+                                label="Password"
+                            />
+                        </FormControl>
                         <br/>
-                        <button className="btn btn-secondary px-5" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
+                        <button className="btn btn-royal-blue btn-form mb-3" type="button" name="submit" onClick={onSubmitForm}>Save changes</button>
+                        <br/>
+                        <button className="btn btn-secondary btn-form" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
                     </div>
-                </form>
+                </Box>
             }
             {
                 changeState === 'success' &&
