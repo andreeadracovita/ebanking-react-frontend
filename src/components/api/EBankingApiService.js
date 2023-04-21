@@ -6,8 +6,8 @@ export const Currency = {
     USD: 2
 };
 
-export const retrieveCustomerNameForIdApi
-    = (username, id) => apiClient.get(`/${username}/customer/${id}`);
+export const retrieveCustomerNameForCustomerIdApi
+    = (username, id) => apiClient.get(`/${username}/customername/${id}`);
 
 export const retrieveCustomerNameForUsernameApi
     = (username) => apiClient.get(`/${username}/customername`);

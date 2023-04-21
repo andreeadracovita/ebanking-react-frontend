@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { retrieveCustomerNameForIdApi } from './api/EBankingApiService';
+import { retrieveCustomerNameForCustomerIdApi } from './api/EBankingApiService';
 import { useAuth } from './security/AuthContext';
 
 export default function BankAccountDetailsComponent() {
@@ -27,7 +27,7 @@ export default function BankAccountDetailsComponent() {
 
     function loadCustomerName() {
         if (account) {
-            retrieveCustomerNameForIdApi(username, account.customerId)
+            retrieveCustomerNameForCustomerIdApi(username, account.customerId)
                 .then(response => {
                     setCustomerName(response.data);
                 })
