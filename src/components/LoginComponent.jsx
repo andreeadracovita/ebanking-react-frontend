@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from './security/AuthContext';
@@ -10,6 +10,12 @@ export default function LoginComponent() {
 
     const navigate = useNavigate();
     const authContext = useAuth();
+
+    useEffect(() => {
+        if (authContext.isAuthenticated) {
+            navigate('/portfolio');
+        }
+    }, []);
 
     function handleUsernameChange(event) {
         setUsername(event.target.value);
