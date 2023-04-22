@@ -62,7 +62,8 @@ export default function ReportsComponent() {
     return (
         <div className="col-8">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Reports</h1>
-            { loadContent &&
+            { 
+                loadContent &&
                 <span>
                     <Dropdown className="mb-4">
                         <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
@@ -139,7 +140,6 @@ export default function ReportsComponent() {
                     }
                     </div>
                 </span>}
-            {/* <SplineChartComponent/> */}
         </div>
     );
 }

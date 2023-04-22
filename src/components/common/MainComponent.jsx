@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router';
 
 import { useAuth } from '../security/AuthContext';
-import PortfolioComponent from '../PortfolioComponent';
+import PortfolioComponent from '../portfolio/PortfolioComponent';
 import ErrorComponent from '../ErrorComponent';
 import ReportsComponent from '../ReportsComponent';
 import ExchangeComponent from '../payments/ExchangeComponent';
@@ -28,7 +28,7 @@ function AuthenticatedRoute({ children }) {
 
 export default function MainComponent() {
     return (
-        <div className="m-5 col-8">
+        <div className="p-5 col-8">
             <Routes>
                 <Route path='/portfolio' element={
                     <AuthenticatedRoute>

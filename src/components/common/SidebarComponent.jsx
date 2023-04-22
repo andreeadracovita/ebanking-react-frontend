@@ -28,11 +28,11 @@ export default function SidebarComponent() {
     }
 
     return (
-        <div className="bg-royal-blue sidebar">
+        <div className="bg-royal-blue sidebar" style={{fontSize:'large'}}>
             <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 mt-5 mb-4">
-                <span className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <span className="d-flex align-items-center mb-5 text-white text-decoration-none" style={{cursor:'default'}}>
                     <UserIcon width="24" height="24"/>
-                    <span className="d-none d-sm-inline ms-2 fw-bold">Welcome, {customerName}</span>
+                    <span className="d-none d-sm-inline ms-2 fw-bold">{customerName}</span>
                 </span>
                 
                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
