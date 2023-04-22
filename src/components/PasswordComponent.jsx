@@ -130,7 +130,7 @@ export default function PasswordComponent() {
                 changeState === 'success' &&
                 <div className="fw-bold">
                     <p className='mb-5'>Password successfully changed.</p>
-                    <button className="btn btn-royal-blue px-5 mb-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
+                    <button className="btn btn-royal-blue btn-form mb-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>
             }
         </div>

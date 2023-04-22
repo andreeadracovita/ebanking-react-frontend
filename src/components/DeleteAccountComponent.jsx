@@ -48,9 +48,9 @@ export default function DeleteAccountComponent() {
                     { showBalanceError && <div className="mb-3 text-danger">Empty the account before proceeding.</div> }
                     <div className="mb-5">You want to delete account <span className="fw-bold">{account.accountName}</span> with number <span className="fw-bold">{account.accountNumber}</span>.</div>
                     <div>
-                        <button className="btn btn-royal-blue px-5 mb-3" type="button" name="confirm" onClick={onConfirm}>Sign</button>
+                        <button className="btn btn-royal-blue btn-form mb-3" type="button" name="confirm" onClick={onConfirm}>Sign</button>
                         <br/>
-                        <button className="btn btn-secondary px-5" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
+                        <button className="btn btn-secondary btn-form" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
                     </div>
                 </div>
             }
@@ -59,7 +59,7 @@ export default function DeleteAccountComponent() {
                 <div className="text-center">
                     <div className="mb-5">Account <span className="fw-bold">{account.accountName}</span> with number <span className="fw-bold">{account.accountNumber}</span> was successfully deleted.</div>
                     <br/>
-                    <button className="btn btn-royal-blue px-5" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
+                    <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>
             }
         </div>

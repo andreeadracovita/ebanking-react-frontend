@@ -58,7 +58,7 @@ export default function BankAccountDetailsComponent() {
                     <br/>
                     <p>Currency</p>
                     <p className="ms-3 fw-bold">{account.currency}</p>
-                    <button className="btn btn-royal-blue px-5 mt-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
+                    <button className="btn btn-royal-blue btn-form mt-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>
             }
         </div>

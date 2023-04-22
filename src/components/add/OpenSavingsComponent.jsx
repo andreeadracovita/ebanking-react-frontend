@@ -57,9 +57,9 @@ export default function OpenSavingsComponent() {
                 <div className="text-center">
                     <h1 className="h4 mb-5 text-royal-blue fw-bold">New checking account currency</h1>
                     <div>
-                        <button className="btn btn-royal-blue px-5 mb-3" type="button" name="submit" onClick={onSubmitForm}>Open account</button>
+                        <button className="btn btn-royal-blue btn-form mb-3" type="button" name="submit" onClick={onSubmitForm}>Open account</button>
                         <br/>
-                        <button className="btn btn-secondary px-5" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
+                        <button className="btn btn-secondary btn-form" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
                     </div>
                 </div>}
 
@@ -68,9 +68,9 @@ export default function OpenSavingsComponent() {
                 <div className="text-center">
                     <div className="mb-5">Terms and conditions</div>
                     <div>
-                        <button className="btn btn-royal-blue px-5 mb-3" type="button" name="confirm" onClick={onConfirmForm}>Sign</button>
+                        <button className="btn btn-royal-blue btn-form mb-3" type="button" name="confirm" onClick={onConfirmForm}>Sign</button>
                         <br/>
-                        <button className="btn btn-secondary px-5" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
+                        <button className="btn btn-secondary btn-form" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
                     </div>
                 </div>
             }
@@ -79,7 +79,7 @@ export default function OpenSavingsComponent() {
                 <div className="text-center">
                     <div className="mb-5">Account {newAccount.accountName} with number {newAccount.accountNumber} was successfully opened.</div>
                     <br/>
-                    <button className="btn btn-royal-blue px-5" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
+                    <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>
             }
         </div>

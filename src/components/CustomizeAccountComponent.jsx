@@ -81,9 +81,9 @@ export default function CustomizeAccountComponent() {
                                 />
                             </FormControl>
                             <br/>
-                            <button className="btn btn-royal-blue px-5 mb-3" type="button" name="submit" onClick={onSubmitForm}>Save changes</button>
+                            <button className="btn btn-royal-blue btn-form mb-3" type="button" name="submit" onClick={onSubmitForm}>Save changes</button>
                             <br/>
-                            <button className="btn btn-secondary px-5" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
+                            <button className="btn btn-secondary btn-form" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
                         </div>
                     </Box>
                 </div>
@@ -92,7 +92,7 @@ export default function CustomizeAccountComponent() {
                 customizeState == 'success' &&
                 <div>
                     <p className='mb-5'>Name successfully changed from <span className='fw-bold'>{account.accountName}</span> to <span className='fw-bold'>{newName}</span>.</p>
-                    <button className="btn btn-royal-blue px-5 mb-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
+                    <button className="btn btn-royal-blue btn-form mb-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>
             }
         </div>
