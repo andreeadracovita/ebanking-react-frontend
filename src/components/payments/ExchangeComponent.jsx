@@ -254,7 +254,7 @@ export default function ExchangeComponent() {
                                         label="Amount"
                                     />
                                 </FormControl>
-                                <select className="btn btn-royal-blue ms-3" style={{height: 54+'px'}} name="currency" onChange={handleCurrencySelectChange} value={currencySelect}>
+                                <select className="btn btn-royal-blue ms-3" style={{height: 54+'px', width: 94+'px'}} name="currency" onChange={handleCurrencySelectChange} value={currencySelect}>
                                     { selectedFromAccount && <option value={selectedFromAccount.currency}>{selectedFromAccount.currency}</option> }
                                     { selectedToAccount && <option value={selectedToAccount.currency}>{selectedToAccount.currency}</option> }
                                 </select>
