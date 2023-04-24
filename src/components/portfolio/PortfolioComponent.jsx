@@ -52,12 +52,12 @@ export default function PortfolioComponent() {
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Portfolio</h1>
             <div className="d-flex flex-wrap justify-content-left">
                 <div style={{marginRight:30+'px'}}>
-                    <div className="portfolio-section"><AccountsComponent type='CHECKING' accounts={checkingAccounts}/></div>
-                    <div className="portfolio-section"><AccountsComponent type='SAVINGS' accounts={savingsAccounts}/></div>
+                    <div className="portfolio-section"><AccountsComponent type='CHECKING' accounts={checkingAccounts} /></div>
+                    <div className="portfolio-section"><AccountsComponent type='SAVINGS' accounts={savingsAccounts} /></div>
                 </div>
                 <div>
-                    <div className="portfolio-section"><AccountsComponent type='CREDIT' accounts={creditAccounts}/></div>
-                    <div className="portfolio-section"><CardsComponent cards={cards} setCards={setCards}/></div>
+                    <div className="portfolio-section"><AccountsComponent type='CREDIT' accounts={creditAccounts} /></div>
+                    <div className="portfolio-section"><CardsComponent cards={cards} setCards={setCards} /></div>
                 </div>
             </div>
         </div>

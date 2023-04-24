@@ -253,15 +253,15 @@ export default function PaymentOtherComponent() {
 
                 {
                     paymentState == 'confirm' &&
-                    <PaymentConfirmComponent paymentType='other' transaction={transaction} setPaymentState={setPaymentState}/>
+                    <PaymentConfirmComponent paymentType='other' transaction={transaction} setPaymentState={setPaymentState} />
                 }
                 {
                     paymentState == 'success' &&
-                    <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={transaction.beneficiaryName} setPaymentState={setPaymentState} resetPaymentForm={resetPaymentForm}/>
+                    <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={transaction.beneficiaryName} setPaymentState={setPaymentState} resetPaymentForm={resetPaymentForm} />
                 }
                 {
                     paymentState == 'fail' &&
-                    <PaymentFailureComponent setPaymentState={setPaymentState}/>
+                    <PaymentFailureComponent setPaymentState={setPaymentState} />
                 }
             </div>
         }

@@ -70,14 +70,14 @@ export default function CardsComponent({ cards, setCards }) {
                         <Accordion.Body>
                             <div className="d-flex justify-content-around">
                                 <div className="text-center portfolio-accordion-button mx-0" onClick={() => redirectCardDetails(card)}>
-                                    <DetailsIcon width="48" height="48"/>
+                                    <DetailsIcon width="48" height="48" />
                                     <br/>
                                     <span>Details</span>
                                 </div>
                                 {
                                     card.status === 'ACTIVE' &&
                                     <div className="text-center portfolio-accordion-button mx-0" onClick={() => onBlockCardClicked(card)}>
-                                        <LockIcon width="48" height="48"/>
+                                        <LockIcon width="48" height="48" />
                                         <br/>
                                         <span>Block</span>
                                     </div>
@@ -85,7 +85,7 @@ export default function CardsComponent({ cards, setCards }) {
                                 {
                                     card.status === 'INACTIVE' &&
                                     <div className="text-center portfolio-accordion-button mx-0" onClick={() => onUnblockCardClicked(card)}>
-                                        <LockOpenIcon width="48" height="48"/>
+                                        <LockOpenIcon width="48" height="48" />
                                         <br/>
                                         <span>Unblock</span>
                                     </div>

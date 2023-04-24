@@ -213,15 +213,15 @@ export default function ReimburseComponent() {
 
             {
                 paymentState == 'confirm' &&
-                <PaymentConfirmComponent paymentType='self' transaction={transaction} setPaymentState={setPaymentState}/>
+                <PaymentConfirmComponent paymentType='self' transaction={transaction} setPaymentState={setPaymentState} />
             }
             {
                 paymentState == 'success' &&
-                <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={location.state.account.accountName} setPaymentState={setPaymentState}/>
+                <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={location.state.account.accountName} setPaymentState={setPaymentState} />
             }
             {
                 paymentState == 'fail' &&
-                <PaymentFailureComponent setPaymentState={setPaymentState}/>
+                <PaymentFailureComponent setPaymentState={setPaymentState} />
             }
         </div>
     );

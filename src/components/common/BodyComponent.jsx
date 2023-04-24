@@ -13,10 +13,10 @@ export default function BodyComponent() {
         <div className="container-fluid">
             <div className="row flex-nowrap">
                 <Routes>
-                    <Route path='/' element={<LoginComponent/>}/>
+                    <Route path='/' element={<LoginComponent />} />
                 </Routes>
-                {isAuthenticated && <SidebarComponent/>}
-                <MainComponent/>
+                {isAuthenticated && <SidebarComponent />}
+                <MainComponent />
             </div>
         </div>
     );

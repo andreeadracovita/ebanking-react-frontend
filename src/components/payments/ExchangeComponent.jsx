@@ -329,15 +329,15 @@ export default function ExchangeComponent() {
 
             {
                 paymentState == 'confirm' &&
-                <PaymentConfirmComponent paymentType='exchange' transaction={transaction} setPaymentState={setPaymentState} targetCurrency={selectedToAccount.currency}/>
+                <PaymentConfirmComponent paymentType='exchange' transaction={transaction} setPaymentState={setPaymentState} targetCurrency={selectedToAccount.currency} />
             }
             {
                 paymentState == 'success' &&
-                <PaymentSuccessComponent amount={{value:convertedAmount, currency:selectedToAccount.currency}} destination={selectedToAccount.accountName} setPaymentState={setPaymentState}/>
+                <PaymentSuccessComponent amount={{value:convertedAmount, currency:selectedToAccount.currency}} destination={selectedToAccount.accountName} setPaymentState={setPaymentState} />
             }
             {
                 paymentState == 'fail' &&
-                <PaymentFailureComponent setPaymentState={setPaymentState}/>
+                <PaymentFailureComponent setPaymentState={setPaymentState} />
             }
         </div>
     );

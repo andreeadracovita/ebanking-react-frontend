@@ -80,7 +80,7 @@ export default function AccountsComponent({ type, accounts}) {
                                     {
                                         type === 'CHECKING' && account.currency === 'CHF' &&
                                         <div className="text-center portfolio-accordion-button" onClick={() => redirectPaymentOther(account)}>
-                                            <WalletIcon width="48" height="48"/>
+                                            <WalletIcon width="48" height="48" />
                                             <br/>
                                             <span>Payment</span>
                                         </div>
@@ -88,7 +88,7 @@ export default function AccountsComponent({ type, accounts}) {
                                     {
                                         type === 'CHECKING' && account.currency !== 'CHF' &&
                                         <div className="text-center portfolio-accordion-button" onClick={() => redirectExchange(account)}>
-                                            <CurrencyIcon width="48" height="48"/>
+                                            <CurrencyIcon width="48" height="48" />
                                             <br/>
                                             <span>Exchange</span>
                                         </div>
@@ -96,7 +96,7 @@ export default function AccountsComponent({ type, accounts}) {
                                     {
                                         type === 'SAVINGS' &&
                                         <div className="text-center portfolio-accordion-button" onClick={() => redirectSave(account)}>
-                                            <PiggyBankIcon width="48" height="48"/>
+                                            <PiggyBankIcon width="48" height="48" />
                                             <br/>
                                             <span>Save</span>
                                         </div>
@@ -104,20 +104,20 @@ export default function AccountsComponent({ type, accounts}) {
                                     {
                                         type === 'CREDIT' &&
                                         <div className="text-center portfolio-accordion-button" onClick={() => redirectReimburseCredit(account)}>
-                                            <WalletIcon width="48" height="48"/>
+                                            <WalletIcon width="48" height="48" />
                                             <br/>
                                             <span>Reimburse</span>
                                         </div>
                                     }
                                     <div className="text-center portfolio-accordion-button" onClick={() => redirectReport(account)}>
-                                        <ReportIcon width="48" height="48"/>
+                                        <ReportIcon width="48" height="48" />
                                         <br/>
                                         <span>Report</span>
                                     </div>
                                     {
                                         type !== 'SAVINGS' &&
                                         <div className="text-center portfolio-accordion-button" onClick={() => redirectAccountDetails(account)}>
-                                            <DetailsIcon width="48" height="48"/>
+                                            <DetailsIcon width="48" height="48" />
                                             <br/>
                                             <span>Details</span>
                                         </div>
@@ -125,7 +125,7 @@ export default function AccountsComponent({ type, accounts}) {
                                     {
                                         type !== 'CREDIT' &&
                                         <div className="text-center portfolio-accordion-button" onClick={() => redirectCustomize(account)}>
-                                            <CustomizeIcon width="48" height="48"/>
+                                            <CustomizeIcon width="48" height="48" />
                                             <br/>
                                             <span>Customize</span>
                                         </div>
@@ -133,7 +133,7 @@ export default function AccountsComponent({ type, accounts}) {
                                     {
                                         type !== 'CREDIT' &&
                                         <div className="text-center portfolio-accordion-button" onClick={() => redirectDeleteAccount(account)}>
-                                            <DeleteIcon width="48" height="48"/>
+                                            <DeleteIcon width="48" height="48" />
                                             <br/>
                                             <span>Close</span>
                                         </div>

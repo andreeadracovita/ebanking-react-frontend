@@ -10,9 +10,9 @@ export default function EBankingApp() {
         <div className="EBankingApp">
             <AuthProvider>
                 <BrowserRouter>
-                    <HeaderComponent/>
-                    <BodyComponent/>
-                    <FooterComponent/>
+                    <HeaderComponent />
+                    <BodyComponent />
+                    <FooterComponent />
                 </BrowserRouter>
             </AuthProvider>
         </div>

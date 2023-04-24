@@ -271,15 +271,15 @@ export default function PaymentSelfComponent() {
 
             {
                 paymentState == 'confirm' &&
-                <PaymentConfirmComponent paymentType='self' transaction={transaction} setPaymentState={setPaymentState}/>
+                <PaymentConfirmComponent paymentType='self' transaction={transaction} setPaymentState={setPaymentState} />
             }
             {
                 paymentState == 'success' &&
-                <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={selectedToAccount.accountName} setPaymentState={setPaymentState} resetPaymentForm={resetPaymentForm} refreshAccounts={refreshAccounts}/>
+                <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={selectedToAccount.accountName} setPaymentState={setPaymentState} resetPaymentForm={resetPaymentForm} refreshAccounts={refreshAccounts} />
             }
             {
                 paymentState == 'fail' &&
-                <PaymentFailureComponent setPaymentState={setPaymentState}/>
+                <PaymentFailureComponent setPaymentState={setPaymentState} />
             }
         </div>
     );

@@ -32,70 +32,70 @@ export default function MainComponent() {
             <Routes>
                 <Route path='/portfolio' element={
                     <AuthenticatedRoute>
-                        <PortfolioComponent/>
+                        <PortfolioComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/open-account' element={
                     <AuthenticatedRoute>
-                        <OpenAccountComponent/>
+                        <OpenAccountComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/open-savings' element={
                     <AuthenticatedRoute>
-                        <OpenSavingsComponent/>
+                        <OpenSavingsComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/delete/account' element={
                     <AuthenticatedRoute>
-                        <DeleteAccountComponent/>
+                        <DeleteAccountComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/payment/self' element={
                     <AuthenticatedRoute>
-                        <PaymentSelfComponent/>
+                        <PaymentSelfComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/payment/other' element={
                     <AuthenticatedRoute>
-                        <PaymentOtherComponent/>
+                        <PaymentOtherComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/exchange' element={
                     <AuthenticatedRoute>
-                        <ExchangeComponent/>
+                        <ExchangeComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/creditcard/reimburse' element={
                     <AuthenticatedRoute>
-                        <ReimburseComponent/>
+                        <ReimburseComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/account/customize' element={
                     <AuthenticatedRoute>
-                        <CustomizeAccountComponent/>
+                        <CustomizeAccountComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/account/details' element={
                     <AuthenticatedRoute>
-                        <BankAccountDetailsComponent/>
+                        <BankAccountDetailsComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/card/details' element={
                     <AuthenticatedRoute>
-                        <CardDetailsComponent/>
+                        <CardDetailsComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/reports' element={
                     <AuthenticatedRoute>
-                        <ReportsComponent/>
+                        <ReportsComponent />
                     </AuthenticatedRoute>
-                }/>
+                } />
                 <Route path='/settings/password' element={
                     <AuthenticatedRoute>
-                        <PasswordComponent/>
+                        <PasswordComponent />
                     </AuthenticatedRoute>
-                }/>
-                <Route path='*' element={<ErrorComponent/>}/>
+                } />
+                <Route path='*' element={<ErrorComponent />} />
             </Routes>
         </div>
     );

@@ -4,7 +4,7 @@ import EBankingApp from './components/EBankingApp';
 function App() {
   return (
     <div className="App">
-      <EBankingApp/>
+      <EBankingApp />
     </div>
   );
 }
