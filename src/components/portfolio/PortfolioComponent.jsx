@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Accordion } from 'react-bootstrap';
-import { useNavigate } from 'react-router';
 
 import { useAuth } from '../security/AuthContext';
 import {

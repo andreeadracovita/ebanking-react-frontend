@@ -179,7 +179,7 @@ export default function PaymentOtherComponent() {
                                         accounts.filter(account => selectedFromAccount && account.accountNumber !== selectedFromAccount.accountNumber)
                                             .map(
                                                 account => (
-                                                    <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectFromAccountChange(account)}>
+                                                    <Dropdown.Item className="select-dropdown" key={account.accountNumber} onClick={() => handleSelectFromAccountChange(account)}>
                                                         <div>
                                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                                 <span>{account.accountName}</span>

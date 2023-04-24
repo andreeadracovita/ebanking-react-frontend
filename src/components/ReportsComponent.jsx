@@ -83,7 +83,7 @@ export default function ReportsComponent() {
                             {
                                 accounts.map(
                                         account => (
-                                            <Dropdown.Item className="select-field-account" key={account.accountNumber} onClick={() => handleSelectedAccountChange(account)}>
+                                            <Dropdown.Item className="select-dropdown" key={account.accountNumber} onClick={() => handleSelectedAccountChange(account)}>
                                                 <div>
                                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                         <span>{account.accountName}</span>

@@ -64,13 +64,13 @@ export default function OpenAccountComponent() {
                                 {Object.keys(Currency).at(currency)}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item className="select-field-account" onClick={() => setCurrency(Currency.CHF)}>
+                                <Dropdown.Item className="select-dropdown" onClick={() => setCurrency(Currency.CHF)}>
                                     CHF
                                 </Dropdown.Item>
-                                <Dropdown.Item className="select-field-account" onClick={() => setCurrency(Currency.EUR)}>
+                                <Dropdown.Item className="select-dropdown" onClick={() => setCurrency(Currency.EUR)}>
                                     EUR
                                 </Dropdown.Item>
-                                <Dropdown.Item className="select-field-account" onClick={() => setCurrency(Currency.USD)}>
+                                <Dropdown.Item className="select-dropdown" onClick={() => setCurrency(Currency.USD)}>
                                     USD
                                 </Dropdown.Item>
                             </Dropdown.Menu>

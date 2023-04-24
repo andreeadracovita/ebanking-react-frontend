@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 
-export default function PaymentSuccessComponent({ amount, destination, setPaymentState, resetPaymentForm}) {
+export default function PaymentSuccessComponent({ amount, destination, resetPaymentForm, refreshAccounts }) {
     const navigate = useNavigate();
 
     function onPortfolioRedirect() {
@@ -9,7 +9,7 @@ export default function PaymentSuccessComponent({ amount, destination, setPaymen
 
     function onNewPaymentClicked() {
         resetPaymentForm();
-        setPaymentState('start');
+        refreshAccounts();
     }
 
     return (
