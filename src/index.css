@@ -23,12 +23,19 @@ footer {
 
 .sidebar {
   width: 288px;
+  height: 100vh;
+  font-size: large;
+  background-color: #0504aa;
+  padding-left: 3rem!important;
+  padding-top: 2rem!important;
+  color: #fff;
 }
 
 .main-content {
   flex: 0 0 auto;
   width: 66.6%;
-  padding: 3rem!important;
+  padding-top: 116px;
+  padding-left: 3rem!important;
 }
 
 .bg-royal-blue {
@@ -95,7 +102,11 @@ footer {
   color: #fff;
 }
 
-.nav-link:hover, .nav-link:focus, .nav-link:active {
+.nav-link:focus, .nav-link:active {
+  color: #fff;
+}
+
+.nav-link:hover {
   color: #00ddf1;
   font-weight: bold;
 }
