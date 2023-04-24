@@ -25,7 +25,6 @@ footer {
   width: 288px;
   height: 100vh;
   font-size: large;
-  background-color: #0504aa;
   padding-left: 3rem!important;
   padding-top: 2rem!important;
   color: #fff;
@@ -47,7 +46,7 @@ footer {
 }
 
 .bg-light-royal-blue {
-  background-color: #ececfa;
+  background-color: #f3f3ff;
 }
 
 .select-field-account {

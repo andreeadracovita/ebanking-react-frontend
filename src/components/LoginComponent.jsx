@@ -51,7 +51,7 @@ export default function LoginComponent() {
     }
 
     return (
-        <div className="m-5">
+        <div className="mt-5">
             <h1 className="d-none d-xl-block h2 mb-5 fw-bold text-center text-royal-blue">Login eBanking</h1>
             <div className="d-flex justify-content-center">
                 <span className="text-nowrap">
@@ -101,17 +101,17 @@ export default function LoginComponent() {
                     </Box>
                 </span>
 
-                <span className="sidebar d-block"></span>
+                <span className="sidebar d-block h-auto"></span>
 
-                <span className="d-none d-xl-block bg-light-royal-blue text-royal-blue" style={{width: 442 + 'px'}}>
+                <span className="d-none d-xl-block bg-light-royal-blue text-royal-blue" style={{width: 370 + 'px', height: 340 + 'px'}}>
                     <div className="m-4">
                         <p className="fw-bold">Account for testing purposes</p>
                         <p>Username: user</p>
                         <p>Password: 12345</p>
                         <br/>
                         <p className="fw-bold">Not using eBanking yet?</p>
-                        <p>- Access transactions and reports anytime, anywhere</p>
-                        <p>- Make Payments at home</p>
+                        <p>- View transaction reports anytime, anywhere</p>
+                        <p>- Make payments at home</p>
                         <p>- Open accounts at home</p>
                     </div>
                 </span>
