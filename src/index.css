@@ -50,25 +50,22 @@ footer {
 }
 
 .select-field-account {
-  background-color: #fff;
-  color: #000;
+  background-color: #fff!important;
+  color: #000!important;
   border-color: #adb5bd;
-  border-style: solid;
   padding: 5px;
   width: 450px;
   height: 100px;
   font-size: large;
 }
 
-.select-field-account:hover, .select-field-account:focus, .select-field-account:active {
+.select-field-account:hover {
   border-color: #000;
-  background-color: #fff;
-  color: #000;
+  background-color: #fff!important;
 }
 
 .select-dropdown {
   color: #000;
-  padding: 5px;
   width: 450px;
   height: 100px;
   font-size: large;
@@ -79,6 +76,20 @@ footer {
   color: #0204ff;
   width: 450px;
   height: 100px;
+  font-size: large;
+}
+
+.select-dropdown-interval {
+  background-color: #fff;
+  width: 396px;
+  font-size: large;
+  color: #000;
+}
+
+.select-dropdown-interval:hover, .select-dropdown-interval:focus, .select-dropdown-interval:active {
+  background-color: #fff;
+  width: 396px;
+  color: #0204ff;
   font-size: large;
 }
 
@@ -176,4 +187,48 @@ footer {
   background-color: #f3f3ff;
   margin-bottom: 30px;
   padding: 20px;
+}
+
+.select-field-interval {
+  width: 160px;
+  font-size: large;
+  background-color: #fff!important;
+  color: #000!important;
+  border-color: #adb5bd;
+  text-align: left;
+}
+
+.select-field-interval:hover, .select-field-interval:focus, .select-field-interval:active {
+  border-color: #000;
+  background-color: #fff!important;
+  color: #000!important;
+}
+
+.date-badge {
+  background-color: #0504aa;
+  color: #fff;
+  font-weight: bold;
+  width: 68px;
+}
+
+.date-badge:hover, .date-badge:focus, .date-badge:active {
+  background-color: #0504aa!important;
+  color: #fff!important;
+  border-style: solid!important;
+  cursor: default;
+}
+
+.datepicker {
+  font-size: large;
+  width: 160px;
+  height: 42px;
+  cursor: pointer;
+  border-style: solid;
+  border-radius: 6px;
+  border-color: #adb5bd;
+  padding-left: 12px;
+}
+
+.datepicker:hover{
+  border-color: #000;
 }
