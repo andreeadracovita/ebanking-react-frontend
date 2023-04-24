@@ -78,7 +78,6 @@ export default function ReportsComponent() {
 
     function handleSelectedAccountChange(account) {
         setSelectedAccount(account);
-        refreshTransactions();
     }
 
     function handleIntervalChange(value) {
@@ -187,14 +186,21 @@ export default function ReportsComponent() {
                             <span>
                                 <DatePicker
                                     className="datepicker mb-3"
-                                    selected={startDate}
-                                    filterDate={(date) => date <= endDate}
-                                    onChange={(date) => handleStartDateChange(date)}
+                                    selected={endDate}
+                                    filterDate={(date) => date >= startDate}
+                                    onChange={(date) => handleEndDateChange(date)}
                                     dateFormat="dd/MM/yyyy" />
                             </span>
                         }
                     </span>
                     <div style={{width:1000+'px'}}>
+                    {
+                        transactions.length === 0 &&
+                        <span style={{fontSize:'large'}}>
+                            <hr/>
+                            No transactions for this account.
+                        </span>
+                    }
                     {
                         transactions.filter(
                                 transaction => {
@@ -205,6 +211,7 @@ export default function ReportsComponent() {
                             .map(
                                 transaction => (
                                     <span key={transaction.id}>
+                                        <hr/>
                                         <div className="d-flex flex-nowrap d-inline">
                                             <div className="text-center btn btn-royal-blue date-badge me-3">
                                                 <span style={{fontSize:'larger'}}>{String(new Date(transaction.issueDate).getDate()).padStart(2, '0')}</span>
@@ -237,7 +244,6 @@ export default function ReportsComponent() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr/>
                                     </span>
                                 )
                             )
