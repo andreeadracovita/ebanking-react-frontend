@@ -145,7 +145,7 @@ export default function PaymentSelfComponent() {
     }
 
     return (
-        <div>
+        <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Send money to myself</h1>
             {
                 paymentState == 'start' &&

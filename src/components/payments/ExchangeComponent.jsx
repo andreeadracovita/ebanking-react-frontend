@@ -189,7 +189,7 @@ export default function ExchangeComponent() {
     }
 
     return (
-        <div>
+        <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Exchange money</h1>
             {
                 paymentState == 'start' &&

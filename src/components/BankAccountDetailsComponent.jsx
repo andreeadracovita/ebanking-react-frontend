@@ -46,7 +46,7 @@ export default function BankAccountDetailsComponent() {
     }
 
     return (
-        <div>
+        <div className="main-content">
             {
                 loadContent &&
                 <div>

@@ -51,7 +51,7 @@ export default function OpenSavingsComponent() {
     }
 
     return (
-        <div>
+        <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Open new savings account</h1>
             { openAccountState == 'start' &&
                 <div className="text-center">

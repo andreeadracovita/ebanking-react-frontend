@@ -122,7 +122,7 @@ export default function ReimburseComponent() {
     }
 
     return (
-        <div>
+        <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Reimburse credit card</h1>
             {
                 paymentState == 'start' &&

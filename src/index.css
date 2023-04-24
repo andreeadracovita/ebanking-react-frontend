@@ -25,6 +25,12 @@ footer {
   width: 288px;
 }
 
+.main-content {
+  flex: 0 0 auto;
+  width: 66.6%;
+  padding: 3rem!important;
+}
+
 .bg-royal-blue {
   background-color: #0504aa;
 }

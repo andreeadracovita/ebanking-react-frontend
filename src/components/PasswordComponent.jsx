@@ -74,7 +74,7 @@ export default function PasswordComponent() {
     }
 
     return (
-        <div>
+        <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Change eBanking passcode</h1>
 
             {

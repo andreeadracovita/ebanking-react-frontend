@@ -142,7 +142,7 @@ export default function PaymentOtherComponent() {
     }
 
     return (
-        <div>
+        <div className="main-content">
         { loadContent && 
             <div>
                 <h1 className="h2 mb-5 text-royal-blue fw-bold">Send money to someone else</h1>

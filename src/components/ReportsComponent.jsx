@@ -60,7 +60,7 @@ export default function ReportsComponent() {
     }
 
     return (
-        <div className="col-8">
+        <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Reports</h1>
             { 
                 loadContent &&

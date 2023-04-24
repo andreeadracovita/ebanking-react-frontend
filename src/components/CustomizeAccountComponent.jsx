@@ -58,7 +58,7 @@ export default function CustomizeAccountComponent() {
     }
 
     return (
-        <div>
+        <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Customize your account</h1>
             {
                 customizeState == 'start' &&

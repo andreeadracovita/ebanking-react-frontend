@@ -89,7 +89,7 @@ export default function CardDetailsComponent() {
     }
 
     return (
-        <div>
+        <div className="main-content">
             {
                 loadContent &&
                 <div>

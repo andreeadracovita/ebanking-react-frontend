@@ -48,7 +48,7 @@ export default function PortfolioComponent() {
     }
 
     return (
-        <div>
+        <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Portfolio</h1>
             <div className="d-flex flex-wrap justify-content-left">
                 <div style={{marginRight:30+'px'}}>
