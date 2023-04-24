@@ -114,7 +114,6 @@ export default function ReportsComponent() {
             { 
                 loadContent &&
                 <span>
-                    <span>{startDate.toLocaleDateString}</span>
                     <Dropdown className="mb-4">
                         <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                             {
@@ -161,7 +160,7 @@ export default function ReportsComponent() {
                             {
                                 ['Last day', 'Last 7 days', 'Last 2 weeks', 'Last month', 'Custom'].map(
                                     (value) => (
-                                        <Dropdown.Item className="select-dropdown-interval" eventKey={value} onClick={() => handleIntervalChange(value)}>
+                                        <Dropdown.Item className="select-dropdown-interval" key={value} onClick={() => handleIntervalChange(value)}>
                                             {value}
                                         </Dropdown.Item>
                                     )
