@@ -41,7 +41,7 @@ export function processSum(event, setAmount) {
 }
 
 function validSum(value) {
-    if (!/^(0|([1-9][0-9]{0,2})+)(\.(\d{1,2})?)?$/.test(value)) {
+    if (!/^(0|([1-9][0-9]{0,6}))(\.(\d{1,2})?)?$/.test(value)) {
         return false;
     }
     return true;
