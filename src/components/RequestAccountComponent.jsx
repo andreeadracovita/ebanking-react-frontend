@@ -10,7 +10,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import FormControl from '@mui/material/FormControl';
 
 import { checkPasscodeInput } from './common/helpers/HelperFunctions';
-import { OASI_LENGTH, PASSCODE_LENGTH } from './common/constants/Constants';
+import { ComponentState, OASI_LENGTH, PASSCODE_LENGTH } from './common/constants/Constants';
 import { createUserAccountApi } from './api/EBankingApiService';
 
 export default function RequestAccountComponent() {
@@ -30,7 +30,7 @@ export default function RequestAccountComponent() {
         passcode: false
     }
 
-    const [requestState, setRequestState] = useState('form');
+    const [componentState, setComponentState] = useState(ComponentState.form);
     const [form, setForm] = useState(emptyForm);
     const [showPassword, setShowPassword] = useState(false);
     const [showError, setShowError] = useState(errorFields);
@@ -71,19 +71,17 @@ export default function RequestAccountComponent() {
         if (!validForm()) {
             return;
         }
-        setRequestState('confirm');
+        setComponentState(ComponentState.confirm);
     }
 
     function backToForm() {
-        setRequestState('form');
+        setComponentState(ComponentState.form);
     }
 
     function handleSubmit() {
-        console.log(form);
         createUserAccountApi(form)
             .then(response => {
-                setRequestState('success');
-                console.log(response);
+                setComponentState(ComponentState.success);
             })
             .catch(error => {
                 console.log(error);
@@ -133,7 +131,7 @@ export default function RequestAccountComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Request new eBanking account</h1>
             {
-                requestState !== 'success' &&
+                componentState !== ComponentState.success &&
                 <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                     <div>
                         {
@@ -150,7 +148,7 @@ export default function RequestAccountComponent() {
                                 value={form.firstName}
                                 onChange={handleFirstNameChange}
                                 label="First name"
-                                disabled={requestState === 'confirm'}
+                                disabled={componentState === ComponentState.confirm}
                             />
                         </FormControl>
                         <br/>
@@ -168,7 +166,7 @@ export default function RequestAccountComponent() {
                                 value={form.lastName}
                                 onChange={handleLastNameChange}
                                 label="Last name"
-                                disabled={requestState === 'confirm'}
+                                disabled={componentState === ComponentState.confirm}
                             />
                         </FormControl>
                         <br/>
@@ -187,7 +185,7 @@ export default function RequestAccountComponent() {
                                 onChange={handleOASIChange}
                                 onKeyDown={checkPasscodeInput}
                                 label="OASI"
-                                disabled={requestState === 'confirm'}
+                                disabled={componentState === ComponentState.confirm}
                             />
                         </FormControl>
                         <br/>
@@ -205,7 +203,7 @@ export default function RequestAccountComponent() {
                                 value={form.username}
                                 onChange={handleUsernameChange}
                                 label="Username"
-                                disabled={requestState === 'confirm'}
+                                disabled={componentState === ComponentState.confirm}
                             />
                         </FormControl>
                         <br/>
@@ -223,7 +221,7 @@ export default function RequestAccountComponent() {
                                 value={form.passcode}
                                 onChange={handlePasscodeChange}
                                 onKeyDown={checkPasscodeInput}
-                                disabled={requestState === 'confirm'}
+                                disabled={componentState === ComponentState.confirm}
                                 endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
@@ -241,11 +239,11 @@ export default function RequestAccountComponent() {
                         </FormControl>
                         <br/>
                         {
-                            requestState === 'form' &&
+                            componentState === ComponentState.form &&
                             <button className="btn btn-royal-blue btn-form" type="button" onClick={goToConfirm}>Next</button>
                         }
                         {
-                            requestState === 'confirm' &&
+                            componentState === ComponentState.confirm &&
                             <span>
                                 <button className="btn btn-royal-blue btn-form mb-3" type="button" onClick={handleSubmit}>Confirm</button>
                                 <br/>
@@ -258,7 +256,7 @@ export default function RequestAccountComponent() {
                 </Box>
             }
             {
-                requestState === 'success' &&
+                componentState === ComponentState.success &&
                 <div className="fw-bold">
                     <p className='mb-5'>User account successfully created.</p>
                     <button className="btn btn-royal-blue btn-form mb-3" type="button" onClick={onLoginRedirect}>To login</button>

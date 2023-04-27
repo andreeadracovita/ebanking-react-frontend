@@ -21,8 +21,7 @@ export default function OpenSavingsComponent() {
 
     function onConfirm() {
         createSavingsAccountApi(username)
-            .then(response => {
-                console.log(response);
+            .then(() => {
                 setNewAccount(response.data);
             })
             .catch(error => {

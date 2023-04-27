@@ -8,8 +8,7 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setC
 
     function onConfirmForm() {
         createTransactionApi(username, transaction)
-            .then(response => {
-                console.log(response);
+            .then(() => {
                 setComponentState(ComponentState.success);
             })
             .catch(error => {

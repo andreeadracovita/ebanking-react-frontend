@@ -7,5 +7,6 @@ export const ComponentState = {
     start: 'start',
     confirm: 'confirm',
     success: 'success',
-    failure: 'failure'
+    failure: 'failure',
+    form: 'form'
 };

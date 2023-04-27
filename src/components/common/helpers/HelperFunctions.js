@@ -21,7 +21,6 @@ export function checkAmountInput(event) {
         /[0-9]|\./.test(event.key)) {
         return;
     }
-    console.log("Invalid input");
     event.preventDefault();
 }
 
@@ -33,7 +32,6 @@ export function processSum(event, setAmount) {
 
     if (!validSum(event.target.value)) {
         event.preventDefault();
-        console.log("Invalid amount");
         return;
     }
 

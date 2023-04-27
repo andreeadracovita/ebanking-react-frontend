@@ -51,8 +51,7 @@ export default function PasswordComponent() {
             passcode: newPasscode
         };
         updateUserPasscodeApi(username, payload)
-            .then(response => {
-                console.log(response);
+            .then(() => {
                 handlePasscodeChanged();
             })
             .catch(error => {

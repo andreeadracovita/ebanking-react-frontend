@@ -27,8 +27,7 @@ export default function OpenAccountComponent() {
 
     function onConfirmForm() {
         createCheckingAccountApi(username, currency)
-            .then(response => {
-                console.log(response);
+            .then(() => {
                 setNewAccount(response.data);
             })
             .catch(error => {

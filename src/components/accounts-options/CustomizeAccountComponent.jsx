@@ -34,13 +34,11 @@ export default function CustomizeAccountComponent() {
     }
 
     function onSubmitForm() {
-        console.log(newName);
         const requestBody = {
             name: newName
         };
         updateBankAccountNameApi(username, account.accountNumber, requestBody)
-            .then(response => {
-                console.log(response);
+            .then(() => {
                 setComponentState(ComponentState.success);
             })
             .catch(error => {

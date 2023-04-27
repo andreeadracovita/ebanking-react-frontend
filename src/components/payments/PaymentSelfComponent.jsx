@@ -55,8 +55,6 @@ export default function PaymentSelfComponent() {
 
     function setValuesAfterAccountsLoad() {
         if (selectedFromAccount !== undefined && selectedToAccount !== undefined) {
-            console.log(selectedFromAccount);
-            console.log(selectedToAccount);
             setSelectedFromAccount(findAccountWithNumber(selectedFromAccount.accountNumber));
             setSelectedToAccount(findAccountWithNumber(selectedToAccount.accountNumber));
         }
