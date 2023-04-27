@@ -41,7 +41,7 @@ export default function PasswordComponent() {
     };
 
     function onSubmitForm() {
-        if (newPasscode == null || newPasscode.length != 5) {
+        if (newPasscode == null || newPasscode.length !== 5) {
             setShowError(true);
             return;
         }

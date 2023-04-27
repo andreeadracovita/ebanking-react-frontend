@@ -19,13 +19,12 @@ export default function CustomizeAccountComponent() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    useEffect (() => loadAccount(), []);
-
-    function loadAccount() {
+    useEffect (() => {
         if (location.state && location.state.account) {
             setAccount(location.state.account);
         }
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     function handleNewNameChange(event) {
         if (event.target.value.length < MAX_DESCRIPTION_LENGTH) {

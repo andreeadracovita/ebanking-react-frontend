@@ -13,7 +13,11 @@ export default function OpenSavingsComponent() {
     const username = authContext.username;
     const navigate = useNavigate();
 
-    useEffect(() => setSuccessState(), [newAccount]);
+    useEffect(() => {
+        if (newAccount) {
+            setComponentState(ComponentState.success);
+        }
+    }, [newAccount]);
 
     function onPortfolioRedirect() {
         navigate('/portfolio');
@@ -21,18 +25,12 @@ export default function OpenSavingsComponent() {
 
     function onConfirm() {
         createSavingsAccountApi(username)
-            .then(() => {
+            .then(response => {
                 setNewAccount(response.data);
             })
             .catch(error => {
                 console.log(error);
             });
-    }
-
-    function setSuccessState() {
-        if (newAccount) {
-            setComponentState(ComponentState.success);
-        }
     }
 
     return (

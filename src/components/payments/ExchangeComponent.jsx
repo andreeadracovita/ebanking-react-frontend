@@ -55,21 +55,16 @@ export default function ExchangeComponent() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    useEffect (() => refreshAccounts(), []);
-    useEffect (() => setFromAccountAfterAccountsLoad(), [accounts]);
-    useEffect (() => setToAccountAfterFromAccountLoad(), [selectedFromAccount]);
-    useEffect (() => computeTarget(), [selectedFromAccount, selectedToAccount]);
-    useEffect (() => recomputeTransactionAmounts(), [selectedFromAccount, selectedToAccount, amount, currencySelect, targetCurrency]);
-
-    function refreshAccounts() {
+    useEffect (() => {
         retrieveCheckingAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data);
             })
             .catch(error => console.log(error));
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    function setFromAccountAfterAccountsLoad() {
+    useEffect (() => {
         if (selectedFromAccount == null) {
             if (location && location.state && location.state.fromAccount) {
                 setSelectedFromAccount(location.state.fromAccount);
@@ -79,7 +74,54 @@ export default function ExchangeComponent() {
                 setCurrencySelect(accounts[0].currency);
             }
         }
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [accounts]);
+
+    useEffect (() => {
+        if (selectedFromAccount && currencySelect && accounts.length > 0) {
+            let targetCurrencyAccounts = [];
+            if (selectedFromAccount.currency === 'CHF') {
+                targetCurrencyAccounts = accounts.filter(account => account.currency !== 'CHF');
+            } else {
+                targetCurrencyAccounts = accounts.filter(account => account.currency === 'CHF');
+            }
+            if (selectedToAccount == null && targetCurrencyAccounts.length > 0) {
+                setSelectedToAccount(targetCurrencyAccounts[0]);
+            }
+            setTargetAccounts(targetCurrencyAccounts);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedFromAccount]);
+
+    useEffect (() => {
+        if (selectedFromAccount && selectedFromAccount.currency !== 'CHF') {
+            setTargetCurrency(selectedFromAccount.currency);
+        } else if (selectedToAccount) {
+            setTargetCurrency(selectedToAccount.currency);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedFromAccount, selectedToAccount]);
+
+    useEffect (() => {
+        if  (selectedFromAccount && selectedToAccount) {
+            if (currencySelect === selectedFromAccount.currency) {
+                setDebitAmount(amount);
+                if (selectedFromAccount.currency === referenceCurrency) {
+                    setConvertedAmount((amount / exchangeRate[selectedToAccount.currency]).toFixed(2));
+                } else {
+                    setConvertedAmount((amount * exchangeRate[targetCurrency]).toFixed(2));
+                }
+            } else {
+                if (selectedFromAccount.currency === referenceCurrency) {
+                    setDebitAmount((amount * exchangeRate[targetCurrency]).toFixed(2));
+                } else {
+                    setDebitAmount((amount / exchangeRate[targetCurrency]).toFixed(2));
+                }
+                setConvertedAmount(amount);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedFromAccount, selectedToAccount, amount, currencySelect, targetCurrency]);
 
     function setToAccountAfterFromAccountLoad() {
         if (selectedFromAccount && currencySelect && accounts.length > 0) {
@@ -93,14 +135,6 @@ export default function ExchangeComponent() {
                 setSelectedToAccount(targetCurrencyAccounts[0]);
             }
             setTargetAccounts(targetCurrencyAccounts);
-        }
-    }
-
-    function computeTarget() {
-        if (selectedFromAccount && selectedFromAccount.currency !== 'CHF') {
-            setTargetCurrency(selectedFromAccount.currency);
-        } else if (selectedToAccount) {
-            setTargetCurrency(selectedToAccount.currency);
         }
     }
 
@@ -120,26 +154,6 @@ export default function ExchangeComponent() {
 
     function handleAmountChange(event) {
         processSum(event, setAmount);
-    }
-
-    function recomputeTransactionAmounts() {
-        if  (selectedFromAccount && selectedToAccount) {
-            if (currencySelect === selectedFromAccount.currency) {
-                setDebitAmount(amount);
-                if (selectedFromAccount.currency === referenceCurrency) {
-                    setConvertedAmount((amount / exchangeRate[selectedToAccount.currency]).toFixed(2));
-                } else {
-                    setConvertedAmount((amount * exchangeRate[targetCurrency]).toFixed(2));
-                }
-            } else {
-                if (selectedFromAccount.currency === referenceCurrency) {
-                    setDebitAmount((amount * exchangeRate[targetCurrency]).toFixed(2));
-                } else {
-                    setDebitAmount((amount / exchangeRate[targetCurrency]).toFixed(2));
-                }
-                setConvertedAmount(amount);
-            }
-        }
     }
 
     function handleCurrencySelectChange(event) {

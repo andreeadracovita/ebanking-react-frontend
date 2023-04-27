@@ -15,7 +15,11 @@ export default function OpenAccountComponent() {
     const username = authContext.username;
     const navigate = useNavigate();
 
-    useEffect(() => setSuccessState(), [newAccount]);
+    useEffect(() => {
+        if (newAccount) {
+            setComponentState(ComponentState.success);
+        }
+    }, [newAccount]);
 
     function onSubmitForm() {
         setComponentState(ComponentState.confirm);
@@ -27,18 +31,12 @@ export default function OpenAccountComponent() {
 
     function onConfirmForm() {
         createCheckingAccountApi(username, currency)
-            .then(() => {
+            .then(response => {
                 setNewAccount(response.data);
             })
             .catch(error => {
                 console.log(error);
             });
-    }
-
-    function setSuccessState() {
-        if (newAccount) {
-            setComponentState(ComponentState.success);
-        }
     }
 
     return (

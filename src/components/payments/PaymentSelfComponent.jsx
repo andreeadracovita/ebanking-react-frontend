@@ -42,18 +42,11 @@ export default function PaymentSelfComponent() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    useEffect (() => refreshAccounts(), []);
-    useEffect (() => setValuesAfterAccountsLoad(), [accounts]);
-
-    function refreshAccounts() {
-        retrieveAllLocalBankAccountsForUsernameApi(username)
-            .then(response => {
-                setAccounts(response.data);
-            })
-            .catch(error => console.log(error));
-    }
-
-    function setValuesAfterAccountsLoad() {
+    useEffect (() => {
+        refreshAccounts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect (() => {
         if (selectedFromAccount !== undefined && selectedToAccount !== undefined) {
             setSelectedFromAccount(findAccountWithNumber(selectedFromAccount.accountNumber));
             setSelectedToAccount(findAccountWithNumber(selectedToAccount.accountNumber));
@@ -70,6 +63,15 @@ export default function PaymentSelfComponent() {
                 setSelectedToAccount(accounts[1]);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [accounts]);
+
+    function refreshAccounts() {
+        retrieveAllLocalBankAccountsForUsernameApi(username)
+            .then(response => {
+                setAccounts(response.data);
+            })
+            .catch(error => console.log(error));
     }
 
     function findAccountWithNumber(accountNumber) {
