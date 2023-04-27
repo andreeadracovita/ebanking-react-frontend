@@ -5,9 +5,9 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 
-import { useAuth } from './security/AuthContext';
-import { MAX_DESCRIPTION_LENGTH } from './common/constants/Constants';
-import { updateBankAccountNameApi } from './api/EBankingApiService';
+import { useAuth } from '../security/AuthContext';
+import { MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
+import { updateBankAccountNameApi } from '../api/EBankingApiService';
 
 export default function CustomizeAccountComponent() {
     const [customizeState, setCustomizeState] = useState();

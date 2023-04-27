@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { retrieveCustomerNameForCustomerIdApi } from './api/EBankingApiService';
-import { useAuth } from './security/AuthContext';
+import { retrieveCustomerNameForCustomerIdApi } from '../api/EBankingApiService';
+import { useAuth } from '../security/AuthContext';
 
 export default function BankAccountDetailsComponent() {
     const [account, setAccount] = useState();

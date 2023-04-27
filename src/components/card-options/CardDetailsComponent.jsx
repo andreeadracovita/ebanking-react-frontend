@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { hideCardCharacters } from './common/helpers/HelperFunctions';
-import { useAuth } from './security/AuthContext';
+import { hideCardCharacters } from '../common/helpers/HelperFunctions';
+import { useAuth } from '../security/AuthContext';
 import {
     retrieveAvailabilityDateForCardNumberApi,
     retrieveBankAccountForAccountNumberApi,
     updateCardActivateApi,
     updateCardDeactivateApi
-} from './api/EBankingApiService';
+} from '../api/EBankingApiService';
 import { Switch } from '@mui/material';
 
 export default function CardDetailsComponent() {

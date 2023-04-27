@@ -56,7 +56,8 @@ export default function AccountsComponent({ type, accounts}) {
                     { type === 'SAVINGS' && <span><SavingsAccountIcon width="36px" height="36px" /><span className="ms-3">Savings</span></span> }
                     { type === 'CREDIT' && <span><CreditAccountIcon width="36px" height="36px" /><span className="ms-3">Credit</span></span> }
                 </span>
-                { type !== 'CREDIT' && <button className="btn btn-royal-blue" onClick={() => { navigate('/open-account') }}>+</button> }
+                { type === 'CHECKING' && <button className="btn btn-royal-blue" onClick={() => { navigate('/accounts/open-checking') }}>+</button> }
+                { type === 'SAVINGS' && <button className="btn btn-royal-blue" onClick={() => { navigate('/accounts/open-savings') }}>+</button> }
             </div>
             <Accordion className="mt-3">
             {

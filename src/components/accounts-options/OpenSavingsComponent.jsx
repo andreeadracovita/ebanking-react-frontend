@@ -16,24 +16,11 @@ export default function OpenSavingsComponent() {
 
     useEffect(() => setSuccessState(), [newAccount]);
 
-    // Handle button actions
-    function onSubmitForm() {
-        if (!validForm()) {
-            return;
-        }
-
-        setOpenAccountState('confirm');
-    }
-
-    function validForm() {
-        return true;
-    }
-
     function onPortfolioRedirect() {
         navigate('/portfolio');
     }
 
-    function onConfirmForm() {
+    function onConfirm() {
         createSavingsAccountApi(username)
             .then(response => {
                 console.log(response);
@@ -53,31 +40,23 @@ export default function OpenSavingsComponent() {
     return (
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Open new savings account</h1>
-            { openAccountState == 'start' &&
-                <div className="text-center">
-                    <h1 className="h4 mb-5 text-royal-blue fw-bold">New checking account currency</h1>
-                    <div>
-                        <button className="btn btn-royal-blue btn-form mb-3" type="button" name="submit" onClick={onSubmitForm}>Open account</button>
-                        <br/>
-                        <button className="btn btn-secondary btn-form" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
-                    </div>
-                </div>}
-
             {
-                openAccountState == 'confirm' &&
-                <div className="text-center">
-                    <div className="mb-5">Terms and conditions</div>
+                openAccountState == 'start' &&
+                <div>
+                    <h1 className="h4 mb-5 text-royal-blue fw-bold">You requested a new savings account.</h1>
+                    <div className="mb-5">[Terms and conditions]</div>
                     <div>
-                        <button className="btn btn-royal-blue btn-form mb-3" type="button" name="confirm" onClick={onConfirmForm}>Sign</button>
+                        <button className="btn btn-royal-blue btn-form mb-3" type="button" name="submit" onClick={onConfirm}>Sign</button>
                         <br/>
                         <button className="btn btn-secondary btn-form" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
                     </div>
                 </div>
             }
+
             {
                 openAccountState == 'success' && newAccount &&
-                <div className="text-center">
-                    <div className="mb-5">Account {newAccount.accountName} with number {newAccount.accountNumber} was successfully opened.</div>
+                <div>
+                    <div className="mb-5">Savings account {newAccount.accountName} with number {newAccount.accountNumber} was successfully opened.</div>
                     <br/>
                     <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>

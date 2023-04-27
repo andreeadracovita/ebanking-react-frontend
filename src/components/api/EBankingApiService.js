@@ -16,6 +16,9 @@ export const createCheckingAccountApi
 export const createSavingsAccountApi
     = (username) => apiClient.post(`/${username}/account/savings`);
 
+export const createVirtualCardForBankAccountApi
+    = (username, accountNumber) => apiClient.post(`/${username}/card/${accountNumber}`);
+
 export const createTransactionApi
     = (username, transaction) => apiClient.post(`/${username}/transaction`, transaction);
 
@@ -46,6 +49,9 @@ export const retrieveAllForeignBankAccountsForUsernameApi
 
 export const retrieveAllBankAccountsForUsernameApi
     = (username) => apiClient.get(`/${username}/accounts`);
+
+export const retrievePayingBankAccountsForUsernameApi
+    = (username) => apiClient.get(`/${username}/accounts/paying`);
 
 export const retrieveBankAccountForAccountNumberApi
     = (username, id) => apiClient.get(`/${username}/accounts/${id}`);

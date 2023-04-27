@@ -7,16 +7,17 @@ import ReportsComponent from '../ReportsComponent';
 import ExchangeComponent from '../payments/ExchangeComponent';
 import PaymentOtherComponent from '../payments/PaymentOtherComponent';
 import PaymentSelfComponent from '../payments/PaymentSelfComponent';
-import OpenAccountComponent from '../add/OpenAccountComponent';
-import OpenSavingsComponent from '../add/OpenSavingsComponent';
-import DeleteAccountComponent from '../DeleteAccountComponent';
+import OpenAccountComponent from '../accounts-options/OpenAccountComponent';
+import OpenSavingsComponent from '../accounts-options/OpenSavingsComponent';
+import DeleteAccountComponent from '../accounts-options/DeleteAccountComponent';
 import ReimburseComponent from '../payments/ReimburseComponent';
-import CustomizeAccountComponent from '../CustomizeAccountComponent';
-import BankAccountDetailsComponent from '../BankAccountDetailsComponent';
-import CardDetailsComponent from '../CardDetailsComponent';
+import CustomizeAccountComponent from '../accounts-options/CustomizeAccountComponent';
+import BankAccountDetailsComponent from '../accounts-options/BankAccountDetailsComponent';
+import CardDetailsComponent from '../card-options/CardDetailsComponent';
 import PasswordComponent from '../PasswordComponent';
 import LoginComponent from '../LoginComponent';
 import RequestAccountComponent from '../RequestAccountComponent';
+import CreateVirtualCardComponent from '../card-options/CreateVirtualCardComponent';
 
 function AuthenticatedRoute({ children }) {
     const authContext = useAuth();
@@ -38,19 +39,24 @@ export default function MainComponent() {
                     <PortfolioComponent />
                 </AuthenticatedRoute>
             } />
-            <Route path='/open-account' element={
+            <Route path='/accounts/open-checking' element={
                 <AuthenticatedRoute>
                     <OpenAccountComponent />
                 </AuthenticatedRoute>
             } />
-            <Route path='/open-savings' element={
+            <Route path='/accounts/open-savings' element={
                 <AuthenticatedRoute>
                     <OpenSavingsComponent />
                 </AuthenticatedRoute>
             } />
-            <Route path='/delete/account' element={
+            <Route path='/accounts/delete' element={
                 <AuthenticatedRoute>
                     <DeleteAccountComponent />
+                </AuthenticatedRoute>
+            } />
+            <Route path='/cards/request-virtual' element={
+                <AuthenticatedRoute>
+                    <CreateVirtualCardComponent />
                 </AuthenticatedRoute>
             } />
             <Route path='/payment/self' element={

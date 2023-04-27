@@ -49,7 +49,7 @@ export default function CardsComponent({ cards, setCards }) {
                     <CardIcon width="36px" height="36px" />
                     <span className="ms-3">Cards</span>
                 </span>
-                <button className="btn btn-royal-blue" onClick={() => {}}>+</button>
+                <button className="btn btn-royal-blue" onClick={() => {navigate('/cards/request-virtual')}}>+</button>
             </div>
             <Accordion className="mt-3">
             {

@@ -20,15 +20,7 @@ export default function OpenAccountComponent() {
 
     // Handle button actions
     function onSubmitForm() {
-        if (!validForm()) {
-            return;
-        }
-
         setOpenAccountState('confirm');
-    }
-
-    function validForm() {
-        return true;
     }
 
     function onPortfolioRedirect() {
@@ -86,8 +78,11 @@ export default function OpenAccountComponent() {
 
             {
                 openAccountState == 'confirm' &&
-                <div className="text-center">
-                    <div className="mb-5">Terms and conditions</div>
+                <div>
+                    <div className="mb-5">
+                        <p className="mb-4">You requested a new {currency} checking account.</p>
+                        <p>[Terms and conditions]</p>
+                        </div>
                     <div>
                         <button className="btn btn-royal-blue btn-form mb-3" type="button" name="confirm" onClick={onConfirmForm}>Sign</button>
                         <br/>
@@ -97,7 +92,7 @@ export default function OpenAccountComponent() {
             }
             {
                 openAccountState == 'success' && newAccount &&
-                <div className="text-center">
+                <div>
                     <div className="mb-5">Account {newAccount.accountName} with number {newAccount.accountNumber} was successfully opened.</div>
                     <br/>
                     <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
