@@ -1,6 +1,5 @@
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Routes, useNavigate } from 'react-router';
 
-import { useAuth } from '../security/AuthContext';
 import PortfolioComponent from '../portfolio/PortfolioComponent';
 import ErrorComponent from '../ErrorComponent';
 import ReportsComponent from '../ReportsComponent';
@@ -18,15 +17,23 @@ import PasswordComponent from '../PasswordComponent';
 import LoginComponent from '../LoginComponent';
 import RequestAccountComponent from '../RequestAccountComponent';
 import CreateVirtualCardComponent from '../card-options/CreateVirtualCardComponent';
+import React, { useEffect, useState } from 'react';
 
-function AuthenticatedRoute({ children }) {
-    const authContext = useAuth();
-
-    if (authContext.isAuthenticated) {
-        return children;
+const ProtectedRoute = (props) => {
+    const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const checkUserToken = () => {
+        const userToken = sessionStorage.getItem('token');
+        if (!userToken || userToken === 'undefined') {
+            setIsLoggedIn(false);
+            return navigate('/');
+        }
+        setIsLoggedIn(true);
     }
-
-    return <Navigate to="/" />;
+    useEffect(() => {
+            checkUserToken();
+        }, [isLoggedIn]);
+    return (isLoggedIn ? props.children : null);
 }
 
 export default function MainComponent() {
@@ -35,74 +42,74 @@ export default function MainComponent() {
             <Route path='/' element={<LoginComponent />} />
             <Route path='/request-account' element={<RequestAccountComponent />} />
             <Route path='/portfolio' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <PortfolioComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/accounts/open-checking' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <OpenAccountComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/accounts/open-savings' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <OpenSavingsComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/accounts/delete' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <DeleteAccountComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/cards/request-virtual' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <CreateVirtualCardComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/payment/self' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <PaymentSelfComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/payment/other' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <PaymentOtherComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/exchange' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <ExchangeComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/creditcard/reimburse' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <ReimburseComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/account/customize' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <CustomizeAccountComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/account/details' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <BankAccountDetailsComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/card/details' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <CardDetailsComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/reports' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <ReportsComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='/settings/password' element={
-                <AuthenticatedRoute>
+                <ProtectedRoute>
                     <PasswordComponent />
-                </AuthenticatedRoute>
+                </ProtectedRoute>
             } />
             <Route path='*' element={<ErrorComponent />} />
         </Routes>
