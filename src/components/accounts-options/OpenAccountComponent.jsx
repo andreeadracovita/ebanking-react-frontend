@@ -76,7 +76,7 @@ export default function OpenAccountComponent() {
                 componentState === ComponentState.confirm &&
                 <div>
                     <div className="mb-5">
-                        <p className="mb-4">You requested a new {currency} checking account.</p>
+                        <p className="mb-4">You requested a new checking account.</p>
                         <p>[Terms and conditions]</p>
                         </div>
                     <div>

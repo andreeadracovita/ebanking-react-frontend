@@ -28,7 +28,7 @@ export default function ExchangeComponent() {
     const [targetAccounts, setTargetAccounts] = useState([]);
     const [selectedFromAccount, setSelectedFromAccount] = useState();
     const [selectedToAccount, setSelectedToAccount] = useState();
-    const [amount, setAmount] = useState();
+    const [amount, setAmount] = useState('');
     const [debitAmount, setDebitAmount] = useState();
     const [convertedAmount, setConvertedAmount] = useState();
     const [currencySelect, setCurrencySelect] = useState();
@@ -78,20 +78,9 @@ export default function ExchangeComponent() {
     }, [accounts]);
 
     useEffect (() => {
-        if (selectedFromAccount && currencySelect && accounts.length > 0) {
-            let targetCurrencyAccounts = [];
-            if (selectedFromAccount.currency === 'CHF') {
-                targetCurrencyAccounts = accounts.filter(account => account.currency !== 'CHF');
-            } else {
-                targetCurrencyAccounts = accounts.filter(account => account.currency === 'CHF');
-            }
-            if (selectedToAccount == null && targetCurrencyAccounts.length > 0) {
-                setSelectedToAccount(targetCurrencyAccounts[0]);
-            }
-            setTargetAccounts(targetCurrencyAccounts);
-        }
+        setToAccountAfterFromAccountLoad();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedFromAccount]);
+    }, [selectedFromAccount, currencySelect, accounts]);
 
     useEffect (() => {
         if (selectedFromAccount && selectedFromAccount.currency !== 'CHF') {
@@ -103,21 +92,23 @@ export default function ExchangeComponent() {
     }, [selectedFromAccount, selectedToAccount]);
 
     useEffect (() => {
+        // Cal whenever any dependency changes
         if  (selectedFromAccount && selectedToAccount) {
+            const amountValue = Number(amount);
             if (currencySelect === selectedFromAccount.currency) {
-                setDebitAmount(amount);
+                setDebitAmount(amountValue);
                 if (selectedFromAccount.currency === referenceCurrency) {
-                    setConvertedAmount((amount / exchangeRate[selectedToAccount.currency]).toFixed(2));
+                    setConvertedAmount((amountValue / exchangeRate[selectedToAccount.currency]).toFixed(2));
                 } else {
-                    setConvertedAmount((amount * exchangeRate[targetCurrency]).toFixed(2));
+                    setConvertedAmount((amountValue * exchangeRate[targetCurrency]).toFixed(2));
                 }
             } else {
                 if (selectedFromAccount.currency === referenceCurrency) {
-                    setDebitAmount((amount * exchangeRate[targetCurrency]).toFixed(2));
+                    setDebitAmount((amountValue * exchangeRate[targetCurrency]).toFixed(2));
                 } else {
-                    setDebitAmount((amount / exchangeRate[targetCurrency]).toFixed(2));
+                    setDebitAmount((amountValue / exchangeRate[targetCurrency]).toFixed(2));
                 }
-                setConvertedAmount(amount);
+                setConvertedAmount(amountValue);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -173,7 +164,7 @@ export default function ExchangeComponent() {
             amount: debitAmount,
             currency: selectedFromAccount.currency,
             description: 'Exchange currency',
-            exchangeRate: 1 / exchangeRate[selectedToAccount.currency]
+            exchangeRate: selectedToAccount.currency === 'CHF' ? exchangeRate[selectedFromAccount.currency] : 1 / exchangeRate[selectedToAccount.currency]
         };
 
         console.log(newTransaction);
