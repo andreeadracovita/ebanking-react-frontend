@@ -41,7 +41,7 @@ export default function AccountsComponent({ type, accounts}) {
     }
 
     function redirectDeleteAccount(account) {
-        navigate('/delete/account', { state: { account: account } });
+        navigate('/accounts/delete', { state: { account: account } });
     }
 
     function redirectReimburseCredit(account) {

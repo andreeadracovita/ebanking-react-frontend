@@ -21,9 +21,9 @@ const exchangeRate = {
 };
 
 export default function ExchangeComponent() {
-    // PaymentState { 'start', 'confirm', 'success', 'fail' }
+    // ComponentState { 'start', 'confirm', 'success', 'fail' }
 
-    const [paymentState, setPaymentState] = useState();
+    const [componentState, setComponentState] = useState('start');
 
     const [accounts, setAccounts] = useState([]);
     const [targetAccounts, setTargetAccounts] = useState([]);
@@ -56,11 +56,10 @@ export default function ExchangeComponent() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    useEffect (() => refreshAccounts(), []); // once at page load
-    useEffect (() => setFromAccountAfterAccountsLoad(), [accounts]); // catch accounts load
-    useEffect (() => setToAccountAfterFromAccountLoad(), [selectedFromAccount]); // catch from account load
-    useEffect (() => computeTarget(), [selectedFromAccount, selectedToAccount]); // catch selected accounts load
-    useEffect (() => initPage(), [targetCurrency]); // render page after all loads
+    useEffect (() => refreshAccounts(), []);
+    useEffect (() => setFromAccountAfterAccountsLoad(), [accounts]);
+    useEffect (() => setToAccountAfterFromAccountLoad(), [selectedFromAccount]);
+    useEffect (() => computeTarget(), [selectedFromAccount, selectedToAccount]);
     useEffect (() => recomputeTransactionAmounts(), [selectedFromAccount, selectedToAccount, amount, currencySelect, targetCurrency]);
 
     function refreshAccounts() {
@@ -86,7 +85,7 @@ export default function ExchangeComponent() {
     function setToAccountAfterFromAccountLoad() {
         if (selectedFromAccount && currencySelect && accounts.length > 0) {
             let targetCurrencyAccounts = [];
-            if (selectedFromAccount.currency == 'CHF') {
+            if (selectedFromAccount.currency === 'CHF') {
                 targetCurrencyAccounts = accounts.filter(account => account.currency !== 'CHF');
             } else {
                 targetCurrencyAccounts = accounts.filter(account => account.currency === 'CHF');
@@ -99,23 +98,17 @@ export default function ExchangeComponent() {
     }
 
     function computeTarget() {
-        if (selectedFromAccount && selectedFromAccount.currency != 'CHF') {
+        if (selectedFromAccount && selectedFromAccount.currency !== 'CHF') {
             setTargetCurrency(selectedFromAccount.currency);
         } else if (selectedToAccount) {
             setTargetCurrency(selectedToAccount.currency);
         }
     }
 
-    function initPage() {
-        if (selectedFromAccount && selectedToAccount && targetCurrency) {
-            setPaymentState('start');
-        }
-    }
-
     function handleSelectFromAccountChange(account) {
         const prevSelectedFromAccount = selectedFromAccount;
         setSelectedFromAccount(account);
-        if (account.accountNumber == selectedToAccount.accountNumber) {
+        if (account.accountNumber === selectedToAccount.accountNumber) {
             setSelectedToAccount(prevSelectedFromAccount);
             return;
         }
@@ -132,15 +125,15 @@ export default function ExchangeComponent() {
 
     function recomputeTransactionAmounts() {
         if  (selectedFromAccount && selectedToAccount) {
-            if (currencySelect == selectedFromAccount.currency) {
+            if (currencySelect === selectedFromAccount.currency) {
                 setDebitAmount(amount);
-                if (selectedFromAccount.currency == referenceCurrency) {
+                if (selectedFromAccount.currency === referenceCurrency) {
                     setConvertedAmount((amount / exchangeRate[selectedToAccount.currency]).toFixed(2));
                 } else {
                     setConvertedAmount((amount * exchangeRate[targetCurrency]).toFixed(2));
                 }
             } else {
-                if (selectedFromAccount.currency == referenceCurrency) {
+                if (selectedFromAccount.currency === referenceCurrency) {
                     setDebitAmount((amount * exchangeRate[targetCurrency]).toFixed(2));
                 } else {
                     setDebitAmount((amount / exchangeRate[targetCurrency]).toFixed(2));
@@ -154,7 +147,6 @@ export default function ExchangeComponent() {
         setCurrencySelect(event.target.value);
     }
 
-    // Handle button actions
     function onSubmitForm() {
         if (!validForm()) {
             setShowError(true);
@@ -174,7 +166,7 @@ export default function ExchangeComponent() {
         console.log(newTransaction);
 
         setTransaction(newTransaction);
-        setPaymentState('confirm');
+        setComponentState('confirm');
     }
 
     function validForm() {
@@ -192,7 +184,7 @@ export default function ExchangeComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Exchange money</h1>
             {
-                paymentState == 'start' &&
+                componentState === 'start' && selectedFromAccount && selectedToAccount &&
                 <div>
                     {
                         showError && 
@@ -269,11 +261,11 @@ export default function ExchangeComponent() {
                                 <span>
                                     <div className="mb-3">
                                         <span>Debit amount: </span>
-                                        {amount && <span className="account-balance">{debitAmount} {selectedFromAccount.currency}</span>}
+                                        { selectedFromAccount && <span className="account-balance">{debitAmount} {selectedFromAccount.currency}</span> }
                                     </div>
                                     <div className="mb-3">
                                         <span>Converted amount: </span>
-                                        <span className="account-balance">{convertedAmount} {selectedToAccount.currency}</span>
+                                        { selectedToAccount && <span className="account-balance">{convertedAmount} {selectedToAccount.currency}</span> }
                                     </div>
                                 </span>
                             }
@@ -328,16 +320,16 @@ export default function ExchangeComponent() {
                 </div>}
 
             {
-                paymentState == 'confirm' &&
-                <PaymentConfirmComponent paymentType='exchange' transaction={transaction} setPaymentState={setPaymentState} targetCurrency={selectedToAccount.currency} />
+                componentState === 'confirm' &&
+                <PaymentConfirmComponent paymentType='exchange' transaction={transaction} setComponentState={setComponentState} targetCurrency={selectedToAccount.currency} />
             }
             {
-                paymentState == 'success' &&
-                <PaymentSuccessComponent amount={{value:convertedAmount, currency:selectedToAccount.currency}} destination={selectedToAccount.accountName} setPaymentState={setPaymentState} />
+                componentState === 'success' &&
+                <PaymentSuccessComponent amount={{value:convertedAmount, currency:selectedToAccount.currency}} destination={selectedToAccount.accountName} />
             }
             {
-                paymentState == 'fail' &&
-                <PaymentFailureComponent setPaymentState={setPaymentState} />
+                componentState === 'fail' &&
+                <PaymentFailureComponent setComponentState={setComponentState} />
             }
         </div>
     );

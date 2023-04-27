@@ -15,9 +15,9 @@ import { MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
 import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
 
 export default function PaymentSelfComponent() {
-    // PaymentState { 'start', 'confirm', 'success', 'fail' }
+    // ComponentState { 'start', 'confirm', 'success', 'fail' }
 
-    const [paymentState, setPaymentState] = useState();
+    const [componentState, setComponentState] = useState('start');
 
     const [accounts, setAccounts] = useState([]);
     const [selectedFromAccount, setSelectedFromAccount] = useState();
@@ -44,9 +44,8 @@ export default function PaymentSelfComponent() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    useEffect (() => refreshAccounts(), []); // once at page load
-    useEffect (() => setValuesAfterAccountsLoad(), [accounts]); // catch accounts load
-    useEffect (() => initPage(), [selectedFromAccount, selectedToAccount]); // catch selected accounts load
+    useEffect (() => refreshAccounts(), []);
+    useEffect (() => setValuesAfterAccountsLoad(), [accounts]);
 
     function refreshAccounts() {
         retrieveAllLocalBankAccountsForUsernameApi(username)
@@ -81,10 +80,6 @@ export default function PaymentSelfComponent() {
         return accounts.filter((account) => account.accountNumber === accountNumber)[0];
     }
 
-    function initPage() {
-        setPaymentState('start');
-    }
-
     function handleSelectFromAccountChange(account) {
         const prevSelectedFromAccount = selectedFromAccount;
         setSelectedFromAccount(account);
@@ -107,7 +102,6 @@ export default function PaymentSelfComponent() {
         }
     }
 
-    // Handle button actions
     function onSubmitForm() {
         if (!validForm()) {
             setShowError(true);
@@ -125,7 +119,7 @@ export default function PaymentSelfComponent() {
         };
 
         setTransaction(newTransaction);
-        setPaymentState('confirm');
+        setComponentState('confirm');
     }
 
     function validForm() {
@@ -148,7 +142,7 @@ export default function PaymentSelfComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Send money to myself</h1>
             {
-                paymentState == 'start' &&
+                componentState === 'start' && selectedFromAccount && selectedToAccount &&
                 <div>
                     {
                         showError &&
@@ -217,7 +211,7 @@ export default function PaymentSelfComponent() {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                 {
-                                    accounts.filter(account => selectedToAccount && selectedFromAccount && account.accountNumber != selectedToAccount.accountNumber && account.accountNumber != selectedFromAccount.accountNumber)
+                                    accounts.filter(account => selectedToAccount && selectedFromAccount && account.accountNumber !== selectedToAccount.accountNumber && account.accountNumber !== selectedFromAccount.accountNumber)
                                         .map(
                                             account => (
                                                 <Dropdown.Item className="select-dropdown" key={account.accountNumber} onClick={() => handleSelectToAccountChange(account)}>
@@ -267,19 +261,19 @@ export default function PaymentSelfComponent() {
                             <button className="btn btn-secondary btn-form" type="button" name="cancel" onClick={onPortfolioRedirect}>Cancel</button>
                         </div>
                     </Box>
-                </div>}
-
-            {
-                paymentState == 'confirm' &&
-                <PaymentConfirmComponent paymentType='self' transaction={transaction} setPaymentState={setPaymentState} />
+                </div>
             }
             {
-                paymentState == 'success' &&
-                <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={selectedToAccount.accountName} setPaymentState={setPaymentState} resetPaymentForm={resetPaymentForm} refreshAccounts={refreshAccounts} />
+                componentState === 'confirm' &&
+                <PaymentConfirmComponent paymentType='self' transaction={transaction} setComponentState={setComponentState} />
             }
             {
-                paymentState == 'fail' &&
-                <PaymentFailureComponent setPaymentState={setPaymentState} />
+                componentState === 'success' &&
+                <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={selectedToAccount.accountName} setComponentState={setComponentState} resetPaymentForm={resetPaymentForm} refreshAccounts={refreshAccounts} />
+            }
+            {
+                componentState === 'fail' &&
+                <PaymentFailureComponent setComponentState={setComponentState} />
             }
         </div>
     );

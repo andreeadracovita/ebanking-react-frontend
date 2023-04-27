@@ -5,7 +5,7 @@ import { deleteBankAccountApi } from '../api/EBankingApiService';
 import { useAuth } from '../security/AuthContext';
 
 export default function DeleteAccountComponent() {
-    const [deleteState, setDeleteState] = useState('confirm');
+    const [componentState, setComponentState] = useState('confirm');
     const [showBalanceError, setShowBalanceError] = useState();
 
     const authContext = useAuth();
@@ -26,9 +26,8 @@ export default function DeleteAccountComponent() {
         }
 
         deleteBankAccountApi(username, account.accountNumber)
-            .then(response => {
-                console.log(response);
-                setDeleteState('success');
+            .then(() => {
+                setComponentState('success');
             })
             .catch(error => {
                 console.log(error);
@@ -43,8 +42,8 @@ export default function DeleteAccountComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Delete confirmation</h1>
             {
-                deleteState == 'confirm' && account &&
-                <div className="text-center">
+                componentState === 'confirm' && account &&
+                <div>
                     { showBalanceError && <div className="mb-3 text-danger">Empty the account before proceeding.</div> }
                     <div className="mb-5">You want to delete account <span className="fw-bold">{account.accountName}</span> with number <span className="fw-bold">{account.accountNumber}</span>.</div>
                     <div>
@@ -55,8 +54,8 @@ export default function DeleteAccountComponent() {
                 </div>
             }
             {
-                deleteState == 'success' &&
-                <div className="text-center">
+                componentState === 'success' &&
+                <div>
                     <div className="mb-5">Account <span className="fw-bold">{account.accountName}</span> with number <span className="fw-bold">{account.accountNumber}</span> was successfully deleted.</div>
                     <br/>
                     <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>

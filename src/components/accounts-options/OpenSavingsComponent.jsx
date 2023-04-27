@@ -5,9 +5,9 @@ import { useAuth } from '../security/AuthContext';
 import { createSavingsAccountApi } from '../api/EBankingApiService';
 
 export default function OpenSavingsComponent() {
-    // openAccountState { 'start', 'confirm', 'success' }
+    // ComponentState { 'start', 'confirm', 'success' }
 
-    const [openAccountState, setOpenAccountState] = useState('start');
+    const [componentState, setComponentState] = useState('start');
     const [newAccount, setNewAccount] = useState();
 
     const authContext = useAuth();
@@ -33,7 +33,7 @@ export default function OpenSavingsComponent() {
 
     function setSuccessState() {
         if (newAccount) {
-            setOpenAccountState('success');
+            setComponentState('success');
         }
     }
 
@@ -41,7 +41,7 @@ export default function OpenSavingsComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Open new savings account</h1>
             {
-                openAccountState == 'start' &&
+                componentState === 'start' &&
                 <div>
                     <h1 className="h4 mb-5 text-royal-blue fw-bold">You requested a new savings account.</h1>
                     <div className="mb-5">[Terms and conditions]</div>
@@ -54,7 +54,7 @@ export default function OpenSavingsComponent() {
             }
 
             {
-                openAccountState == 'success' && newAccount &&
+                componentState === 'success' && newAccount &&
                 <div>
                     <div className="mb-5">Savings account {newAccount.accountName} with number {newAccount.accountNumber} was successfully opened.</div>
                     <br/>

@@ -7,7 +7,6 @@ import { useAuth } from '../security/AuthContext';
 export default function BankAccountDetailsComponent() {
     const [account, setAccount] = useState();
     const [customerName, setCustomerName] = useState();
-    const [loadContent, setLoadContent] = useState();
 
     const authContext = useAuth();
     const username = authContext.username;
@@ -17,7 +16,6 @@ export default function BankAccountDetailsComponent() {
 
     useEffect (() => loadAccount(), []);
     useEffect (() => loadCustomerName(), [account]);
-    useEffect (() => activateLoadContent(), [customerName]);
 
     function loadAccount() {
         if (location.state && location.state.account) {
@@ -35,12 +33,6 @@ export default function BankAccountDetailsComponent() {
         }
     }
 
-    function activateLoadContent() {
-        if (customerName) {
-            setLoadContent(true);
-        }
-    }
-
     function onPortfolioRedirect() {
         navigate('/portfolio');
     }
@@ -48,7 +40,7 @@ export default function BankAccountDetailsComponent() {
     return (
         <div className="main-content">
             {
-                loadContent &&
+                account && customerName &&
                 <div>
                     <p>Bank account number</p>
                     <p className="ms-3 fw-bold">{account.accountNumber}</p>

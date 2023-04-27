@@ -6,9 +6,9 @@ import { Currency, createCheckingAccountApi } from '../api/EBankingApiService';
 import { useAuth } from '../security/AuthContext';
 
 export default function OpenAccountComponent() {
-    // openAccountState { 'start', 'confirm', 'success' }
+    // ComponentState { 'start', 'confirm', 'success' }
 
-    const [openAccountState, setOpenAccountState] = useState('start');
+    const [componentState, setComponentState] = useState('start');
     const [currency, setCurrency] = useState(Currency.CHF);
     const [newAccount, setNewAccount] = useState();
 
@@ -18,9 +18,8 @@ export default function OpenAccountComponent() {
 
     useEffect(() => setSuccessState(), [newAccount]);
 
-    // Handle button actions
     function onSubmitForm() {
-        setOpenAccountState('confirm');
+        setComponentState('confirm');
     }
 
     function onPortfolioRedirect() {
@@ -40,14 +39,15 @@ export default function OpenAccountComponent() {
 
     function setSuccessState() {
         if (newAccount) {
-            setOpenAccountState('success');
+            setComponentState('success');
         }
     }
 
     return (
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Open new checking account</h1>
-            { openAccountState == 'start' &&
+            {
+                componentState === 'start' &&
                 <div>
                     <form>
                         <h1 className="h4 mb-2 text-royal-blue fw-bold">New checking account currency</h1>
@@ -77,7 +77,7 @@ export default function OpenAccountComponent() {
                 </div>}
 
             {
-                openAccountState == 'confirm' &&
+                componentState === 'confirm' &&
                 <div>
                     <div className="mb-5">
                         <p className="mb-4">You requested a new {currency} checking account.</p>
@@ -91,9 +91,9 @@ export default function OpenAccountComponent() {
                 </div>
             }
             {
-                openAccountState == 'success' && newAccount &&
+                componentState === 'success' && newAccount &&
                 <div>
-                    <div className="mb-5">Account {newAccount.accountName} with number {newAccount.accountNumber} was successfully opened.</div>
+                    <div className="mb-5">Account <span className="fw-bold">{newAccount.accountName}</span> with number <span className="fw-bold">{newAccount.accountNumber}</span> was successfully opened.</div>
                     <br/>
                     <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>

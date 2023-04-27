@@ -9,7 +9,7 @@ import { createVirtualCardForBankAccountApi } from '../api/EBankingApiService';
 export default function CreateVirtualCardComponent() {
     // componentState { 'start', 'confirm', 'success' }
 
-    const [componentState, setComponentState] = useState();
+    const [componentState, setComponentState] = useState('start');
     const [accounts, setAccounts] = useState();
     const [selectedAccount, setSelectedAccount] = useState();
 
@@ -19,7 +19,6 @@ export default function CreateVirtualCardComponent() {
 
     useEffect(() => refreshAccounts(), []);
     useEffect(() => initSelectedAfterLoad(), [accounts]);
-    useEffect(() => initComponent(), [selectedAccount]);
 
     function refreshAccounts() {
         retrievePayingBankAccountsForUsernameApi(username)
@@ -32,12 +31,6 @@ export default function CreateVirtualCardComponent() {
     function initSelectedAfterLoad() {
         if (accounts && accounts.length > 0) {
             setSelectedAccount(accounts[0]);
-        }
-    }
-
-    function initComponent() {
-        if (selectedAccount) {
-            setComponentState('start');
         }
     }
 
@@ -66,7 +59,8 @@ export default function CreateVirtualCardComponent() {
     return (
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Request new virtual card</h1>
-            { componentState == 'start' &&
+            {
+                componentState === 'start' &&
                 <div>
                     <h1 className="h4 mb-4 text-royal-blue fw-bold">Attach card to account</h1>
                     <Dropdown className="mb-5">
@@ -86,6 +80,7 @@ export default function CreateVirtualCardComponent() {
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             {
+                                accounts &&
                                 accounts.map(
                                     account => (
                                         <Dropdown.Item className="select-dropdown" key={account.accountNumber} onClick={() => handleSelectedAccountChange(account)}>
@@ -114,13 +109,14 @@ export default function CreateVirtualCardComponent() {
                 </div>}
 
             {
-                componentState == 'confirm' &&
+                componentState === 'confirm' && selectedAccount &&
                 <div>
                     <div className="mb-5">
                         <p className="mb-4">You requested a new virtual card for
                             <span className="fw-bold"> {selectedAccount.accountName} </span> 
                             with account number 
-                            <span className="fw-bold"> {selectedAccount.accountNumber}</span>.</p>
+                            <span className="fw-bold"> {selectedAccount.accountNumber}</span>.
+                        </p>
                         <p>[Terms and conditions]</p>
                         </div>
                     <div>
@@ -131,7 +127,7 @@ export default function CreateVirtualCardComponent() {
                 </div>
             }
             {
-                componentState == 'success' &&
+                componentState === 'success' &&
                 <div>
                     <div className="mb-5">Virtual card successfully created.</div>
                     <br/>

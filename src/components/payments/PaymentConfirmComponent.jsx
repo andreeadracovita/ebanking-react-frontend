@@ -1,7 +1,7 @@
 import { createTransactionApi } from '../api/EBankingApiService';
 import { useAuth } from '../security/AuthContext';
 
-export default function PaymentConfirmComponent({ paymentType, transaction, setPaymentState, targetCurrency }) {
+export default function PaymentConfirmComponent({ paymentType, transaction, setComponentState, targetCurrency }) {
     const authContext = useAuth();
     const username = authContext.username;
 
@@ -9,16 +9,16 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setP
         createTransactionApi(username, transaction)
             .then(response => {
                 console.log(response);
-                setPaymentState('success');
+                setComponentState('success');
             })
             .catch(error => {
                 console.log(error);
-                setPaymentState('fail');
+                setComponentState('fail');
             });
     }
 
     function onBack() {
-        setPaymentState('start');
+        setComponentState('start');
     }
 
     return (
@@ -32,7 +32,7 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setP
                         </span>
                     }
                     {
-                        paymentType == 'exchange' &&
+                        paymentType === 'exchange' &&
                         <span>
                             <p>Exchanged amount:</p>
                             <p className="ms-3 fw-bold">{transaction.amount} {transaction.currency}</p>
@@ -48,7 +48,7 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setP
                     <br/>
                     <hr/>
                     {
-                        paymentType == 'other' &&
+                        paymentType === 'other' &&
                         <span>
                             <p>Beneficiary name:</p>
                             <p className="ms-3 fw-bold">{transaction.beneficiaryName}</p>

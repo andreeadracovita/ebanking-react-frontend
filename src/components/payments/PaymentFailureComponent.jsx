@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router';
 
-export default function PaymentFailureComponent({ setPaymentState }) {
+export default function PaymentFailureComponent({ setComponentState }) {
     const navigate = useNavigate();
 
     function onRetryPaymentClicked() {
-        setPaymentState('start');
+        setComponentState('start');
     }
 
     function onPortfolioRedirect() {

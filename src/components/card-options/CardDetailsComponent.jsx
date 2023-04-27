@@ -13,7 +13,6 @@ import { Switch } from '@mui/material';
 
 export default function CardDetailsComponent() {
     const [card, setCard] = useState();
-    const [loadContent, setLoadContent] = useState();
     const [availabilityDate, setAvailabilityDate] = useState();
     const [attachedAccount, setAttachedAccount] = useState();
     const [blockSwitch, setBlockSwitch] = useState(false);
@@ -22,7 +21,6 @@ export default function CardDetailsComponent() {
     const navigate = useNavigate();
 
     useEffect (() => loadData(), []);
-    useEffect (() => activateLoadContent(), [card, availabilityDate, attachedAccount]);
 
     const authContext = useAuth();
     const username = authContext.username;
@@ -60,12 +58,6 @@ export default function CardDetailsComponent() {
         }
     }
 
-    function activateLoadContent() {
-        if (card && availabilityDate && attachedAccount) {
-            setLoadContent(true);
-        }
-    }
-
     function handleBlockSwitchChange() {
         if (blockSwitch === true) {
             updateCardActivateApi(username, card.cardNumber)
@@ -90,37 +82,37 @@ export default function CardDetailsComponent() {
 
     return (
         <div className="main-content">
-            {
-                loadContent &&
-                <div>
-                    { card.status === 'ACTIVE' && <p className="btn btn-success pe-none">Active</p> }
-                    { card.status === 'INACTIVE' && <p className="btn btn-danger pe-none">Inactive</p> }
+        {
+            card && attachedAccount &&
+            <span>
+                { card.status === 'ACTIVE' && <p className="btn btn-success pe-none">Active</p> }
+                { card.status === 'INACTIVE' && <p className="btn btn-danger pe-none">Inactive</p> }
 
-                    <p>Name on card</p>
-                    <p className="ms-3 fw-bold">{card.nameOnCard}</p>
-                    <br/>
-                    <p>Card number</p>
-                    <p className="ms-3 fw-bold">{hideCardCharacters(card.cardNumber)}</p>
-                    <br/>
-                    <p>Availability date</p>
-                    <p className="ms-3 fw-bold">{availabilityDate}</p>
-                    <br/>
-                    <span>Block card</span>
-                    <Switch 
-                        checked={blockSwitch}
-                        onChange={handleBlockSwitchChange}
-                        inputProps={{ 'aria-label': 'controlled' }}
-                        sx={switchStyle}
-                    />
-                    <p className="mt-5">Attached account</p>
-                    <p className="ms-3 fw-bold">{attachedAccount.accountName}</p>
-                    <p className="ms-3 fw-bold">{attachedAccount.accountNumber}</p>
-                    <p className="ms-3 fw-bold">{attachedAccount.balance.toLocaleString("de-CH")} {attachedAccount.currency}</p>
-                    <br/>
+                <p>Name on card</p>
+                <p className="ms-3 fw-bold">{card.nameOnCard}</p>
+                <br/>
+                <p>Card number</p>
+                <p className="ms-3 fw-bold">{hideCardCharacters(card.cardNumber)}</p>
+                <br/>
+                <p>Availability date</p>
+                <p className="ms-3 fw-bold">{availabilityDate}</p>
+                <br/>
+                <span>Block card</span>
+                <Switch 
+                    checked={blockSwitch}
+                    onChange={handleBlockSwitchChange}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    sx={switchStyle}
+                />
+                <p className="mt-5">Attached account</p>
+                <p className="ms-3 fw-bold">{attachedAccount.accountName}</p>
+                <p className="ms-3 fw-bold">{attachedAccount.accountNumber}</p>
+                <p className="ms-3 fw-bold">{attachedAccount.balance.toLocaleString("de-CH")} {attachedAccount.currency}</p>
+                <br/>
 
-                    <button className="btn btn-royal-blue btn-form mt-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
-                </div>
-            }
+                <button className="btn btn-royal-blue btn-form mt-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
+            </span>
+        }
         </div>
     );
 }

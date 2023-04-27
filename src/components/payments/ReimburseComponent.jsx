@@ -15,8 +15,8 @@ import PaymentFailureComponent from './PaymentFailureComponent';
 import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
 
 export default function ReimburseComponent() {
-    const [paymentState, setPaymentState] = useState();
-    const [showError, setShowError] = useState();
+    const [componentState, setComponentState] = useState('start');
+    const [showError, setShowError] = useState(false);
     const [toAccount, setToAccount] = useState();
     const [selectedFromAccount, setSelectedFromAccount] = useState();
     const [accounts, setAccounts] = useState([]);
@@ -45,7 +45,6 @@ export default function ReimburseComponent() {
     useEffect (() => setCreditAccount(), [])
     useEffect (() => refreshAccounts(), [toAccount]);
     useEffect (() => setValuesAfterAccountsLoad(), [accounts]);
-    useEffect (() => initPage(), [selectedFromAccount]);
 
     function setCreditAccount() {
         if (location && location.state && location.state.account) {
@@ -68,12 +67,6 @@ export default function ReimburseComponent() {
         }
     }
 
-    function initPage() {
-        if (toAccount && selectedFromAccount) {
-            setPaymentState('start');
-        }
-    }
-
     function handleSelectFromAccountChange(account) {
         setSelectedFromAccount(account);
     }
@@ -88,7 +81,6 @@ export default function ReimburseComponent() {
         }
     }
 
-    // Handle button actions
     function onSubmitForm() {
         if (!validForm()) {
             setShowError(true);
@@ -106,7 +98,7 @@ export default function ReimburseComponent() {
         };
 
         setTransaction(newTransaction);
-        setPaymentState('confirm');
+        setComponentState('confirm');
     }
 
     function validForm() {
@@ -125,7 +117,7 @@ export default function ReimburseComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Reimburse credit card</h1>
             {
-                paymentState == 'start' &&
+                componentState === 'start' && toAccount && selectedFromAccount &&
                 <div>
                     {
                         showError &&
@@ -212,16 +204,16 @@ export default function ReimburseComponent() {
                 </div>}
 
             {
-                paymentState == 'confirm' &&
-                <PaymentConfirmComponent paymentType='self' transaction={transaction} setPaymentState={setPaymentState} />
+                componentState === 'confirm' &&
+                <PaymentConfirmComponent paymentType='self' transaction={transaction} setComponentState={setComponentState} />
             }
             {
-                paymentState == 'success' &&
-                <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={location.state.account.accountName} setPaymentState={setPaymentState} />
+                componentState === 'success' &&
+                <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={location.state.account.accountName} setComponentState={setComponentState} />
             }
             {
-                paymentState == 'fail' &&
-                <PaymentFailureComponent setPaymentState={setPaymentState} />
+                componentState === 'fail' &&
+                <PaymentFailureComponent setComponentState={setComponentState} />
             }
         </div>
     );
