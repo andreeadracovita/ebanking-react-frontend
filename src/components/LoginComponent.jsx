@@ -50,17 +50,13 @@ export default function LoginComponent() {
         }
     }
 
-    function handleRequestAccount() {
-        navigate(`/requestAccount`);
-    }
-
     return (
         <div className="main-content" style={{fontSize:'large'}}>
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Login eBanking</h1>
             <div className="d-flex">
                 <span className="text-nowrap">
                     <h1 className="h5 mb-5 fw-bold text-royal-blue">Enter your username and password</h1>
-                    {showErrorMessage && <div className="errorMessage mb-3">Authentication failed. Please check your credentials.</div>}
+                    {showErrorMessage && <div className="text-danger mb-3">Authentication failed. Please check your credentials.</div>}
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>
                             <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
@@ -110,7 +106,7 @@ export default function LoginComponent() {
                         <p>→ Make payments at home</p>
                         <p>→ Open accounts at home</p>
                         <br/>
-                        <Link className="text-royal-blue fw-bold" type="button" name="login" onClick={handleRequestAccount}>Request an account</Link>
+                        <Link className="text-royal-blue fw-bold" to="/request-account">Request an account</Link>
                     </div>
                 </span>
             </div>

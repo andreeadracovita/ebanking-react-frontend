@@ -6,6 +6,20 @@ export const Currency = {
     USD: 2
 };
 
+// Create
+export const createUserAccountApi
+    = (payload) => apiClient.post('/users/create', payload);
+
+export const createCheckingAccountApi
+    = (username, currency) => apiClient.post(`/${username}/account/checking/${currency}`);
+
+export const createSavingsAccountApi
+    = (username) => apiClient.post(`/${username}/account/savings`);
+
+export const createTransactionApi
+    = (username, transaction) => apiClient.post(`/${username}/transaction`, transaction);
+
+// Read
 export const retrieveCustomerNameForCustomerIdApi
     = (username, id) => apiClient.get(`/${username}/customername/${id}`);
 
@@ -45,18 +59,7 @@ export const retrieveAllTransactionsForBankAccountNumberApi
 export const retrieveAvailabilityDateForCardNumberApi
     = (username, id) => apiClient.get(`/${username}/cards/${id}/availabilityDate`);
 
-export const createCheckingAccountApi
-    = (username, currency) => apiClient.post(`/${username}/account/checking/${currency}`);
-
-export const createSavingsAccountApi
-    = (username) => apiClient.post(`/${username}/account/savings`);
-
-export const createTransactionApi
-    = (username, transaction) => apiClient.post(`/${username}/transaction`, transaction);
-
-export const deleteBankAccountApi
-    = (username, accountNumber) => apiClient.delete(`/${username}/accounts/${accountNumber}`);
-
+// Update
 export const updateBankAccountNameApi
     = (username, accountNumber, payload) => apiClient.put(`/${username}/accounts/${accountNumber}`, payload);
 
@@ -68,3 +71,7 @@ export const updateCardDeactivateApi
 
 export const updateUserPasscodeApi
     = (username, payload) => apiClient.put(`/${username}/passcode`, payload);
+
+// Delete
+export const deleteBankAccountApi
+    = (username, accountNumber) => apiClient.delete(`/${username}/accounts/${accountNumber}`);

@@ -34,9 +34,21 @@ export default function SidebarComponent() {
         <div className="sidebar bg-royal-blue">
             <span style={{ cursor:'default' }}>
                 <Logo width="40" height="40" />
-                <span className="h4 ms-3 fw-bold align-middle">WorldBank</span>
+                <span className="ms-3 fw-bold align-middle" style={{fontSize:24+'px', fontWeight:700}}>WorldBank</span>
             </span>
-
+            {
+                isAuthenticated === false &&
+                <span>
+                    <ul className="nav flex-column mt-5" id="menu">
+                        <li className="nav-item">
+                            <Link className="nav-link px-0" to="/">
+                                <HomeIcon width="24" height="24"/>
+                                <span className="ms-2 ms-1 d-none d-sm-inline align-middle">Login</span>
+                            </Link>
+                        </li>
+                    </ul>
+                </span>
+            }
             {
                 isAuthenticated &&
                 <span>

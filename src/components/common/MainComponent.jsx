@@ -16,6 +16,7 @@ import BankAccountDetailsComponent from '../BankAccountDetailsComponent';
 import CardDetailsComponent from '../CardDetailsComponent';
 import PasswordComponent from '../PasswordComponent';
 import LoginComponent from '../LoginComponent';
+import RequestAccountComponent from '../RequestAccountComponent';
 
 function AuthenticatedRoute({ children }) {
     const authContext = useAuth();
@@ -31,6 +32,7 @@ export default function MainComponent() {
     return (
         <Routes>
             <Route path='/' element={<LoginComponent />} />
+            <Route path='/request-account' element={<RequestAccountComponent />} />
             <Route path='/portfolio' element={
                 <AuthenticatedRoute>
                     <PortfolioComponent />
