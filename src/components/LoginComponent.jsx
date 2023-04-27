@@ -51,7 +51,7 @@ export default function LoginComponent() {
     }
 
     return (
-        <div className="main-content" style={{fontSize:'large'}}>
+        <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Login eBanking</h1>
             <div className="d-flex">
                 <span className="text-nowrap">

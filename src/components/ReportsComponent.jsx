@@ -195,7 +195,7 @@ export default function ReportsComponent() {
                     <div style={{width:1000+'px'}}>
                     {
                         transactions.length === 0 &&
-                        <span style={{fontSize:'large'}}>
+                        <span>
                             <hr/>
                             No transactions for this account.
                         </span>
@@ -213,7 +213,7 @@ export default function ReportsComponent() {
                                         <hr/>
                                         <div className="d-flex flex-nowrap d-inline">
                                             <div className="text-center btn btn-royal-blue date-badge me-3">
-                                                <span style={{fontSize:'larger'}}>{String(new Date(transaction.issueDate).getDate()).padStart(2, '0')}</span>
+                                                <span>{String(new Date(transaction.issueDate).getDate()).padStart(2, '0')}</span>
                                                 <br/>
                                                 <span>{getMonthShortName(new Date(transaction.issueDate).getMonth() + 1).toUpperCase()}</span>
                                             </div>
