@@ -1,4 +1,5 @@
 import { createTransactionApi } from '../api/EBankingApiService';
+import { ComponentState } from '../common/constants/Constants';
 import { useAuth } from '../security/AuthContext';
 
 export default function PaymentConfirmComponent({ paymentType, transaction, setComponentState, targetCurrency }) {
@@ -9,16 +10,16 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setC
         createTransactionApi(username, transaction)
             .then(response => {
                 console.log(response);
-                setComponentState('success');
+                setComponentState(ComponentState.success);
             })
             .catch(error => {
                 console.log(error);
-                setComponentState('fail');
+                setComponentState(ComponentState.failure);
             });
     }
 
     function onBack() {
-        setComponentState('start');
+        setComponentState(ComponentState.start);
     }
 
     return (

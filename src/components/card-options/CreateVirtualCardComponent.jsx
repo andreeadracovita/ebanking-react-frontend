@@ -5,11 +5,10 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { useAuth } from '../security/AuthContext';
 import { retrievePayingBankAccountsForUsernameApi } from '../api/EBankingApiService';
 import { createVirtualCardForBankAccountApi } from '../api/EBankingApiService';
+import { ComponentState } from '../common/constants/Constants';
 
 export default function CreateVirtualCardComponent() {
-    // componentState { 'start', 'confirm', 'success' }
-
-    const [componentState, setComponentState] = useState('start');
+    const [componentState, setComponentState] = useState(ComponentState.start);
     const [accounts, setAccounts] = useState();
     const [selectedAccount, setSelectedAccount] = useState();
 
@@ -39,7 +38,7 @@ export default function CreateVirtualCardComponent() {
     }
 
     function onSubmitForm() {
-        setComponentState('confirm');
+        setComponentState(ComponentState.confirm);
     }
 
     function onPortfolioRedirect() {
@@ -49,7 +48,7 @@ export default function CreateVirtualCardComponent() {
     function onConfirmForm() {
         createVirtualCardForBankAccountApi(username, selectedAccount.accountNumber)
             .then(() => {
-                setComponentState('success');
+                setComponentState(ComponentState.success);
             })
             .catch(error => {
                 console.log(error);
@@ -60,7 +59,7 @@ export default function CreateVirtualCardComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Request new virtual card</h1>
             {
-                componentState === 'start' &&
+                componentState === ComponentState.start &&
                 <div>
                     <h1 className="h4 mb-4 text-royal-blue fw-bold">Attach card to account</h1>
                     <Dropdown className="mb-5">
@@ -109,7 +108,7 @@ export default function CreateVirtualCardComponent() {
                 </div>}
 
             {
-                componentState === 'confirm' && selectedAccount &&
+                componentState === ComponentState.confirm && selectedAccount &&
                 <div>
                     <div className="mb-5">
                         <p className="mb-4">You requested a new virtual card for
@@ -127,7 +126,7 @@ export default function CreateVirtualCardComponent() {
                 </div>
             }
             {
-                componentState === 'success' &&
+                componentState === ComponentState.success &&
                 <div>
                     <div className="mb-5">Virtual card successfully created.</div>
                     <br/>

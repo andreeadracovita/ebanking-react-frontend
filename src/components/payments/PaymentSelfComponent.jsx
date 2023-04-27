@@ -11,13 +11,11 @@ import { retrieveAllLocalBankAccountsForUsernameApi } from '../api/EBankingApiSe
 import PaymentConfirmComponent from './PaymentConfirmComponent';
 import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
-import { MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
+import { ComponentState, MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
 import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
 
 export default function PaymentSelfComponent() {
-    // ComponentState { 'start', 'confirm', 'success', 'fail' }
-
-    const [componentState, setComponentState] = useState('start');
+    const [componentState, setComponentState] = useState(ComponentState.start);
 
     const [accounts, setAccounts] = useState([]);
     const [selectedFromAccount, setSelectedFromAccount] = useState();
@@ -119,7 +117,7 @@ export default function PaymentSelfComponent() {
         };
 
         setTransaction(newTransaction);
-        setComponentState('confirm');
+        setComponentState(ComponentState.confirm);
     }
 
     function validForm() {
@@ -264,15 +262,15 @@ export default function PaymentSelfComponent() {
                 </div>
             }
             {
-                componentState === 'confirm' &&
+                componentState === ComponentState.confirm &&
                 <PaymentConfirmComponent paymentType='self' transaction={transaction} setComponentState={setComponentState} />
             }
             {
-                componentState === 'success' &&
+                componentState === ComponentState.success &&
                 <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={selectedToAccount.accountName} setComponentState={setComponentState} resetPaymentForm={resetPaymentForm} refreshAccounts={refreshAccounts} />
             }
             {
-                componentState === 'fail' &&
+                componentState === ComponentState.failure &&
                 <PaymentFailureComponent setComponentState={setComponentState} />
             }
         </div>

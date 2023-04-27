@@ -4,11 +4,10 @@ import { useNavigate } from 'react-router';
 
 import { Currency, createCheckingAccountApi } from '../api/EBankingApiService';
 import { useAuth } from '../security/AuthContext';
+import { ComponentState } from '../common/constants/Constants';
 
 export default function OpenAccountComponent() {
-    // ComponentState { 'start', 'confirm', 'success' }
-
-    const [componentState, setComponentState] = useState('start');
+    const [componentState, setComponentState] = useState(ComponentState.start);
     const [currency, setCurrency] = useState(Currency.CHF);
     const [newAccount, setNewAccount] = useState();
 
@@ -19,7 +18,7 @@ export default function OpenAccountComponent() {
     useEffect(() => setSuccessState(), [newAccount]);
 
     function onSubmitForm() {
-        setComponentState('confirm');
+        setComponentState(ComponentState.confirm);
     }
 
     function onPortfolioRedirect() {
@@ -39,7 +38,7 @@ export default function OpenAccountComponent() {
 
     function setSuccessState() {
         if (newAccount) {
-            setComponentState('success');
+            setComponentState(ComponentState.success);
         }
     }
 
@@ -47,7 +46,7 @@ export default function OpenAccountComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Open new checking account</h1>
             {
-                componentState === 'start' &&
+                componentState === ComponentState.start &&
                 <div>
                     <form>
                         <h1 className="h4 mb-2 text-royal-blue fw-bold">New checking account currency</h1>
@@ -77,7 +76,7 @@ export default function OpenAccountComponent() {
                 </div>}
 
             {
-                componentState === 'confirm' &&
+                componentState === ComponentState.confirm &&
                 <div>
                     <div className="mb-5">
                         <p className="mb-4">You requested a new {currency} checking account.</p>
@@ -91,7 +90,7 @@ export default function OpenAccountComponent() {
                 </div>
             }
             {
-                componentState === 'success' && newAccount &&
+                componentState === ComponentState.success && newAccount &&
                 <div>
                     <div className="mb-5">Account <span className="fw-bold">{newAccount.accountName}</span> with number <span className="fw-bold">{newAccount.accountNumber}</span> was successfully opened.</div>
                     <br/>

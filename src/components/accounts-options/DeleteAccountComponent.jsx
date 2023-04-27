@@ -3,9 +3,10 @@ import { useLocation, useNavigate } from 'react-router';
 
 import { deleteBankAccountApi } from '../api/EBankingApiService';
 import { useAuth } from '../security/AuthContext';
+import { ComponentState } from '../common/constants/Constants';
 
 export default function DeleteAccountComponent() {
-    const [componentState, setComponentState] = useState('confirm');
+    const [componentState, setComponentState] = useState(ComponentState.confirm);
     const [showBalanceError, setShowBalanceError] = useState();
 
     const authContext = useAuth();
@@ -27,7 +28,7 @@ export default function DeleteAccountComponent() {
 
         deleteBankAccountApi(username, account.accountNumber)
             .then(() => {
-                setComponentState('success');
+                setComponentState(ComponentState.success);
             })
             .catch(error => {
                 console.log(error);
@@ -42,7 +43,7 @@ export default function DeleteAccountComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Delete confirmation</h1>
             {
-                componentState === 'confirm' && account &&
+                componentState === ComponentState.confirm && account &&
                 <div>
                     { showBalanceError && <div className="mb-3 text-danger">Empty the account before proceeding.</div> }
                     <div className="mb-5">You want to delete account <span className="fw-bold">{account.accountName}</span> with number <span className="fw-bold">{account.accountNumber}</span>.</div>
@@ -54,7 +55,7 @@ export default function DeleteAccountComponent() {
                 </div>
             }
             {
-                componentState === 'success' &&
+                componentState === ComponentState.success &&
                 <div>
                     <div className="mb-5">Account <span className="fw-bold">{account.accountName}</span> with number <span className="fw-bold">{account.accountNumber}</span> was successfully deleted.</div>
                     <br/>

@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router';
 
 import { useAuth } from '../security/AuthContext';
 import { createSavingsAccountApi } from '../api/EBankingApiService';
+import { ComponentState } from '../common/constants/Constants';
 
 export default function OpenSavingsComponent() {
-    // ComponentState { 'start', 'confirm', 'success' }
-
-    const [componentState, setComponentState] = useState('start');
+    const [componentState, setComponentState] = useState(ComponentState.start);
     const [newAccount, setNewAccount] = useState();
 
     const authContext = useAuth();
@@ -33,7 +32,7 @@ export default function OpenSavingsComponent() {
 
     function setSuccessState() {
         if (newAccount) {
-            setComponentState('success');
+            setComponentState(ComponentState.success);
         }
     }
 
@@ -41,7 +40,7 @@ export default function OpenSavingsComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Open new savings account</h1>
             {
-                componentState === 'start' &&
+                componentState === ComponentState.start &&
                 <div>
                     <h1 className="h4 mb-5 text-royal-blue fw-bold">You requested a new savings account.</h1>
                     <div className="mb-5">[Terms and conditions]</div>
@@ -54,7 +53,7 @@ export default function OpenSavingsComponent() {
             }
 
             {
-                componentState === 'success' && newAccount &&
+                componentState === ComponentState.success && newAccount &&
                 <div>
                     <div className="mb-5">Savings account {newAccount.accountName} with number {newAccount.accountNumber} was successfully opened.</div>
                     <br/>

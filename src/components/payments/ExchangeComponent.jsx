@@ -12,6 +12,7 @@ import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
 import { retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
 import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
+import { ComponentState } from '../common/constants/Constants';
 
 // Reference currency: CHF
 const exchangeRate = {
@@ -21,9 +22,7 @@ const exchangeRate = {
 };
 
 export default function ExchangeComponent() {
-    // ComponentState { 'start', 'confirm', 'success', 'fail' }
-
-    const [componentState, setComponentState] = useState('start');
+    const [componentState, setComponentState] = useState(ComponentState.start);
 
     const [accounts, setAccounts] = useState([]);
     const [targetAccounts, setTargetAccounts] = useState([]);
@@ -166,7 +165,7 @@ export default function ExchangeComponent() {
         console.log(newTransaction);
 
         setTransaction(newTransaction);
-        setComponentState('confirm');
+        setComponentState(ComponentState.confirm);
     }
 
     function validForm() {
@@ -184,7 +183,7 @@ export default function ExchangeComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Exchange money</h1>
             {
-                componentState === 'start' && selectedFromAccount && selectedToAccount &&
+                componentState === ComponentState.start && selectedFromAccount && selectedToAccount &&
                 <div>
                     {
                         showError && 
@@ -320,15 +319,15 @@ export default function ExchangeComponent() {
                 </div>}
 
             {
-                componentState === 'confirm' &&
+                componentState === ComponentState.confirm &&
                 <PaymentConfirmComponent paymentType='exchange' transaction={transaction} setComponentState={setComponentState} targetCurrency={selectedToAccount.currency} />
             }
             {
-                componentState === 'success' &&
+                componentState === ComponentState.success &&
                 <PaymentSuccessComponent amount={{value:convertedAmount, currency:selectedToAccount.currency}} destination={selectedToAccount.accountName} />
             }
             {
-                componentState === 'fail' &&
+                componentState === ComponentState.failure &&
                 <PaymentFailureComponent setComponentState={setComponentState} />
             }
         </div>

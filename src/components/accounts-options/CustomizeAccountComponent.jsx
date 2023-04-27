@@ -6,11 +6,11 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 
 import { useAuth } from '../security/AuthContext';
-import { MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
+import { ComponentState, MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
 import { updateBankAccountNameApi } from '../api/EBankingApiService';
 
 export default function CustomizeAccountComponent() {
-    const [componentState, setComponentState] = useState('start');
+    const [componentState, setComponentState] = useState(ComponentState.start);
     const [account, setAccount] = useState();
     const [newName, setNewName] = useState();
 
@@ -41,7 +41,7 @@ export default function CustomizeAccountComponent() {
         updateBankAccountNameApi(username, account.accountNumber, requestBody)
             .then(response => {
                 console.log(response);
-                setComponentState('success');
+                setComponentState(ComponentState.success);
             })
             .catch(error => {
                 console.log(error);
@@ -56,7 +56,7 @@ export default function CustomizeAccountComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Customize your account</h1>
             {
-                componentState === 'start' && account &&
+                componentState === ComponentState.start && account &&
                 <div>
                     <div>
                         <p>{account.accountName}</p>
@@ -84,7 +84,7 @@ export default function CustomizeAccountComponent() {
                 </div>
             }
             {
-                componentState === 'success' &&
+                componentState === ComponentState.success &&
                 <div>
                     <p className='mb-5'>Name successfully changed from <span className='fw-bold'>{account.accountName}</span> to <span className='fw-bold'>{newName}</span>.</p>
                     <button className="btn btn-royal-blue btn-form mb-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>

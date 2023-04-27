@@ -11,13 +11,11 @@ import { useAuth } from '../security/AuthContext';
 import PaymentConfirmComponent from './PaymentConfirmComponent';
 import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
-import { MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
+import { ComponentState, MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
 import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
 
 export default function PaymentOtherComponent() {
-    // ComponentState { 'start', 'confirm', 'success', 'fail' }
-
-    const [componentState, setComponentState] = useState('start');
+    const [componentState, setComponentState] = useState(ComponentState.start);
 
     const [accounts, setAccounts] = useState([]);
     const [selectedFromAccount, setSelectedFromAccount] = useState();
@@ -87,7 +85,7 @@ export default function PaymentOtherComponent() {
             setDescription(event.target.value);
         }
     }
-    
+
     function onSubmitForm() {
         if (!validForm()) {
             setShowError(true);
@@ -106,7 +104,7 @@ export default function PaymentOtherComponent() {
         };
 
         setTransaction(newTransaction);
-        setComponentState('confirm');
+        setComponentState(ComponentState.confirm);
     }
 
     function validForm() {
@@ -137,7 +135,7 @@ export default function PaymentOtherComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Send money to someone else</h1>
             {
-                componentState === 'start' &&
+                componentState === ComponentState.start &&
                 <div>
                 {
                     showError &&
@@ -243,15 +241,15 @@ export default function PaymentOtherComponent() {
                 </div>
             }
             {
-                componentState === 'confirm' &&
+                componentState === ComponentState.confirm &&
                 <PaymentConfirmComponent paymentType='other' transaction={transaction} setComponentState={setComponentState} />
             }
             {
-                componentState === 'success' &&
+                componentState === ComponentState.success &&
                 <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={transaction.beneficiaryName} setComponentState={setComponentState} resetPaymentForm={resetPaymentForm} />
             }
             {
-                componentState === 'fail' &&
+                componentState === ComponentState.failure &&
                 <PaymentFailureComponent setComponentState={setComponentState} />
             }
         </div>

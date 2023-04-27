@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 
-import { MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
+import { ComponentState, MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
 import { useAuth } from '../security/AuthContext';
 import { retrieveAllLocalCheckingBankAccountsForUsernameApi } from '../api/EBankingApiService';
 import PaymentConfirmComponent from './PaymentConfirmComponent';
@@ -15,7 +15,7 @@ import PaymentFailureComponent from './PaymentFailureComponent';
 import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
 
 export default function ReimburseComponent() {
-    const [componentState, setComponentState] = useState('start');
+    const [componentState, setComponentState] = useState(ComponentState.start);
     const [showError, setShowError] = useState(false);
     const [toAccount, setToAccount] = useState();
     const [selectedFromAccount, setSelectedFromAccount] = useState();
@@ -98,7 +98,7 @@ export default function ReimburseComponent() {
         };
 
         setTransaction(newTransaction);
-        setComponentState('confirm');
+        setComponentState(ComponentState.confirm);
     }
 
     function validForm() {
@@ -117,7 +117,7 @@ export default function ReimburseComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Reimburse credit card</h1>
             {
-                componentState === 'start' && toAccount && selectedFromAccount &&
+                componentState === ComponentState.start && toAccount && selectedFromAccount &&
                 <div>
                     {
                         showError &&
@@ -204,15 +204,15 @@ export default function ReimburseComponent() {
                 </div>}
 
             {
-                componentState === 'confirm' &&
+                componentState === ComponentState.confirm &&
                 <PaymentConfirmComponent paymentType='self' transaction={transaction} setComponentState={setComponentState} />
             }
             {
-                componentState === 'success' &&
+                componentState === ComponentState.success &&
                 <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={location.state.account.accountName} setComponentState={setComponentState} />
             }
             {
-                componentState === 'fail' &&
+                componentState === ComponentState.failure &&
                 <PaymentFailureComponent setComponentState={setComponentState} />
             }
         </div>
