@@ -12,7 +12,7 @@ import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
 import { retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
 import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
-import { ComponentState } from '../common/constants/Constants';
+import { ComponentState, ErrorMessage } from '../common/constants/Constants';
 
 // Reference currency: CHF
 const exchangeRate = {
@@ -36,7 +36,12 @@ export default function ExchangeComponent() {
 
     const referenceCurrency = 'CHF';
 
-    const [showError, setShowError] = useState(false);
+    const errorFields = {
+        fromAccount: false,
+        toAccount: false,
+        amount: false
+    }
+    const [showError, setShowError] = useState(errorFields);
 
     const transactionDefault = {
         id: -1,
@@ -153,7 +158,6 @@ export default function ExchangeComponent() {
 
     function onSubmitForm() {
         if (!validForm()) {
-            setShowError(true);
             return;
         }
 
@@ -174,10 +178,29 @@ export default function ExchangeComponent() {
     }
 
     function validForm() {
-        if (amount === '' || Number(amount) === 0) {
-            return false;
+        var valid = true;
+        if (!selectedFromAccount) {
+            setShowError(prevValue => ({...prevValue, fromAccount: true}));
+            valid = false;
+        } else {
+            setShowError(prevValue => ({...prevValue, fromAccount: false}));
         }
-        return true;
+
+        if (!selectedToAccount) {
+            setShowError(prevValue => ({...prevValue, toAccount: true}));
+            valid = false;
+        } else {
+            setShowError(prevValue => ({...prevValue, toAccount: false}));
+        }
+
+        if (amount === '' || Number(amount) === 0) {
+            setShowError(prevValue => ({...prevValue, amount: true}));
+            valid = false;
+        } else {
+            setShowError(prevValue => ({...prevValue, amount: false}));
+        }
+
+        return valid;
     }
 
     function onPortfolioRedirect() {
@@ -190,15 +213,15 @@ export default function ExchangeComponent() {
             {
                 componentState === ComponentState.start &&
                 <div>
-                    {
-                        showError && 
-                        <span className="text-danger mb-5">
-                            <p>Amount must be completed and larger than 0.</p>
-                        </span>
-                    }
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>
                             <h1 className="h4 mb-3 text-royal-blue fw-bold">From account</h1>
+                            {
+                                showError.fromAccount &&
+                                <span className="text-danger mb-3">
+                                    <p>{ErrorMessage.noAccountSelected}</p>
+                                </span>
+                            }
                             <Dropdown className="mb-5">
                                 <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                                     {
@@ -240,7 +263,13 @@ export default function ExchangeComponent() {
                             </Dropdown>
 
                             <h1 className="h4 mb-3 text-royal-blue fw-bold">Amount to exchange</h1>
-                            <div className="">
+                            <div>
+                                {
+                                    showError.amount &&
+                                    <span className="text-danger mb-3">
+                                        <p>{ErrorMessage.amount}</p>
+                                    </span>
+                                }
                                 <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
                                     <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                                     <OutlinedInput
@@ -276,6 +305,12 @@ export default function ExchangeComponent() {
                             }
 
                             <h1 className="h4 mb-2 text-royal-blue fw-bold">To account</h1>
+                            {
+                                showError.toAccount &&
+                                <span className="text-danger mb-3">
+                                    <p>{ErrorMessage.noAccountSelected}</p>
+                                </span>
+                            }
                             <Dropdown className="mb-4">
                                 <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                                 { 

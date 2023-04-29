@@ -11,7 +11,7 @@ import { retrieveAllLocalBankAccountsForUsernameApi } from '../api/EBankingApiSe
 import PaymentConfirmComponent from './PaymentConfirmComponent';
 import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
-import { ComponentState, MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
+import { ComponentState, ErrorMessage, MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
 import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
 
 export default function PaymentSelfComponent() {
@@ -171,8 +171,8 @@ export default function PaymentSelfComponent() {
                             <h1 className="h4 mb-3 text-royal-blue fw-bold">From account</h1>
                             {
                                 showError.fromAccount &&
-                                <span className="text-danger mb-5">
-                                    <p>Select an account.</p>
+                                <span className="text-danger mb-3">
+                                    <p>{ErrorMessage.noAccountSelected}</p>
                                 </span>
                             }
                             <Dropdown className="mb-5">
@@ -217,8 +217,8 @@ export default function PaymentSelfComponent() {
                             <h1 className="h4 mb-3 text-royal-blue fw-bold">To account</h1>
                             {
                                 showError.toAccount &&
-                                <span className="text-danger mb-5">
-                                    <p>Select an account.</p>
+                                <span className="text-danger mb-3">
+                                    <p>{ErrorMessage.noAccountSelected}</p>
                                 </span>
                             }
                             <Dropdown className="mb-5">
@@ -264,8 +264,8 @@ export default function PaymentSelfComponent() {
                             <h1 className="h4 mb-3 text-royal-blue fw-bold">Transfer details</h1>
                             {
                                 showError.amount &&
-                                <span className="text-danger mb-5">
-                                    <p>Amount must be completed and larger than 0.</p>
+                                <span className="text-danger mb-3">
+                                    <p>{ErrorMessage.amount}</p>
                                 </span>
                             }
                             <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">

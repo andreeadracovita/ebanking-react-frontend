@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 
-import { ComponentState, MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
+import { ComponentState, ErrorMessage, MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
 import { useAuth } from '../security/AuthContext';
 import { retrieveAllLocalCheckingBankAccountsForUsernameApi } from '../api/EBankingApiService';
 import PaymentConfirmComponent from './PaymentConfirmComponent';
@@ -50,6 +50,8 @@ export default function ReimburseComponent() {
         if (location && location.state && location.state.account) {
             setToAccount(location.state.account);
             setAmountPlaceholder('Amount (' + location.state.account.currency + ')');
+        } else {
+            navigate('/portfolio');
         }
     }
 
@@ -119,18 +121,18 @@ export default function ReimburseComponent() {
             {
                 componentState === ComponentState.start && toAccount && selectedFromAccount &&
                 <div>
-                    {
-                        showError &&
-                        <div className="text-danger mb-5 fw-bold">
-                            <p>Amount must be completed and larger than 0.</p>
-                        </div>
-                    }
                     <h1 className="h4 mb-3 text-royal-blue fw-bold">To account</h1>
                     <p className="mb-3 ms-3">{toAccount.accountName}</p>
                     <p className="mb-5 ms-3">{toAccount.accountNumber}</p>
 
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>
+                            {
+                                showError &&
+                                <div className="text-danger mb-3">
+                                    <p>{ErrorMessage.amount}</p>
+                                </div>
+                            }
                             <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
                                 <InputLabel htmlFor="outlined-adornment-amount">{amountPlaceholder}</InputLabel>
                                 <OutlinedInput
