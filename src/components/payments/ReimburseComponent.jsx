@@ -42,32 +42,30 @@ export default function ReimburseComponent() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    useEffect (() => setCreditAccount(), [])
-    useEffect (() => refreshAccounts(), [toAccount]);
-    useEffect (() => setValuesAfterAccountsLoad(), [accounts]);
-
-    function setCreditAccount() {
+    useEffect (() => {
         if (location && location.state && location.state.account) {
             setToAccount(location.state.account);
             setAmountPlaceholder('Amount (' + location.state.account.currency + ')');
         } else {
             navigate('/portfolio');
         }
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    function refreshAccounts() {
+    useEffect (() => {
         retrieveAllLocalCheckingBankAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data);
             })
             .catch(error => console.log(error));
-    }
-
-    function setValuesAfterAccountsLoad() {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [toAccount]);
+    useEffect (() => {
         if (selectedFromAccount == null && accounts.length > 0) {
             setSelectedFromAccount(accounts[0]);
         }
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [accounts]);
 
     function handleSelectFromAccountChange(account) {
         setSelectedFromAccount(account);

@@ -49,8 +49,14 @@ export default function PaymentOtherComponent() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    useEffect (() => refreshAccounts(), []);
-    useEffect (() => setValuesAfterAccountsLoad(), [accounts]);
+    useEffect (() => {
+        refreshAccounts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect (() => {
+        setValuesAfterAccountsLoad();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [accounts]);
 
     function refreshAccounts() {
         retrieveCheckingAccountsForUsernameApi(username)
