@@ -23,7 +23,12 @@ export default function PaymentSelfComponent() {
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
 
-    const [showError, setShowError] = useState(false);
+    const errorFields = {
+        fromAccount: false,
+        toAccount: false,
+        amount: false
+    }
+    const [showError, setShowError] = useState(errorFields);
 
     const transactionDefault = {
         id: -1,
@@ -102,7 +107,6 @@ export default function PaymentSelfComponent() {
 
     function onSubmitForm() {
         if (!validForm()) {
-            setShowError(true);
             return;
         }
 
@@ -121,10 +125,29 @@ export default function PaymentSelfComponent() {
     }
 
     function validForm() {
-        if (amount === '' || Number(amount) === 0) {
-            return false;
+        var valid = true;
+        if (!selectedFromAccount) {
+            setShowError(prevValue => ({...prevValue, fromAccount: true}));
+            valid = false;
+        } else {
+            setShowError(prevValue => ({...prevValue, fromAccount: false}));
         }
-        return true;
+
+        if (!selectedToAccount) {
+            setShowError(prevValue => ({...prevValue, toAccount: true}));
+            valid = false;
+        } else {
+            setShowError(prevValue => ({...prevValue, toAccount: false}));
+        }
+
+        if (amount === '' || Number(amount) === 0) {
+            setShowError(prevValue => ({...prevValue, amount: true}));
+            valid = false;
+        } else {
+            setShowError(prevValue => ({...prevValue, amount: false}));
+        }
+
+        return valid;
     }
 
     function onPortfolioRedirect() {
@@ -141,18 +164,17 @@ export default function PaymentSelfComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Send money to myself</h1>
             {
-                componentState === 'start' && selectedFromAccount && selectedToAccount &&
+                componentState === 'start' &&
                 <div>
-                    {
-                        showError &&
-                        <span className="text-danger mb-5">
-                            <p>Amount must be completed and larger than 0.</p>
-                        </span>
-                    }
-
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>
                             <h1 className="h4 mb-3 text-royal-blue fw-bold">From account</h1>
+                            {
+                                showError.fromAccount &&
+                                <span className="text-danger mb-5">
+                                    <p>Select an account.</p>
+                                </span>
+                            }
                             <Dropdown className="mb-5">
                                 <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                                     { selectedFromAccount &&
@@ -170,6 +192,7 @@ export default function PaymentSelfComponent() {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                 {
+                                    accounts &&
                                     accounts.filter(account => selectedFromAccount && account.accountNumber !== selectedFromAccount.accountNumber)
                                         .map(
                                             account => (
@@ -192,6 +215,12 @@ export default function PaymentSelfComponent() {
                             </Dropdown>
 
                             <h1 className="h4 mb-3 text-royal-blue fw-bold">To account</h1>
+                            {
+                                showError.toAccount &&
+                                <span className="text-danger mb-5">
+                                    <p>Select an account.</p>
+                                </span>
+                            }
                             <Dropdown className="mb-5">
                                 <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                                 { 
@@ -210,6 +239,7 @@ export default function PaymentSelfComponent() {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                 {
+                                    selectedToAccount && selectedFromAccount && accounts &&
                                     accounts.filter(account => selectedToAccount && selectedFromAccount && account.accountNumber !== selectedToAccount.accountNumber && account.accountNumber !== selectedFromAccount.accountNumber)
                                         .map(
                                             account => (
@@ -232,6 +262,12 @@ export default function PaymentSelfComponent() {
                             </Dropdown>
 
                             <h1 className="h4 mb-3 text-royal-blue fw-bold">Transfer details</h1>
+                            {
+                                showError.amount &&
+                                <span className="text-danger mb-5">
+                                    <p>Amount must be completed and larger than 0.</p>
+                                </span>
+                            }
                             <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
                                 <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                                 <OutlinedInput

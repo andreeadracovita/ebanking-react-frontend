@@ -24,7 +24,13 @@ export default function PaymentOtherComponent() {
     const [amount, setAmount] = useState();
     const [description, setDescription] = useState('');
 
-    const [showError, setShowError] = useState(false);
+    const errorFields = {
+        fromAccount: false,
+        toAccount: false,
+        beneficiaryName: false,
+        amount: false
+    }
+    const [showError, setShowError] = useState(errorFields);
 
     const transactionDefault = {
         id: -1,
@@ -88,7 +94,6 @@ export default function PaymentOtherComponent() {
 
     function onSubmitForm() {
         if (!validForm()) {
-            setShowError(true);
             return;
         }
 
@@ -108,13 +113,36 @@ export default function PaymentOtherComponent() {
     }
 
     function validForm() {
+        var valid = true;
+        if (!selectedFromAccount) {
+            setShowError(prevValue => ({...prevValue, fromAccount: true}));
+            valid = false;
+        } else {
+            setShowError(prevValue => ({...prevValue, fromAccount: false}));
+        }
+
+        if (toAccountNumber === '') {
+            setShowError(prevValue => ({...prevValue, toAccount: true}));
+            valid = false;
+        } else {
+            setShowError(prevValue => ({...prevValue, toAccount: false}));
+        }
+
+        if (beneficiaryName === '') {
+            setShowError(prevValue => ({...prevValue, beneficiaryName: true}));
+            valid = false;
+        } else {
+            setShowError(prevValue => ({...prevValue, beneficiaryName: false}));
+        }
+
         if (amount === '' || Number(amount) === 0) {
-            return false;
+            setShowError(prevValue => ({...prevValue, amount: true}));
+            valid = false;
+        } else {
+            setShowError(prevValue => ({...prevValue, amount: false}));
         }
-        if (toAccountNumber === '' || beneficiaryName === '') {
-            return false;
-        }
-        return true;
+
+        return valid;
     }
 
     function onPortfolioRedirect() {
@@ -137,17 +165,15 @@ export default function PaymentOtherComponent() {
             {
                 componentState === ComponentState.start &&
                 <div>
-                {
-                    showError &&
-                    <span className="text-danger mb-5">
-                        <p>Beneficiary name must be completed.</p>
-                        <p>Beneficiary account must be completed.</p>
-                        <p>Amount must be completed and larger than 0.</p>
-                    </span>
-                }
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>
                             <h1 className="h4 mb-3 text-royal-blue fw-bold">From account</h1>
+                            {
+                                showError.fromAccount &&
+                                <span className="text-danger mb-5">
+                                    <p>Select an account.</p>
+                                </span>
+                            }
                             <Dropdown className="mb-5">
                                 <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                                     { selectedFromAccount &&
@@ -187,6 +213,12 @@ export default function PaymentOtherComponent() {
                             </Dropdown>
 
                             <h1 className="h4 mb-3 text-royal-blue fw-bold">Beneficiary</h1>
+                            {
+                                showError.toAccount &&
+                                <span className="text-danger mb-5">
+                                    <p>Beneficiary account must be completed.</p>
+                                </span>
+                            }
                             <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
                                 <InputLabel htmlFor="outlined-adornment-account">Account number</InputLabel>
                                 <OutlinedInput
@@ -198,6 +230,12 @@ export default function PaymentOtherComponent() {
                                 />
                             </FormControl>
                             <br/>
+                            {
+                                showError.beneficiaryName &&
+                                <span className="text-danger mb-5">
+                                    <p>Beneficiary name must be completed.</p>
+                                </span>
+                            }
                             <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
                                 <InputLabel htmlFor="outlined-adornment-name">Name</InputLabel>
                                 <OutlinedInput
@@ -210,6 +248,12 @@ export default function PaymentOtherComponent() {
                             </FormControl>
 
                             <h1 className="h4 mb-3 text-royal-blue fw-bold">Transfer details</h1>
+                            {
+                                showError.amount &&
+                                <span className="text-danger mb-5">
+                                    <p>Amount must be completed and larger than 0.</p>
+                                </span>
+                            }
                             <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
                                 <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                                 <OutlinedInput

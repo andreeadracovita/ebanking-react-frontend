@@ -188,7 +188,7 @@ export default function ExchangeComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Exchange money</h1>
             {
-                componentState === ComponentState.start && selectedFromAccount && selectedToAccount &&
+                componentState === ComponentState.start &&
                 <div>
                     {
                         showError && 
@@ -217,6 +217,7 @@ export default function ExchangeComponent() {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                 {
+                                    accounts && selectedFromAccount &&
                                     accounts.filter(account => selectedFromAccount && account.accountNumber !== selectedFromAccount.accountNumber)
                                         .map(
                                             account => (
