@@ -33,7 +33,9 @@ footer {
   font-size: large;
   padding-left: 3rem!important;
   padding-top: 2rem!important;
+  background-color: #0504aa;
   color: #fff;
+  position: fixed;
 }
 
 .main-content {
@@ -42,6 +44,7 @@ footer {
   padding-top: 116px;
   padding-left: 3rem!important;
   font-size: large;
+  margin-left: 288px;
 }
 
 .bg-royal-blue {

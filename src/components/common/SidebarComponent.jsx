@@ -31,7 +31,7 @@ export default function SidebarComponent() {
     }
 
     return (
-        <div className="sidebar bg-royal-blue">
+        <div className="sidebar">
             <span style={{ cursor:'default' }}>
                 <Logo width="40" height="40" />
                 <span className="ms-3 fw-bold align-middle" style={{fontSize:24+'px', fontWeight:700}}>WorldBank</span>
