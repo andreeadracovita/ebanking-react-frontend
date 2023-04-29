@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router';
 
 import PortfolioComponent from '../portfolio/PortfolioComponent';
@@ -8,6 +9,7 @@ import PaymentOtherComponent from '../payments/PaymentOtherComponent';
 import PaymentSelfComponent from '../payments/PaymentSelfComponent';
 import OpenAccountComponent from '../accounts-options/OpenAccountComponent';
 import OpenSavingsComponent from '../accounts-options/OpenSavingsComponent';
+import OpenCreditComponent from '../accounts-options/OpenCreditComponent';
 import DeleteAccountComponent from '../accounts-options/DeleteAccountComponent';
 import ReimburseComponent from '../payments/ReimburseComponent';
 import CustomizeAccountComponent from '../accounts-options/CustomizeAccountComponent';
@@ -17,7 +19,6 @@ import PasswordComponent from '../PasswordComponent';
 import LoginComponent from '../LoginComponent';
 import RequestAccountComponent from '../RequestAccountComponent';
 import CreateVirtualCardComponent from '../card-options/CreateVirtualCardComponent';
-import React, { useEffect, useState } from 'react';
 
 const ProtectedRoute = (props) => {
     const navigate = useNavigate();
@@ -54,6 +55,11 @@ export default function MainComponent() {
             <Route path='/accounts/open-savings' element={
                 <ProtectedRoute>
                     <OpenSavingsComponent />
+                </ProtectedRoute>
+            } />
+            <Route path='/accounts/request-credit' element={
+                <ProtectedRoute>
+                    <OpenCreditComponent />
                 </ProtectedRoute>
             } />
             <Route path='/accounts/delete' element={

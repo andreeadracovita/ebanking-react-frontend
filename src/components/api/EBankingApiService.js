@@ -16,6 +16,9 @@ export const createCheckingAccountApi
 export const createSavingsAccountApi
     = (username) => apiClient.post(`/${username}/account/savings`);
 
+export const createCreditAccountApi
+    = (username) => apiClient.post(`/${username}/account/credit`);
+
 export const createVirtualCardForBankAccountApi
     = (username, accountNumber) => apiClient.post(`/${username}/card/${accountNumber}`);
 

@@ -58,6 +58,7 @@ export default function AccountsComponent({ type, accounts}) {
                 </span>
                 { type === 'CHECKING' && <button className="btn btn-royal-blue" onClick={() => { navigate('/accounts/open-checking') }}>+</button> }
                 { type === 'SAVINGS' && <button className="btn btn-royal-blue" onClick={() => { navigate('/accounts/open-savings') }}>+</button> }
+                { type === 'CREDIT' && <button className="btn btn-royal-blue" onClick={() => { navigate('/accounts/request-credit') }}>+</button> }
             </div>
             <Accordion className="mt-3">
             {
