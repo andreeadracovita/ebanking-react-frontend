@@ -14,6 +14,24 @@ import { ReactComponent as DetailsIcon } from '../../assets/details.svg';
 import { ReactComponent as PiggyBankIcon } from '../../assets/piggy-bank.svg';
 
 export default function AccountsComponent({ type, accounts}) {
+    const pageName = type === 'CHECKING' ?
+                        'Accounts' :
+                        (type === 'SAVINGS' ?
+                            'Savings' :
+                            (type === 'CREDIT' ? 'Credits' : undefined));
+
+    const icon = type === 'CHECKING' ?
+                    <CheckingAccountIcon width="36px" height="36px" /> :
+                    (type === 'SAVINGS' ?
+                        <SavingsAccountIcon width="36px" height="36px" /> :
+                        (type === 'CREDIT' ? <CreditAccountIcon width="36px" height="36px" /> : undefined));
+    
+    const openAccountPath = type === 'CHECKING' ?
+                                '/accounts/open-checking' :
+                                (type === 'SAVINGS' ?
+                                    '/accounts/open-savings' :
+                                    (type === 'CREDIT' ? '/accounts/request-credit' : undefined));
+
     const navigate = useNavigate();
 
     function redirectPaymentOther(account) {
@@ -52,13 +70,9 @@ export default function AccountsComponent({ type, accounts}) {
         <span>
             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                 <span className="h4 text-royal-blue">
-                    { type === 'CHECKING' && <span><CheckingAccountIcon width="36px" height="36px" /><span className="ms-3">Accounts</span></span> }
-                    { type === 'SAVINGS' && <span><SavingsAccountIcon width="36px" height="36px" /><span className="ms-3">Savings</span></span> }
-                    { type === 'CREDIT' && <span><CreditAccountIcon width="36px" height="36px" /><span className="ms-3">Credit</span></span> }
+                    <span>{icon}<span className="ms-3">{pageName}</span></span>
                 </span>
-                { type === 'CHECKING' && <button className="btn btn-royal-blue" onClick={() => { navigate('/accounts/open-checking') }}>+</button> }
-                { type === 'SAVINGS' && <button className="btn btn-royal-blue" onClick={() => { navigate('/accounts/open-savings') }}>+</button> }
-                { type === 'CREDIT' && <button className="btn btn-royal-blue" onClick={() => { navigate('/accounts/request-credit') }}>+</button> }
+                <button className="btn btn-royal-blue" onClick={() => { navigate(openAccountPath) }}>+</button>
             </div>
             <Accordion className="mt-3">
             {
