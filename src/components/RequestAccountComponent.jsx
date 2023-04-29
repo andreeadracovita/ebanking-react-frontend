@@ -80,7 +80,7 @@ export default function RequestAccountComponent() {
 
     function handleSubmit() {
         createUserAccountApi(form)
-            .then(response => {
+            .then(() => {
                 setComponentState(ComponentState.success);
             })
             .catch(error => {
@@ -92,30 +92,35 @@ export default function RequestAccountComponent() {
         var valid = true;
         if (form.firstName.length === 0) {
             setShowError(prevValue => ({...prevValue, firstName: true}));
+            valid = false;
         } else {
             setShowError(prevValue => ({...prevValue, firstName: false}));
         }
 
         if (form.lastName.length === 0) {
             setShowError(prevValue => ({...prevValue, lastName: true}));
+            valid = false;
         } else {
             setShowError(prevValue => ({...prevValue, lastName: false}));
         }
 
         if (form.OASI.length !== 13) {
             setShowError(prevValue => ({...prevValue, OASI: true}));
+            valid = false;
         } else {
             setShowError(prevValue => ({...prevValue, OASI: false}));
         }
 
         if (form.username.length === 0) {
             setShowError(prevValue => ({...prevValue, username: true}));
+            valid = false;
         } else {
             setShowError(prevValue => ({...prevValue, username: false}));
         }
 
         if (form.passcode.length !== 5) {
             setShowError(prevValue => ({...prevValue, passcode: true}));
+            valid = false;
         } else {
             setShowError(prevValue => ({...prevValue, passcode: false}));
         }
