@@ -10,8 +10,14 @@ code {
     monospace;
 }
 
-.errorMessage {
-  color: red
+.login-form {
+  width: 600px;
+}
+
+.login-info {
+  background-color: #f3f3ff;
+  color: #0504aa;
+  height: 320px;
 }
 
 footer {

@@ -11,11 +11,12 @@ import FormControl from '@mui/material/FormControl';
 
 import { useAuth } from './security/AuthContext';
 import { checkPasscodeInput } from './common/helpers/HelperFunctions';
+import { ErrorMessage } from './common/constants/Constants';
 
 export default function LoginComponent() {
     const [username, setUsername] = useState('user');
     const [password, setPassword] = useState('12345');
-    const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [showError, setShowError] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ export default function LoginComponent() {
         if (authContext.isAuthenticated) {
             navigate('/portfolio');
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function handleUsernameChange(event) {
@@ -43,10 +45,10 @@ export default function LoginComponent() {
 
     async function handleSubmit() {
         if (await authContext.login(username, password)) {
-            setShowErrorMessage(false);
+            setShowError(false);
             navigate(`/portfolio`);
         } else {
-            setShowErrorMessage(true);
+            setShowError(true);
         }
     }
 
@@ -54,9 +56,9 @@ export default function LoginComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Login eBanking</h1>
             <div className="d-flex">
-                <span className="text-nowrap">
+                <span className="text-nowrap login-form">
                     <h1 className="h5 mb-5 fw-bold text-royal-blue">Enter your username and password</h1>
-                    {showErrorMessage && <div className="text-danger mb-3">Authentication failed. Please check your credentials.</div>}
+                    {showError && <div className="text-danger mb-3">{ErrorMessage.authentication}</div>}
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>
                             <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
@@ -98,8 +100,7 @@ export default function LoginComponent() {
                         </div>
                     </Box>
                 </span>
-                <span className="sidebar d-block h-auto"></span>
-                <span className="bg-light-royal-blue text-royal-blue">
+                <span className="login-info">
                     <div className="m-5">
                         <p className="fw-bold">Not using WorldBank eBanking yet?</p>
                         <p>→ View transaction reports anytime, anywhere</p>

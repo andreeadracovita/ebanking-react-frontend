@@ -52,11 +52,9 @@ export default function AuthProvider({ children }) {
                 )
                 return true;
             } else {
-                logout();
                 return false;
             }
         } catch (error) {
-            logout();
             return false;
         }
     }

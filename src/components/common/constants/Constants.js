@@ -4,6 +4,7 @@ export const MAX_DESCRIPTION_LENGTH = 20;
 export const MIN_DESCRIPTION_LENGTH = 3;
 
 export const ErrorMessage = {
+    authentication: 'Authentication failed. Please check your credentials',
     noAccountSelected: 'Select an account',
     amount: 'Amount must be completed and larger than 0',
     beneficiaryAccount: 'Beneficiary account must be completed',
