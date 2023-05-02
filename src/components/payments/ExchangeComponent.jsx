@@ -10,7 +10,7 @@ import { useAuth } from '../security/AuthContext';
 import PaymentConfirmComponent from './PaymentConfirmComponent';
 import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
-import { retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
+import { createTransactionApi, retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
 import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
 import { ComponentState, ErrorMessage } from '../common/constants/Constants';
 
@@ -54,6 +54,7 @@ export default function ExchangeComponent() {
     };
 
     const [transaction, setTransaction] = useState(transactionDefault);
+    const [responseErrorMessage, setResponseErrorMessage] = useState('');
 
     const authContext = useAuth();
     const username = authContext.username;
@@ -65,7 +66,7 @@ export default function ExchangeComponent() {
             .then(response => {
                 setAccounts(response.data);
             })
-            .catch(error => console.log(error));
+            .catch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -171,8 +172,6 @@ export default function ExchangeComponent() {
             exchangeRate: selectedToAccount.currency === 'CHF' ? exchangeRate[selectedFromAccount.currency] : 1 / exchangeRate[selectedToAccount.currency]
         };
 
-        console.log(newTransaction);
-
         setTransaction(newTransaction);
         setComponentState(ComponentState.confirm);
     }
@@ -205,6 +204,17 @@ export default function ExchangeComponent() {
 
     function onPortfolioRedirect() {
         navigate('/portfolio');
+    }
+
+    function onConfirmForm() {
+        createTransactionApi(username, transaction)
+            .then(() => {
+                setComponentState(ComponentState.success);
+            })
+            .catch(error => {
+                setResponseErrorMessage(error.response.data);
+                setComponentState(ComponentState.failure);
+            });
     }
 
     return (
@@ -361,7 +371,7 @@ export default function ExchangeComponent() {
 
             {
                 componentState === ComponentState.confirm &&
-                <PaymentConfirmComponent paymentType='exchange' transaction={transaction} setComponentState={setComponentState} targetCurrency={selectedToAccount.currency} />
+                <PaymentConfirmComponent paymentType='exchange' transaction={transaction} setComponentState={setComponentState} targetCurrency={selectedToAccount.currency} onConfirmForm={onConfirmForm} />
             }
             {
                 componentState === ComponentState.success &&
@@ -369,7 +379,7 @@ export default function ExchangeComponent() {
             }
             {
                 componentState === ComponentState.failure &&
-                <PaymentFailureComponent setComponentState={setComponentState} />
+                <PaymentFailureComponent setComponentState={setComponentState} message={responseErrorMessage} />
             }
         </div>
     );

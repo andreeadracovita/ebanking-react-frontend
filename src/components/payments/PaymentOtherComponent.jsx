@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 
-import { retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
+import { createTransactionApi, retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
 import { useAuth } from '../security/AuthContext';
 import PaymentConfirmComponent from './PaymentConfirmComponent';
 import PaymentSuccessComponent from './PaymentSuccessComponent';
@@ -43,6 +43,7 @@ export default function PaymentOtherComponent() {
     };
 
     const [transaction, setTransaction] = useState(transactionDefault);
+    const [responseErrorMessage, setResponseErrorMessage] = useState('');
 
     const authContext = useAuth();
     const username = authContext.username;
@@ -149,6 +150,17 @@ export default function PaymentOtherComponent() {
         }
 
         return valid;
+    }
+
+    function onConfirmForm() {
+        createTransactionApi(username, transaction)
+            .then(() => {
+                setComponentState(ComponentState.success);
+            })
+            .catch(error => {
+                setResponseErrorMessage(error.response.data);
+                setComponentState(ComponentState.failure);
+            });
     }
 
     function onPortfolioRedirect() {
@@ -292,7 +304,7 @@ export default function PaymentOtherComponent() {
             }
             {
                 componentState === ComponentState.confirm &&
-                <PaymentConfirmComponent paymentType='other' transaction={transaction} setComponentState={setComponentState} />
+                <PaymentConfirmComponent paymentType='other' transaction={transaction} setComponentState={setComponentState} onConfirmForm={onConfirmForm} />
             }
             {
                 componentState === ComponentState.success &&
@@ -300,7 +312,7 @@ export default function PaymentOtherComponent() {
             }
             {
                 componentState === ComponentState.failure &&
-                <PaymentFailureComponent setComponentState={setComponentState} />
+                <PaymentFailureComponent setComponentState={setComponentState} message={responseErrorMessage} />
             }
         </div>
     );
