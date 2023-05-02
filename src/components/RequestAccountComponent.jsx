@@ -90,40 +90,21 @@ export default function RequestAccountComponent() {
 
     function validForm() {
         var valid = true;
-        if (form.firstName.length === 0) {
-            setShowError(prevValue => ({...prevValue, firstName: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, firstName: false}));
-        }
 
-        if (form.lastName.length === 0) {
-            setShowError(prevValue => ({...prevValue, lastName: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, lastName: false}));
-        }
+        setShowError(prevValue => ({...prevValue, firstName: form.firstName.length === 0}));
+        valid = valid && form.firstName.length !== 0;
 
-        if (form.OASI.length !== 13) {
-            setShowError(prevValue => ({...prevValue, OASI: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, OASI: false}));
-        }
+        setShowError(prevValue => ({...prevValue, lastName: form.lastName.length === 0}));
+        valid = valid && form.lastName.length !== 0;
 
-        if (form.username.length === 0) {
-            setShowError(prevValue => ({...prevValue, username: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, username: false}));
-        }
+        setShowError(prevValue => ({...prevValue, OASI: form.OASI.length !== OASI_LENGTH}));
+        valid = valid && form.OASI.length === OASI_LENGTH;
 
-        if (form.passcode.length !== 5) {
-            setShowError(prevValue => ({...prevValue, passcode: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, passcode: false}));
-        }
+        setShowError(prevValue => ({...prevValue, username: form.username.length === 0}));
+        valid = valid && form.username.length !== 0;
+
+        setShowError(prevValue => ({...prevValue, passcode: form.passcode.length !== PASSCODE_LENGTH}));
+        valid = valid && form.passcode.length === PASSCODE_LENGTH;
 
         return valid;
     }

@@ -178,26 +178,15 @@ export default function ExchangeComponent() {
 
     function validForm() {
         var valid = true;
-        if (!selectedFromAccount) {
-            setShowError(prevValue => ({...prevValue, fromAccount: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, fromAccount: false}));
-        }
 
-        if (!selectedToAccount) {
-            setShowError(prevValue => ({...prevValue, toAccount: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, toAccount: false}));
-        }
+        setShowError(prevValue => ({...prevValue, fromAccount: !selectedFromAccount}));
+        valid = valid && selectedFromAccount !== undefined;
 
-        if (amount === '' || Number(amount) === 0) {
-            setShowError(prevValue => ({...prevValue, amount: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, amount: false}));
-        }
+        setShowError(prevValue => ({...prevValue, toAccount: !selectedToAccount}));
+        valid = valid && selectedToAccount !== undefined;
+
+        setShowError(prevValue => ({...prevValue, amount: (amount === '' || Number(amount) === 0)}));
+        valid = valid && amount !== '' && Number(amount) !== 0;
 
         return valid;
     }

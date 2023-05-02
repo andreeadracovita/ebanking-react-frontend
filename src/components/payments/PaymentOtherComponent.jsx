@@ -121,33 +121,18 @@ export default function PaymentOtherComponent() {
 
     function validForm() {
         var valid = true;
-        if (!selectedFromAccount) {
-            setShowError(prevValue => ({...prevValue, fromAccount: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, fromAccount: false}));
-        }
 
-        if (toAccountNumber === '') {
-            setShowError(prevValue => ({...prevValue, toAccount: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, toAccount: false}));
-        }
+        setShowError(prevValue => ({...prevValue, fromAccount: !selectedFromAccount}));
+        valid = valid && selectedFromAccount !== undefined;
 
-        if (beneficiaryName === '') {
-            setShowError(prevValue => ({...prevValue, beneficiaryName: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, beneficiaryName: false}));
-        }
+        setShowError(prevValue => ({...prevValue, toAccount: (toAccountNumber === '')}));
+        valid = valid && (toAccountNumber !== '');
 
-        if (amount === '' || Number(amount) === 0) {
-            setShowError(prevValue => ({...prevValue, amount: true}));
-            valid = false;
-        } else {
-            setShowError(prevValue => ({...prevValue, amount: false}));
-        }
+        setShowError(prevValue => ({...prevValue, beneficiaryName: beneficiaryName === ''}));
+        valid = valid && beneficiaryName !== '';
+
+        setShowError(prevValue => ({...prevValue, amount: (amount === '' || Number(amount) === 0)}));
+        valid = valid && amount !== '' && Number(amount) !== 0;
 
         return valid;
     }
