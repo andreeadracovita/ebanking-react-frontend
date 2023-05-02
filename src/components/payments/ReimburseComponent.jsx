@@ -8,7 +8,7 @@ import FormControl from '@mui/material/FormControl';
 
 import { ComponentState, ErrorMessage, MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
 import { useAuth } from '../security/AuthContext';
-import { retrieveAllLocalCheckingBankAccountsForUsernameApi } from '../api/EBankingApiService';
+import { createTransactionApi, retrieveAllLocalCheckingBankAccountsForUsernameApi } from '../api/EBankingApiService';
 import PaymentConfirmComponent from './PaymentConfirmComponent';
 import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
@@ -20,8 +20,10 @@ export default function ReimburseComponent() {
     const [toAccount, setToAccount] = useState();
     const [selectedFromAccount, setSelectedFromAccount] = useState();
     const [accounts, setAccounts] = useState([]);
-    const [amount, setAmount] = useState();
+    const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
+    const [amountPlaceholder, setAmountPlaceholder] = useState();
+    const [responseErrorMessage, setResponseErrorMessage] = useState('');
 
     const transactionDefault = {
         id: -1,
@@ -34,9 +36,7 @@ export default function ReimburseComponent() {
     };
 
     const [transaction, setTransaction] = useState(transactionDefault);
-
-    const [amountPlaceholder, setAmountPlaceholder] = useState();
-
+    
     const authContext = useAuth();
     const username = authContext.username;
     const navigate = useNavigate();
@@ -91,7 +91,7 @@ export default function ReimburseComponent() {
             id: -1,
             fromAccountNumber: selectedFromAccount.accountNumber,
             toAccountNumber: location.state.account.accountNumber,
-            amount: amount,
+            amount: Number(amount),
             currency: selectedFromAccount.currency,
             description: description,
             exchangeRate: 1.0
@@ -107,6 +107,17 @@ export default function ReimburseComponent() {
         }
 
         return true;
+    }
+
+    function onConfirmForm() {
+        createTransactionApi(username, transaction)
+            .then(() => {
+                setComponentState(ComponentState.success);
+            })
+            .catch(error => {
+                setResponseErrorMessage(error.response.data);
+                setComponentState(ComponentState.failure);
+            });
     }
 
     function onPortfolioRedirect() {
@@ -205,7 +216,7 @@ export default function ReimburseComponent() {
 
             {
                 componentState === ComponentState.confirm &&
-                <PaymentConfirmComponent paymentType='self' transaction={transaction} setComponentState={setComponentState} />
+                <PaymentConfirmComponent paymentType='self' transaction={transaction} setComponentState={setComponentState} onConfirmForm={onConfirmForm}/>
             }
             {
                 componentState === ComponentState.success &&
@@ -213,7 +224,7 @@ export default function ReimburseComponent() {
             }
             {
                 componentState === ComponentState.failure &&
-                <PaymentFailureComponent setComponentState={setComponentState} />
+                <PaymentFailureComponent setComponentState={setComponentState} message={responseErrorMessage} />
             }
         </div>
     );
