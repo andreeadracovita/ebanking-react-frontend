@@ -9,6 +9,8 @@ import { useAuth } from './security/AuthContext';
 import { ReactComponent as CalendarIcon } from '../assets/calendar.svg'; 
 
 export default function ReportsComponent() {
+    const intervalValues = ['Last day', 'Last 7 days', 'Last 2 weeks', 'Last month', 'Custom'];
+    
     var oneDay = new Date();
     oneDay.setHours(0);
     oneDay.setDate(oneDay.getDate());
@@ -32,35 +34,25 @@ export default function ReportsComponent() {
     const [startDate, setStartDate] = useState(sevenDays);
     const [endDate, setEndDate] = useState(new Date());
 
-    useEffect (() => refreshAccounts(), []);
-    useEffect (() => setValuesAfterAccountsLoad(), [accounts]);
-    useEffect (() => refreshTransactions(), [selectedAccount]);
-
-    const location = useLocation();
-
-    const authContext = useAuth();
-    const username = authContext.username;
-
-    function refreshAccounts() {
+    useEffect (() => {
         retrieveAllBankAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data);
             })
             .catch(error => console.log(error));
-    }
-
-    function setValuesAfterAccountsLoad() {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect (() => {
         if (location && location.state && location.state.account) {
             setSelectedAccount(location.state.account);
             return;
         }
-
         if (selectedAccount == null && accounts.length > 0) {
             setSelectedAccount(accounts[0]);
         }
-    }
-
-    function refreshTransactions() {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [accounts]);
+    useEffect (() => {
         if (selectedAccount != null) {
             retrieveAllTransactionsForBankAccountNumberApi(username, selectedAccount.accountNumber)
                 .then(response => {
@@ -68,7 +60,12 @@ export default function ReportsComponent() {
                 })
                 .catch(error => console.log(error));
         }
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedAccount]);
+
+    const location = useLocation();
+    const authContext = useAuth();
+    const username = authContext.username;
 
     function handleSelectedAccountChange(account) {
         setSelectedAccount(account);
@@ -76,13 +73,13 @@ export default function ReportsComponent() {
 
     function handleIntervalChange(value) {
         setInterval(value);
-        if (value === 'Last day') {
+        if (value === intervalValues[0]) {
             setStartDate(oneDay);
-        } else if (value === 'Last 7 days') {
+        } else if (value === intervalValues[1]) {
             setStartDate(sevenDays);
-        } else if (value === 'Last 2 weeks') {
+        } else if (value === intervalValues[2]) {
             setStartDate(twoWeeks);
-        } else if (value === 'Last month') {
+        } else if (value === intervalValues[3]) {
             setStartDate(lastMonth);
         }
     }
@@ -149,7 +146,7 @@ export default function ReportsComponent() {
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                     {
-                        ['Last day', 'Last 7 days', 'Last 2 weeks', 'Last month', 'Custom'].map(
+                        intervalValues.map(
                             (value) => (
                                 <Dropdown.Item className="select-dropdown-interval" key={value} onClick={() => handleIntervalChange(value)}>
                                     {value}
