@@ -30,7 +30,7 @@ export default function ReportsComponent() {
     const [accounts, setAccounts] = useState([]);
     const [transactions, setTransactions] = useState([]);
     const [selectedAccount, setSelectedAccount] = useState();
-    const [interval, setInterval] = useState('Last 7 days');
+    const [interval, setInterval] = useState(intervalValues[1]);
     const [startDate, setStartDate] = useState(sevenDays);
     const [endDate, setEndDate] = useState(new Date());
 
