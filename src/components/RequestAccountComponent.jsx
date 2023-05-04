@@ -11,7 +11,7 @@ import FormControl from '@mui/material/FormControl';
 
 import { checkPasscodeInput } from './common/helpers/HelperFunctions';
 import { ComponentState, OASI_LENGTH, PASSCODE_LENGTH } from './common/constants/Constants';
-import { createUserAccountApi } from './api/EBankingApiService';
+import { checkValidUsernameApi, createUserAccountApi } from './api/EBankingApiService';
 
 export default function RequestAccountComponent() {
     const emptyForm = {
@@ -35,6 +35,7 @@ export default function RequestAccountComponent() {
     const [showPassword, setShowPassword] = useState(false);
     const [showError, setShowError] = useState(errorFields);
     const [responseErrorMessage, setResponseErrorMessage] = useState('');
+    const [usernameError, setUsernameError] = useState(false);
 
     const navigate = useNavigate();
 
@@ -72,7 +73,18 @@ export default function RequestAccountComponent() {
         if (!validForm()) {
             return;
         }
-        setComponentState(ComponentState.confirm);
+
+        const payload = {
+            usernameToCheck: form.username
+        };
+        checkValidUsernameApi(payload)
+            .then(() => {
+                setComponentState(ComponentState.confirm);
+                setUsernameError(false);
+            })
+            .catch(() => {
+                setUsernameError(true);
+            });
     }
 
     function backToForm() {
@@ -181,6 +193,12 @@ export default function RequestAccountComponent() {
                             showError.username &&
                             <div className="text-danger mb-2">
                                 <p>Username must not be empty.</p>
+                            </div>
+                        }
+                        {
+                            usernameError &&
+                            <div className="text-danger mb-2">
+                                <p>Username is already taken.</p>
                             </div>
                         }
                         <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">

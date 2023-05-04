@@ -100,8 +100,8 @@ export default function LoginComponent() {
                         </div>
                     </Box>
                 </span>
-                <span className="login-info">
-                    <div className="m-5">
+                <span className="login-info ms-5 d-none d-xl-block">
+                    <div className="m-5 text-nowrap">
                         <p className="fw-bold">Not using WorldBank eBanking yet?</p>
                         <p>→ View transaction reports anytime, anywhere</p>
                         <p>→ Make payments at home</p>
