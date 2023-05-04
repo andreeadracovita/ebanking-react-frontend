@@ -34,6 +34,7 @@ export default function RequestAccountComponent() {
     const [form, setForm] = useState(emptyForm);
     const [showPassword, setShowPassword] = useState(false);
     const [showError, setShowError] = useState(errorFields);
+    const [responseErrorMessage, setResponseErrorMessage] = useState('');
 
     const navigate = useNavigate();
 
@@ -84,7 +85,8 @@ export default function RequestAccountComponent() {
                 setComponentState(ComponentState.success);
             })
             .catch(error => {
-                console.log(error);
+                setResponseErrorMessage(error.response.data);
+                setComponentState(ComponentState.failure);
             });
     }
 
@@ -117,7 +119,7 @@ export default function RequestAccountComponent() {
         <div className="main-content">
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Request new eBanking account</h1>
             {
-                componentState !== ComponentState.success &&
+                (componentState === ComponentState.form || componentState === ComponentState.confirm) &&
                 <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                     <div>
                         {
@@ -244,7 +246,15 @@ export default function RequestAccountComponent() {
             {
                 componentState === ComponentState.success &&
                 <div className="fw-bold">
-                    <p className='mb-5'>User account successfully created.</p>
+                    <p className="mb-5">User account successfully created.</p>
+                    <button className="btn btn-royal-blue btn-form mb-3" type="button" onClick={onLoginRedirect}>To login</button>
+                </div>
+            }
+            {
+                componentState === ComponentState.failure &&
+                <div className="fw-bold">
+                    <p className="mb-5">User account creation failed.</p>
+                    <p className="mb-5">{responseErrorMessage}.</p>
                     <button className="btn btn-royal-blue btn-form mb-3" type="button" onClick={onLoginRedirect}>To login</button>
                 </div>
             }
