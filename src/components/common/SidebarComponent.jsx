@@ -18,9 +18,7 @@ export default function SidebarComponent() {
     const username = authContext.username;
     const isAuthenticated = authContext.isAuthenticated;
 
-    useEffect (() => refreshCustomerName(), [isAuthenticated]);
-
-    function refreshCustomerName() {
+    useEffect (() => {
         if (isAuthenticated) {
             retrieveCustomerNameForUsernameApi(username)
             .then(response => {
@@ -28,7 +26,8 @@ export default function SidebarComponent() {
             })
             .catch()
         }
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuthenticated]);
 
     return (
         <div className="sidebar">

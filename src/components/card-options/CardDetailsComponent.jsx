@@ -20,21 +20,7 @@ export default function CardDetailsComponent() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    useEffect (() => loadData(), []);
-
-    const authContext = useAuth();
-    const username = authContext.username;
-
-    const switchStyle = {
-        "& .MuiSwitch-switchBase": {
-            color: "green"
-        },
-        "& .MuiSwitch-switchBase.Mui-checked": {
-          color: "red"
-        }
-    }
-
-    function loadData() {
+    useEffect (() => {
         if (location.state && location.state.card) {
             setCard(location.state.card);
 
@@ -55,6 +41,19 @@ export default function CardDetailsComponent() {
                     setAttachedAccount(response.data);
                 })
                 .catch();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const authContext = useAuth();
+    const username = authContext.username;
+
+    const switchStyle = {
+        "& .MuiSwitch-switchBase": {
+            color: "green"
+        },
+        "& .MuiSwitch-switchBase.Mui-checked": {
+          color: "red"
         }
     }
 

@@ -40,7 +40,6 @@ export default function PortfolioComponent() {
                 setCards(response.data);
             })
             .catch();
-        
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

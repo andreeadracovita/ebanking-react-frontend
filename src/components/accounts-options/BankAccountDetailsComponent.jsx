@@ -14,16 +14,13 @@ export default function BankAccountDetailsComponent() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    useEffect (() => loadAccount(), []);
-    useEffect (() => loadCustomerName(), [account]);
-
-    function loadAccount() {
+    useEffect (() => {
         if (location.state && location.state.account) {
             setAccount(location.state.account);
         }
-    }
-
-    function loadCustomerName() {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect (() => {
         if (account) {
             retrieveCustomerNameForCustomerIdApi(username, account.customerId)
                 .then(response => {
@@ -31,7 +28,8 @@ export default function BankAccountDetailsComponent() {
                 })
                 .catch();
         }
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [account]);
 
     function onPortfolioRedirect() {
         navigate('/portfolio');

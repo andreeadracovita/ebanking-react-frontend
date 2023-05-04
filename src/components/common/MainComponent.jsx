@@ -33,6 +33,7 @@ const ProtectedRoute = (props) => {
     }
     useEffect(() => {
             checkUserToken();
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [isLoggedIn]);
     return (isLoggedIn ? props.children : null);
 }

@@ -16,22 +16,20 @@ export default function CreateVirtualCardComponent() {
     const username = authContext.username;
     const navigate = useNavigate();
 
-    useEffect(() => refreshAccounts(), []);
-    useEffect(() => initSelectedAfterLoad(), [accounts]);
-
-    function refreshAccounts() {
+    useEffect(() => {
         retrievePayingBankAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data);
             })
             .catch();
-    }
-
-    function initSelectedAfterLoad() {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect(() => {
         if (accounts && accounts.length > 0) {
             setSelectedAccount(accounts[0]);
         }
-    }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [accounts]);
 
     function handleSelectedAccountChange(account) {
         setSelectedAccount(account);

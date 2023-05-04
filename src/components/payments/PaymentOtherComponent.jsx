@@ -51,21 +51,17 @@ export default function PaymentOtherComponent() {
     const location = useLocation();
 
     useEffect (() => {
-        refreshAccounts();
+        retrieveCheckingAccountsForUsernameApi(username)
+            .then(response => {
+                setAccounts(response.data);
+            })
+            .catch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect (() => {
         setValuesAfterAccountsLoad();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accounts]);
-
-    function refreshAccounts() {
-        retrieveCheckingAccountsForUsernameApi(username)
-            .then(response => {
-                setAccounts(response.data);
-            })
-            .catch();
-    }
 
     function setValuesAfterAccountsLoad() {
         if (selectedFromAccount === undefined) {

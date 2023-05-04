@@ -98,7 +98,6 @@ export default function ExchangeComponent() {
     }, [selectedFromAccount, selectedToAccount]);
 
     useEffect (() => {
-        // Cal whenever any dependency changes
         if  (selectedFromAccount && selectedToAccount) {
             const amountValue = Number(amount);
             if (currencySelect === selectedFromAccount.currency) {
