@@ -23,7 +23,7 @@ export default function ReportsComponent() {
 
     var lastMonth = new Date();
     lastMonth.setHours(0);
-    lastMonth.setDate(lastMonth.getMonth() - 1);
+    lastMonth.setDate(lastMonth.getDate() - 29);
 
     const [accounts, setAccounts] = useState([]);
     const [transactions, setTransactions] = useState([]);
@@ -191,10 +191,12 @@ export default function ReportsComponent() {
                     No transactions for this account.
                 </span>
             }
+            {startDate.toDateString()} - {endDate.toDateString()}
             {
                 transactions.filter(
                         transaction => {
                             let date = new Date(transaction.issueDate);
+                            date.setHours(1);
                             return date >= startDate && date <= endDate;
                         }
                     )
