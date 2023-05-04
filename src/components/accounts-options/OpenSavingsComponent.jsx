@@ -28,9 +28,7 @@ export default function OpenSavingsComponent() {
             .then(response => {
                 setNewAccount(response.data);
             })
-            .catch(error => {
-                console.log(error);
-            });
+            .catch();
     }
 
     return (

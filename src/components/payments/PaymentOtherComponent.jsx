@@ -64,7 +64,7 @@ export default function PaymentOtherComponent() {
             .then(response => {
                 setAccounts(response.data);
             })
-            .catch(error => console.log(error));
+            .catch();
     }
 
     function setValuesAfterAccountsLoad() {

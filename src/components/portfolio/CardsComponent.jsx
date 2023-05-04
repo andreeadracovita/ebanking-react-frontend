@@ -25,9 +25,9 @@ export default function CardsComponent({ cards, setCards }) {
                     .then(response => {
                         setCards(response.data);
                     })
-                    .catch(error => console.log(error));
+                    .catch();
             })
-            .catch(error => console.log(error));
+            .catch();
     }
 
     function onUnblockCardClicked(card) {
@@ -37,9 +37,9 @@ export default function CardsComponent({ cards, setCards }) {
                     .then(response => {
                         setCards(response.data);
                     })
-                    .catch(error => console.log(error));
+                    .catch();
             })
-            .catch(error => console.log(error));
+            .catch();
     }
 
     return (

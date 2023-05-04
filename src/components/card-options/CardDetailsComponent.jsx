@@ -48,13 +48,13 @@ export default function CardDetailsComponent() {
                 .then(response => {
                     setAvailabilityDate(response.data);
                 })
-                .catch(error => console.log(error));
+                .catch();
 
             retrieveBankAccountForAccountNumberApi(username, location.state.card.accountNumber)
                 .then(response => {
                     setAttachedAccount(response.data);
                 })
-                .catch(error => console.log(error));
+                .catch();
         }
     }
 
@@ -65,14 +65,14 @@ export default function CardDetailsComponent() {
                     setCard(response.data);
                     setBlockSwitch(false);
                 })
-                .catch(error => console.log(error));
+                .catch();
         } else {
             updateCardDeactivateApi(username, card.cardNumber)
                 .then(response => {
                     setCard(response.data);
                     setBlockSwitch(true);
                 })
-                .catch(error => console.log(error));
+                .catch();
         }
     }
 

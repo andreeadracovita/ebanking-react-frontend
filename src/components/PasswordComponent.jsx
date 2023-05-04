@@ -54,8 +54,7 @@ export default function PasswordComponent() {
             .then(() => {
                 handlePasscodeChanged();
             })
-            .catch(error => {
-                console.log(error);
+            .catch(() => {
                 setShowServerError(true);
             });
     }

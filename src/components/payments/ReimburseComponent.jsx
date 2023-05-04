@@ -57,7 +57,7 @@ export default function ReimburseComponent() {
             .then(response => {
                 setAccounts(response.data);
             })
-            .catch(error => console.log(error));
+            .catch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [toAccount]);
     useEffect (() => {

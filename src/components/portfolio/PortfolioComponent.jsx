@@ -21,25 +21,25 @@ export default function PortfolioComponent() {
             .then(response => {
                 setCheckingAccounts(response.data);
             })
-            .catch(error => console.log(error));
+            .catch();
         
         retrieveSavingsAccountsForUsernameApi(username)
             .then(response => {
                 setSavingsAccounts(response.data);
             })
-            .catch(error => console.log(error));
+            .catch();
 
         retrieveCreditAccountsForUsernameApi(username)
             .then(response => {
                 setCreditAccounts(response.data);
             })
-            .catch(error => console.log(error));
+            .catch();
         
         retrieveAllCardsForUsernameApi(username)
             .then(response => {
                 setCards(response.data);
             })
-            .catch(error => console.log(error));
+            .catch();
         
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

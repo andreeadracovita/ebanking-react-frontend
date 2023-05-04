@@ -24,7 +24,7 @@ export default function CreateVirtualCardComponent() {
             .then(response => {
                 setAccounts(response.data);
             })
-            .catch(error => console.log(error));
+            .catch();
     }
 
     function initSelectedAfterLoad() {
@@ -50,9 +50,7 @@ export default function CreateVirtualCardComponent() {
             .then(() => {
                 setComponentState(ComponentState.success);
             })
-            .catch(error => {
-                console.log(error);
-            });
+            .catch();
     }
 
     return (

@@ -78,7 +78,7 @@ export default function PaymentSelfComponent() {
             .then(response => {
                 setAccounts(response.data);
             })
-            .catch(error => console.log(error));
+            .catch();
     }
 
     function findAccountWithNumber(accountNumber) {

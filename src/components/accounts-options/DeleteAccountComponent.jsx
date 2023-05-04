@@ -30,9 +30,7 @@ export default function DeleteAccountComponent() {
             .then(() => {
                 setComponentState(ComponentState.success);
             })
-            .catch(error => {
-                console.log(error);
-            });
+            .catch();
     }
 
     function onPortfolioRedirect() {

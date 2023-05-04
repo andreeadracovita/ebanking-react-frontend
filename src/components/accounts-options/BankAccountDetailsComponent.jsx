@@ -29,7 +29,7 @@ export default function BankAccountDetailsComponent() {
                 .then(response => {
                     setCustomerName(response.data);
                 })
-                .catch(error => console.log(error));
+                .catch();
         }
     }
 

@@ -39,7 +39,7 @@ export default function ReportsComponent() {
             .then(response => {
                 setAccounts(response.data);
             })
-            .catch(error => console.log(error));
+            .catch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect (() => {
@@ -58,7 +58,7 @@ export default function ReportsComponent() {
                 .then(response => {
                     setTransactions(response.data);
                 })
-                .catch(error => console.log(error));
+                .catch();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedAccount]);

@@ -28,9 +28,7 @@ export default function OpenCreditComponent() {
             .then(response => {
                 setNewAccount(response.data);
             })
-            .catch(error => {
-                console.log(error);
-            });
+            .catch();
     }
 
     return (

@@ -26,7 +26,7 @@ export default function SidebarComponent() {
             .then(response => {
                 setCustomerName(response.data)
             })
-            .catch(error => console.log(error))
+            .catch()
         }
     }
 

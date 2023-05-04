@@ -34,9 +34,7 @@ export default function OpenAccountComponent() {
             .then(response => {
                 setNewAccount(response.data);
             })
-            .catch(error => {
-                console.log(error);
-            });
+            .catch();
     }
 
     return (
