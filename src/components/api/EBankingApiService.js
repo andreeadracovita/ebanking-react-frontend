@@ -1,11 +1,5 @@
 import { apiClient } from './ApiClient';
 
-export const Currency = {
-    CHF: 0,
-    EUR: 1,
-    USD: 2
-};
-
 // Create
 export const createUserAccountApi
     = (payload) => apiClient.post('/users/create', payload);

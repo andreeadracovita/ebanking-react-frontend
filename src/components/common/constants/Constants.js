@@ -18,3 +18,9 @@ export const ComponentState = {
     failure: 'failure',
     form: 'form'
 };
+
+export const Currency = {
+    CHF: 0,
+    EUR: 1,
+    USD: 2
+};
