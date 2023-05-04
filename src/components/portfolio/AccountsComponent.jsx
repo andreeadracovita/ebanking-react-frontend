@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import { ReactComponent as CheckingAccountIcon } from '../../assets/checking-account.svg'; 
 import { ReactComponent as CreditAccountIcon } from '../../assets/credit-account.svg'; 
 import { ReactComponent as SavingsAccountIcon } from '../../assets/savings-account.svg'; 
-
 import { ReactComponent as WalletIcon } from '../../assets/wallet.svg';
 import { ReactComponent as CurrencyIcon } from '../../assets/currency.svg';
 import { ReactComponent as ReportIcon } from '../../assets/report.svg';
@@ -15,7 +14,7 @@ import { ReactComponent as PiggyBankIcon } from '../../assets/piggy-bank.svg';
 
 export default function AccountsComponent({ type, accounts}) {
     const pageName = type === 'CHECKING' ?
-                        'Accounts' :
+                        'Checking accounts' :
                         (type === 'SAVINGS' ?
                             'Savings' :
                             (type === 'CREDIT' ? 'Credits' : undefined));
