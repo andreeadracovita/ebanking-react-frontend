@@ -68,7 +68,7 @@ export default function PaymentOtherComponent() {
     }
 
     function setValuesAfterAccountsLoad() {
-        if (selectedFromAccount == null) {
+        if (selectedFromAccount === undefined) {
             if (location && location.state && location.state.fromAccount) {
                 setSelectedFromAccount(location.state.fromAccount);
             } else if (accounts.length > 0) {

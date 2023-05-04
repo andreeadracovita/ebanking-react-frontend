@@ -61,7 +61,7 @@ export default function ReimburseComponent() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [toAccount]);
     useEffect (() => {
-        if (selectedFromAccount == null && accounts.length > 0) {
+        if (selectedFromAccount === undefined && accounts.length > 0) {
             setSelectedFromAccount(accounts[0]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

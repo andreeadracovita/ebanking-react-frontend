@@ -71,7 +71,7 @@ export default function ExchangeComponent() {
     }, []);
 
     useEffect (() => {
-        if (selectedFromAccount == null) {
+        if (selectedFromAccount === undefined) {
             if (location && location.state && location.state.fromAccount) {
                 setSelectedFromAccount(location.state.fromAccount);
                 setCurrencySelect(location.state.fromAccount.currency);
@@ -128,7 +128,7 @@ export default function ExchangeComponent() {
             } else {
                 targetCurrencyAccounts = accounts.filter(account => account.currency === 'CHF');
             }
-            if (selectedToAccount == null && targetCurrencyAccounts.length > 0) {
+            if (selectedToAccount === undefined && targetCurrencyAccounts.length > 0) {
                 setSelectedToAccount(targetCurrencyAccounts[0]);
             }
             setTargetAccounts(targetCurrencyAccounts);

@@ -12,9 +12,10 @@ import FormControl from '@mui/material/FormControl';
 import { checkPasscodeInput } from './common/helpers/HelperFunctions';
 import { updateUserPasscodeApi } from './api/EBankingApiService';
 import { useAuth } from './security/AuthContext';
+import { ComponentState } from './common/constants/Constants';
 
 export default function PasswordComponent() {
-    const [changeState, setChangeState] = useState('form');
+    const [componentState, setComponentState] = useState(ComponentState.form);
     const [newPasscode, setNewPasscode] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
@@ -41,11 +42,10 @@ export default function PasswordComponent() {
     };
 
     function onSubmitForm() {
-        if (newPasscode == null || newPasscode.length !== 5) {
+        if (newPasscode.length !== 5) {
             setShowError(true);
             return;
         }
-        // setChangeState('success');
 
         const payload = {
             passcode: newPasscode
@@ -62,7 +62,7 @@ export default function PasswordComponent() {
 
     async function handlePasscodeChanged() {
         if (await authContext.login(username, newPasscode)) {
-            setChangeState('success');
+            setComponentState(ComponentState.success);
         } else {
             setShowServerError(true);
         }
@@ -77,7 +77,7 @@ export default function PasswordComponent() {
             <h1 className="h2 mb-5 text-royal-blue fw-bold">Change eBanking passcode</h1>
 
             {
-                changeState === 'form' &&
+                componentState === ComponentState.form &&
                 <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                     <div>
                         { 
@@ -126,7 +126,7 @@ export default function PasswordComponent() {
                 </Box>
             }
             {
-                changeState === 'success' &&
+                componentState === ComponentState.success &&
                 <div className="fw-bold">
                     <p className='mb-5'>Password successfully changed.</p>
                     <button className="btn btn-royal-blue btn-form mb-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>

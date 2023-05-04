@@ -14,8 +14,8 @@ import { checkPasscodeInput } from './common/helpers/HelperFunctions';
 import { ErrorMessage } from './common/constants/Constants';
 
 export default function LoginComponent() {
-    const [username, setUsername] = useState('user');
-    const [password, setPassword] = useState('12345');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [showError, setShowError] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 

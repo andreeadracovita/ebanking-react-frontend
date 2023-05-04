@@ -29,7 +29,7 @@ export default function ReportsComponent() {
 
     const [accounts, setAccounts] = useState([]);
     const [transactions, setTransactions] = useState([]);
-    const [selectedAccount, setSelectedAccount] = useState(null);
+    const [selectedAccount, setSelectedAccount] = useState();
     const [interval, setInterval] = useState('Last 7 days');
     const [startDate, setStartDate] = useState(sevenDays);
     const [endDate, setEndDate] = useState(new Date());
@@ -47,7 +47,7 @@ export default function ReportsComponent() {
             setSelectedAccount(location.state.account);
             return;
         }
-        if (selectedAccount == null && accounts.length > 0) {
+        if (selectedAccount === undefined && accounts.length > 0) {
             setSelectedAccount(accounts[0]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
