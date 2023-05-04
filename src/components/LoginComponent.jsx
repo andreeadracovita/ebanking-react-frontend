@@ -105,7 +105,7 @@ export default function LoginComponent() {
                         <p className="fw-bold">Not using WorldBank eBanking yet?</p>
                         <p>→ View transaction reports anytime, anywhere</p>
                         <p>→ Make payments at home</p>
-                        <p>→ Open accounts at home</p>
+                        <p>→ Manage accounts at home</p>
                         <br/>
                         <Link className="text-royal-blue fw-bold" to="/request-account">Request an account</Link>
                     </div>
