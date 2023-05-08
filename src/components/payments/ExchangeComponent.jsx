@@ -195,7 +195,7 @@ export default function ExchangeComponent() {
     }
 
     function onConfirmForm() {
-        createTransactionApi(username, transaction)
+        createTransactionApi(username, "exchange", transaction)
             .then(() => {
                 setComponentState(ComponentState.success);
             })

@@ -134,7 +134,7 @@ export default function PaymentOtherComponent() {
     }
 
     function onConfirmForm() {
-        createTransactionApi(username, transaction)
+        createTransactionApi(username, "payment", transaction)
             .then(() => {
                 setComponentState(ComponentState.success);
             })

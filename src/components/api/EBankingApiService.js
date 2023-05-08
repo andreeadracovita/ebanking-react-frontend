@@ -17,7 +17,7 @@ export const createVirtualCardForBankAccountApi
     = (username, accountNumber) => apiClient.post(`/${username}/card/${accountNumber}`);
 
 export const createTransactionApi
-    = (username, transaction) => apiClient.post(`/${username}/transaction`, transaction);
+    = (username, source, transaction) => apiClient.post(`/${username}/transaction/${source}`, transaction);
 
 // Read
 export const checkValidUsernameApi

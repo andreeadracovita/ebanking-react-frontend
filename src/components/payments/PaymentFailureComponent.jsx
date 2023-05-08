@@ -14,8 +14,8 @@ export default function PaymentFailureComponent({ setComponentState, message }) 
 
     return (
         <div>
-            <p className="mb-5 fw-bold">Transaction failed: { message && <span>{message}</span> }</p>
-            <button className="btn btn-royal-blue btn-form mb-3" type="button" name="anotherPayment" onClick={onRetryPaymentClicked}>Retry payment.</button>
+            <p className="mb-5 fw-bold">Transaction failed: { message && <span>{message}.</span> }</p>
+            <button className="btn btn-royal-blue btn-form mb-3" type="button" name="anotherPayment" onClick={onRetryPaymentClicked}>Retry payment</button>
             <br/>
             <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
         </div>
