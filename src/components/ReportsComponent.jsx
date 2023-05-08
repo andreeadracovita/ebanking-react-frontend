@@ -182,7 +182,7 @@ export default function ReportsComponent() {
             </span>
             <div style={{width:1000+'px'}}>
             {
-                transactions.length === 0 &&
+                selectedAccount && transactions.length === 0 &&
                 <span>
                     <hr/>
                     No transactions for this account.
