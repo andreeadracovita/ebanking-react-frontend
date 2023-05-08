@@ -5,12 +5,13 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { useAuth } from '../security/AuthContext';
 import { retrievePayingBankAccountsForUsernameApi } from '../api/EBankingApiService';
 import { createVirtualCardForBankAccountApi } from '../api/EBankingApiService';
-import { ComponentState } from '../common/constants/Constants';
+import { ComponentState, ErrorMessage } from '../common/constants/Constants';
 
 export default function CreateVirtualCardComponent() {
     const [componentState, setComponentState] = useState(ComponentState.start);
     const [accounts, setAccounts] = useState();
     const [selectedAccount, setSelectedAccount] = useState();
+    const [showError, setShowError] = useState(false);
 
     const authContext = useAuth();
     const username = authContext.username;
@@ -36,7 +37,20 @@ export default function CreateVirtualCardComponent() {
     }
 
     function onSubmitForm() {
+        if (!validForm()) {
+            return;
+        }
+
         setComponentState(ComponentState.confirm);
+    }
+
+    function validForm() {
+        var valid = true;
+
+        setShowError(selectedAccount === undefined);
+        valid = valid && selectedAccount !== undefined;
+
+        return valid;
     }
 
     function onPortfolioRedirect() {
@@ -58,6 +72,12 @@ export default function CreateVirtualCardComponent() {
                 componentState === ComponentState.start &&
                 <div>
                     <h1 className="h4 mb-4 text-royal-blue fw-bold">Attach card to account</h1>
+                    {
+                        showError &&
+                        <span className="text-danger mb-3">
+                            <p>{ErrorMessage.noAccountSelected}</p>
+                        </span>
+                    }
                     <Dropdown className="mb-5">
                         <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                             {
