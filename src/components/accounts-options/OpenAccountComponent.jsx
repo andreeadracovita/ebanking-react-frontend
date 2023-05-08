@@ -87,7 +87,10 @@ export default function OpenAccountComponent() {
             {
                 componentState === ComponentState.success && newAccount &&
                 <div>
-                    <div className="mb-5">Account <span className="fw-bold">{newAccount.accountName}</span> with number <span className="fw-bold">{newAccount.accountNumber}</span> was successfully opened.</div>
+                    <div className="mb-5">
+                        <p>Account <span className="fw-bold">{newAccount.accountName}</span> with number <span className="fw-bold">{newAccount.accountNumber}</span> was successfully opened.</p>
+                        <p>The account was created with <span className="fw-bold">100 {newAccount.currency}</span> for testing purposes.</p>
+                    </div>
                     <br/>
                     <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>

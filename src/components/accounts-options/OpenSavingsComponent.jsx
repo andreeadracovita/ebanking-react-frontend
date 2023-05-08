@@ -50,7 +50,7 @@ export default function OpenSavingsComponent() {
             {
                 componentState === ComponentState.success && newAccount &&
                 <div>
-                    <div className="mb-5">Savings account {newAccount.accountName} with number {newAccount.accountNumber} was successfully opened.</div>
+                    <div className="mb-5">Savings account <span className="fw-bold">{newAccount.accountName}</span> with number <span className="fw-bold">{newAccount.accountNumber}</span> was successfully opened.</div>
                     <br/>
                     <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>
