@@ -51,17 +51,21 @@ export default function PaymentOtherComponent() {
     const location = useLocation();
 
     useEffect (() => {
-        retrieveCheckingAccountsForUsernameApi(username)
-            .then(response => {
-                setAccounts(response.data);
-            })
-            .catch();
+        refreshAccounts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect (() => {
         setValuesAfterAccountsLoad();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accounts]);
+
+    function refreshAccounts() {
+        retrieveCheckingAccountsForUsernameApi(username)
+            .then(response => {
+                setAccounts(response.data);
+            })
+            .catch();
+    }
 
     function setValuesAfterAccountsLoad() {
         if (selectedFromAccount === undefined) {
@@ -149,13 +153,11 @@ export default function PaymentOtherComponent() {
     }
 
     function resetPaymentForm() {
-        if (accounts.length > 0) {
-            setSelectedFromAccount(accounts[0]);
-        }
         setToAccountNumber('');
         setBeneficiaryName('');
         setAmount(null);
         setDescription(null);
+        setComponentState(ComponentState.start);
     }
 
     return (
@@ -289,7 +291,7 @@ export default function PaymentOtherComponent() {
             }
             {
                 componentState === ComponentState.success &&
-                <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={transaction.beneficiaryName} setComponentState={setComponentState} resetPaymentForm={resetPaymentForm} />
+                <PaymentSuccessComponent amount={{value:transaction.amount, currency:transaction.currency}} destination={transaction.beneficiaryName} setComponentState={setComponentState} resetPaymentForm={resetPaymentForm} refreshAccounts={refreshAccounts} />
             }
             {
                 componentState === ComponentState.failure &&
