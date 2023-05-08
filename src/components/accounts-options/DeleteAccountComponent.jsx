@@ -44,7 +44,7 @@ export default function DeleteAccountComponent() {
                 componentState === ComponentState.confirm && account &&
                 <div>
                     { showBalanceError && <div className="mb-3 text-danger">Empty the account before proceeding.</div> }
-                    <div className="mb-5">You want to delete account <span className="fw-bold">{account.accountName}</span> with number <span className="fw-bold">{account.accountNumber}</span>.</div>
+                    <div className="mb-5">You want to delete account <span className="fw-bold">{account.accountName}</span> with number <span className="fw-bold">{account.accountNumber}</span> and any attached card.</div>
                     <div>
                         <button className="btn btn-royal-blue btn-form mb-3" type="button" name="confirm" onClick={onConfirm}>Sign</button>
                         <br/>
