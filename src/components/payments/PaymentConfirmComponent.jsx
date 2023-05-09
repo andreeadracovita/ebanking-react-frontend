@@ -12,24 +12,22 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setC
                     paymentType !== 'exchange' &&
                     <span>
                         <p>Amount:</p>
-                        <p className="ms-3 fw-bold">{transaction.amount.toLocaleString("de-CH")} {transaction.currency}</p>
+                        <p className="ms-3 fw-bold">{transaction.amount.toFixed(2)} {transaction.currency}</p>
                     </span>
                 }
                 {
                     paymentType === 'exchange' &&
                     <span>
                         <p>Exchanged amount:</p>
-                        <p className="ms-3 fw-bold">{transaction.amount.toLocaleString("de-CH")} {transaction.currency}</p>
+                        <p className="ms-3 fw-bold">{transaction.amount.toFixed(2)} {transaction.currency}</p>
                         <p>Exchange rate:</p>
                         <p className="ms-3 fw-bold">1 {targetCurrency} = {(1 / transaction.exchangeRate).toFixed(4)} {transaction.currency} </p>
                         <p>Transferred amount:</p>
                         <p className="ms-3 fw-bold">{(transaction.amount * transaction.exchangeRate).toFixed(2)} {targetCurrency}</p>
                     </span>
                 }
-                <br/>
                 <p>From account:</p>
                 <p className="ms-3 fw-bold">{transaction.fromAccountNumber}</p>
-                <br/>
                 <hr/>
                 {
                     paymentType === 'other' &&

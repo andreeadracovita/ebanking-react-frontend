@@ -103,15 +103,15 @@ export default function ExchangeComponent() {
             if (currencySelect === selectedFromAccount.currency) {
                 setDebitAmount(amountValue);
                 if (selectedFromAccount.currency === referenceCurrency) {
-                    setConvertedAmount((amountValue / exchangeRate[selectedToAccount.currency]).toFixed(2));
+                    setConvertedAmount(amountValue / exchangeRate[selectedToAccount.currency]);
                 } else {
-                    setConvertedAmount((amountValue * exchangeRate[targetCurrency]).toFixed(2));
+                    setConvertedAmount(amountValue * exchangeRate[targetCurrency]);
                 }
             } else {
                 if (selectedFromAccount.currency === referenceCurrency) {
-                    setDebitAmount((amountValue * exchangeRate[targetCurrency]).toFixed(2));
+                    setDebitAmount(amountValue * exchangeRate[targetCurrency]);
                 } else {
-                    setDebitAmount((amountValue / exchangeRate[targetCurrency]).toFixed(2));
+                    setDebitAmount(amountValue / exchangeRate[targetCurrency]);
                 }
                 setConvertedAmount(amountValue);
             }
@@ -293,11 +293,11 @@ export default function ExchangeComponent() {
                                 <span>
                                     <div className="mb-3">
                                         <span>Debit amount: </span>
-                                        { selectedFromAccount && <span className="account-balance">{debitAmount} {selectedFromAccount.currency}</span> }
+                                        { selectedFromAccount && <span className="account-balance">{debitAmount.toFixed(2)} {selectedFromAccount.currency}</span> }
                                     </div>
                                     <div className="mb-3">
                                         <span>Converted amount: </span>
-                                        { selectedToAccount && <span className="account-balance">{convertedAmount} {selectedToAccount.currency}</span> }
+                                        { selectedToAccount && <span className="account-balance">{convertedAmount.toFixed(2)} {selectedToAccount.currency}</span> }
                                     </div>
                                 </span>
                             }

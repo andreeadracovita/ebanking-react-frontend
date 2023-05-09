@@ -14,7 +14,7 @@ export default function PaymentSuccessComponent({ amount, destination, resetPaym
 
     return (
         <div>
-            <p className="mb-5 fw-bold">You transferred {amount.value.toLocaleString("de-CH")} {amount.currency} to {destination}.</p>
+            <p className="mb-5 fw-bold">You transferred {amount.value.toFixed(2)} {amount.currency} to {destination}.</p>
             <button className="btn btn-royal-blue btn-form mb-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
             <br/>
             { resetPaymentForm && <button className="btn btn-secondary btn-form" type="button" name="anotherPayment" onClick={onNewPaymentClicked}>Another payment</button> }
