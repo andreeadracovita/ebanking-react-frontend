@@ -22,7 +22,7 @@ export default function BankAccountDetailsComponent() {
     }, []);
     useEffect (() => {
         if (account) {
-            retrieveCustomerNameForCustomerIdApi(username, account.customerId)
+            retrieveCustomerNameForCustomerIdApi(username, account.customer.id)
                 .then(response => {
                     setCustomerName(response.data);
                 })
