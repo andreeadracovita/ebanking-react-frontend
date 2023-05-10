@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { useAuth } from '../security/AuthContext';
 import { createCreditAccountApi } from '../api/EBankingApiService';
 import { ComponentState } from '../common/constants/Constants';
+import { CHFCurrency } from '../common/helpers/HelperFunctions';
 
 export default function OpenCreditComponent() {
     const [componentState, setComponentState] = useState(ComponentState.start);
@@ -52,7 +53,7 @@ export default function OpenCreditComponent() {
                 componentState === ComponentState.success && newAccount &&
                 <div>
                     <div className="mb-5">Credit was successfully issued.</div>
-                    <div className="mb-5">Credit limit is <span className="fw-bold">{newAccount.balance} {newAccount.currency}</span>.</div>
+                    <div className="mb-5">Credit limit is <span className="fw-bold">{CHFCurrency.format(newAccount.balance)} {newAccount.currency}</span>.</div>
                     <br/>
                     <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>

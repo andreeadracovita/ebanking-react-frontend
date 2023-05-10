@@ -51,3 +51,9 @@ function validSum(value) {
     }
     return true;
 }
+
+export const CHFCurrency = new Intl.NumberFormat('de-CH', {
+    style: 'decimal',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});

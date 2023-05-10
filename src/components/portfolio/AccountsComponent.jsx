@@ -11,6 +11,7 @@ import { ReactComponent as CustomizeIcon } from '../../assets/customize.svg';
 import { ReactComponent as DeleteIcon } from '../../assets/delete.svg';
 import { ReactComponent as DetailsIcon } from '../../assets/details.svg';
 import { ReactComponent as PiggyBankIcon } from '../../assets/piggy-bank.svg';
+import { CHFCurrency } from '../common/helpers/HelperFunctions';
 
 export default function AccountsComponent({ type, accounts}) {
     const pageName = type === 'CHECKING' ?
@@ -82,7 +83,7 @@ export default function AccountsComponent({ type, accounts}) {
                                 <div className="mt-3 me-2 w-100">
                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                         <span>{account.accountName}</span>
-                                        <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
+                                        <span className="account-balance">{CHFCurrency.format(account.balance)}</span>
                                     </div>
                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                         <span className="account-number">{account.accountNumber}</span>

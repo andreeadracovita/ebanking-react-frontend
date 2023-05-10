@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { retrieveAllBankAccountsForUsernameApi, retrieveAllTransactionsForBankAccountNumberApi } from './api/EBankingApiService';
 import { useAuth } from './security/AuthContext';
 import { ReactComponent as CalendarIcon } from '../assets/calendar.svg'; 
+import { CHFCurrency } from './common/helpers/HelperFunctions';
 
 export default function ReportsComponent() {
     const intervalValues = ['Last day', 'Last 7 days', 'Last 2 weeks', 'Last month', 'Custom'];
@@ -109,7 +110,7 @@ export default function ReportsComponent() {
                         <div>
                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                 <span>{selectedAccount.accountName}</span>
-                                <span className="account-balance">{selectedAccount.balance.toLocaleString("de-CH")}</span>
+                                <span className="account-balance">{CHFCurrency.format(selectedAccount.balance)}</span>
                             </div>
                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                 <span className="account-number small">{selectedAccount.accountNumber}</span>
@@ -125,7 +126,7 @@ export default function ReportsComponent() {
                                     <div>
                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                             <span>{account.accountName}</span>
-                                            <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
+                                            <span className="account-balance">{CHFCurrency.format(account.balance)}</span>
                                         </div>
                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                             <span className="account-number small">{account.accountNumber}</span>
@@ -211,13 +212,13 @@ export default function ReportsComponent() {
                                         { transaction.fromAccountNumber === selectedAccount.accountNumber && 
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                 <span>{transaction.toAccountNumber}</span>
-                                                <span className="text-danger fw-bold">-{(transaction.amount).toLocaleString("de-CH")}</span>
+                                                <span className="text-danger fw-bold">-{CHFCurrency.format(transaction.amount)}</span>
                                             </div>
                                         }
                                         { transaction.toAccountNumber === selectedAccount.accountNumber && 
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                 <span>{transaction.fromAccountNumber}</span>
-                                                <span className="text-success fw-bold">+{(transaction.amount * transaction.exchangeRate).toLocaleString("de-CH")}</span>
+                                                <span className="text-success fw-bold">+{CHFCurrency.format(transaction.amount * transaction.exchangeRate)}</span>
                                             </div>
                                         }
                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">

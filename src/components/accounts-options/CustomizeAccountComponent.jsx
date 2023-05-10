@@ -8,6 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import { useAuth } from '../security/AuthContext';
 import { ComponentState, MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
 import { updateBankAccountNameApi } from '../api/EBankingApiService';
+import { CHFCurrency } from '../common/helpers/HelperFunctions';
 
 export default function CustomizeAccountComponent() {
     const [componentState, setComponentState] = useState(ComponentState.start);
@@ -56,7 +57,7 @@ export default function CustomizeAccountComponent() {
                     <div>
                         <p>{account.accountName}</p>
                         <p>{account.accountNumber}</p>
-                        <p>{account.balance.toLocaleString("de-CH")} {account.currency}</p>
+                        <p>{CHFCurrency.format(account.balance)} {account.currency}</p>
                     </div>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>

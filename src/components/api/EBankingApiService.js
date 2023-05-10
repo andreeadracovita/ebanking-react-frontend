@@ -53,9 +53,6 @@ export const retrieveAllBankAccountsForUsernameApi
 export const retrievePayingBankAccountsForUsernameApi
     = (username) => apiClient.get(`/${username}/accounts/paying`);
 
-export const retrieveBankAccountForAccountNumberApi
-    = (username, id) => apiClient.get(`/${username}/accounts/${id}`);
-
 export const retrieveAllCardsForUsernameApi
     = (username) => apiClient.get(`/${username}/cards`);
 

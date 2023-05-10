@@ -6,6 +6,7 @@ import { useAuth } from '../security/AuthContext';
 import { retrievePayingBankAccountsForUsernameApi } from '../api/EBankingApiService';
 import { createVirtualCardForBankAccountApi } from '../api/EBankingApiService';
 import { ComponentState, ErrorMessage } from '../common/constants/Constants';
+import { CHFCurrency } from '../common/helpers/HelperFunctions';
 
 export default function CreateVirtualCardComponent() {
     const [componentState, setComponentState] = useState(ComponentState.start);
@@ -85,7 +86,7 @@ export default function CreateVirtualCardComponent() {
                                 <div>
                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                         <span>{selectedAccount.accountName}</span>
-                                        <span className="account-balance">{selectedAccount.balance.toLocaleString("de-CH")}</span>
+                                        <span className="account-balance">{CHFCurrency.format(selectedAccount.balance)}</span>
                                     </div>
                                     <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                         <span className="account-number small">{selectedAccount.accountNumber}</span>
@@ -103,7 +104,7 @@ export default function CreateVirtualCardComponent() {
                                             <div>
                                                 <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                     <span>{account.accountName}</span>
-                                                    <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
+                                                    <span className="account-balance">{CHFCurrency.format(account.balance)}</span>
                                                 </div>
                                                 <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                     <span className="account-number small">{account.accountNumber}</span>

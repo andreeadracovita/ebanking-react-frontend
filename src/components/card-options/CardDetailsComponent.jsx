@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { Switch } from '@mui/material';
 
-import { formatCardNumber, hideCardCharacters } from '../common/helpers/HelperFunctions';
+import { CHFCurrency, formatCardNumber, hideCardCharacters } from '../common/helpers/HelperFunctions';
 import { useAuth } from '../security/AuthContext';
 import {
     retrieveAvailabilityDateForCardNumberApi,
-    retrieveBankAccountForAccountNumberApi,
     updateCardActivateApi,
     updateCardDeactivateApi
 } from '../api/EBankingApiService';
@@ -16,7 +15,6 @@ import { ReactComponent as EyeIcon } from '../../assets/eye.svg';
 export default function CardDetailsComponent() {
     const [card, setCard] = useState();
     const [availabilityDate, setAvailabilityDate] = useState();
-    const [attachedAccount, setAttachedAccount] = useState();
     const [blockSwitch, setBlockSwitch] = useState(false);
     const [showCardInfoSwitch, setShowCardInfoSwitch] = useState(false);
 
@@ -36,12 +34,6 @@ export default function CardDetailsComponent() {
             retrieveAvailabilityDateForCardNumberApi(username, location.state.card.cardNumber)
                 .then(response => {
                     setAvailabilityDate(response.data);
-                })
-                .catch();
-
-            retrieveBankAccountForAccountNumberApi(username, location.state.card.bankAccount.accountNumber)
-                .then(response => {
-                    setAttachedAccount(response.data);
                 })
                 .catch();
         }
@@ -89,7 +81,7 @@ export default function CardDetailsComponent() {
     return (
         <div className="main-content">
         {
-            card && attachedAccount &&
+            card &&
             <span>
                 { card.status === 'ACTIVE' && <p className="btn btn-success pe-none">Active</p> }
                 { card.status === 'INACTIVE' && <p className="btn btn-danger pe-none">Inactive</p> }
@@ -144,9 +136,9 @@ export default function CardDetailsComponent() {
                 </div>
 
                 <p>Attached account</p>
-                <p className="ms-3 fw-bold">{attachedAccount.accountName}</p>
-                <p className="ms-3 fw-bold">{attachedAccount.accountNumber}</p>
-                <p className="ms-3 fw-bold">{attachedAccount.balance.toLocaleString("de-CH")} {attachedAccount.currency}</p>
+                <p className="ms-3 fw-bold">{card.bankAccount.accountName}</p>
+                <p className="ms-3 fw-bold">{card.bankAccount.accountNumber}</p>
+                <p className="ms-3 fw-bold">{CHFCurrency.format(card.bankAccount.balance)} {card.bankAccount.currency}</p>
                 <br/>
 
                 <button className="btn btn-royal-blue btn-form mt-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>

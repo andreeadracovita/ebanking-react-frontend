@@ -11,7 +11,7 @@ import PaymentConfirmComponent from './PaymentConfirmComponent';
 import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
 import { createTransactionApi, retrieveCheckingAccountsForUsernameApi } from '../api/EBankingApiService';
-import { checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
+import { CHFCurrency, checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
 import { ComponentState, ErrorMessage } from '../common/constants/Constants';
 
 // Reference currency: CHF
@@ -227,7 +227,7 @@ export default function ExchangeComponent() {
                                         <div>
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                 <span>{selectedFromAccount.accountName}</span>
-                                                <span className="account-balance">{selectedFromAccount.balance.toLocaleString("de-CH")}</span>
+                                                <span className="account-balance">{CHFCurrency.format(selectedFromAccount.balance)}</span>
                                             </div>
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                 <span className="account-number">{selectedFromAccount.accountNumber}</span>
@@ -246,7 +246,7 @@ export default function ExchangeComponent() {
                                                     <div>
                                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                             <span>{account.accountName}</span>
-                                                            <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
+                                                            <span className="account-balance">{CHFCurrency.format(account.balance)}</span>
                                                         </div>
                                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                             <span className="account-number">{account.accountNumber}</span>
@@ -316,7 +316,7 @@ export default function ExchangeComponent() {
                                     <div>
                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                             <span>{selectedToAccount.accountName}</span>
-                                            <span className="account-balance">{selectedToAccount.balance.toLocaleString("de-CH")}</span>
+                                            <span className="account-balance">{CHFCurrency.format(selectedToAccount.balance)}</span>
                                         </div>
                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                             <span className="account-number">{selectedToAccount.accountNumber}</span>
@@ -334,7 +334,7 @@ export default function ExchangeComponent() {
                                                     <div>
                                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                             <span>{account.accountName}</span>
-                                                            <span className="account-balance">{account.balance.toLocaleString("de-CH")}</span>
+                                                            <span className="account-balance">{CHFCurrency.format(account.balance)}</span>
                                                         </div>
                                                         <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                             <span className="account-number">{account.accountNumber}</span>
