@@ -11,7 +11,7 @@ import { useAuth } from '../security/AuthContext';
 import PaymentConfirmComponent from './PaymentConfirmComponent';
 import PaymentSuccessComponent from './PaymentSuccessComponent';
 import PaymentFailureComponent from './PaymentFailureComponent';
-import { ComponentState, ErrorMessage, MAX_DESCRIPTION_LENGTH } from '../common/constants/Constants';
+import { ACCOUNT_NUMBER_LENGTH, ComponentState, ErrorMessage, MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '../common/constants/Constants';
 import { CHFCurrency, checkAmountInput, processSum } from '../common/helpers/HelperFunctions';
 
 export default function PaymentOtherComponent() {
@@ -82,11 +82,15 @@ export default function PaymentOtherComponent() {
     }
 
     function handleToAccountNumberChange(event) {
-        setToAccountNumber(event.target.value);
+        if (event.target.value.length <= ACCOUNT_NUMBER_LENGTH) {
+            setToAccountNumber(event.target.value);
+        }
     }
 
     function handleBeneficiaryNameChange(event) {
-        setBeneficiaryName(event.target.value);
+        if (event.target.value.length <= MAX_NAME_LENGTH) {
+            setBeneficiaryName(event.target.value);
+        }
     }
 
     function handleAmountChange(event) {
@@ -125,11 +129,11 @@ export default function PaymentOtherComponent() {
         setShowError(prevValue => ({...prevValue, fromAccount: !selectedFromAccount}));
         valid = valid && selectedFromAccount !== undefined;
 
-        setShowError(prevValue => ({...prevValue, toAccount: (toAccountNumber === '')}));
-        valid = valid && (toAccountNumber !== '');
+        setShowError(prevValue => ({...prevValue, toAccount: (toAccountNumber === '' || toAccountNumber.length !== ACCOUNT_NUMBER_LENGTH)}));
+        valid = valid && toAccountNumber !== '' && toAccountNumber.length === ACCOUNT_NUMBER_LENGTH;
 
-        setShowError(prevValue => ({...prevValue, beneficiaryName: beneficiaryName === ''}));
-        valid = valid && beneficiaryName !== '';
+        setShowError(prevValue => ({...prevValue, beneficiaryName: beneficiaryName === '' || beneficiaryName.length > MAX_NAME_LENGTH}));
+        valid = valid && beneficiaryName !== '' && beneficiaryName.length <= MAX_NAME_LENGTH;
 
         setShowError(prevValue => ({...prevValue, amount: (amount === '' || Number(amount) === 0)}));
         valid = valid && amount !== '' && Number(amount) !== 0;

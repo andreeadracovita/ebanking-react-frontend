@@ -10,7 +10,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import FormControl from '@mui/material/FormControl';
 
 import { checkPasscodeInput } from './common/helpers/HelperFunctions';
-import { ComponentState, OASI_LENGTH, PASSCODE_LENGTH } from './common/constants/Constants';
+import { ComponentState, MAX_NAME_LENGTH, OASI_LENGTH, PASSCODE_LENGTH } from './common/constants/Constants';
 import { checkValidUsernameApi, createUserAccountApi } from './api/EBankingApiService';
 
 export default function RequestAccountComponent() {
@@ -46,11 +46,15 @@ export default function RequestAccountComponent() {
     };
 
     function handleFirstNameChange(event) {
-        setForm(prevState => ({...prevState, firstName: event.target.value}));
+        if (event.target.value.length <= MAX_NAME_LENGTH) {
+            setForm(prevState => ({...prevState, firstName: event.target.value}));
+        }
     }
 
     function handleLastNameChange(event) {
-        setForm(prevState => ({...prevState, lastName: event.target.value}));
+        if (event.target.value.length <= MAX_NAME_LENGTH) {
+            setForm(prevState => ({...prevState, lastName: event.target.value}));
+        }
     }
 
     function handleOASIChange(event) {
@@ -60,7 +64,9 @@ export default function RequestAccountComponent() {
     }
 
     function handleUsernameChange(event) {
-        setForm(prevState => ({...prevState, username: event.target.value}));
+        if (event.target.value.length <= MAX_NAME_LENGTH) {
+            setForm(prevState => ({...prevState, username: event.target.value}));
+        }
     }
 
     function handlePasscodeChange(event) {
@@ -105,17 +111,17 @@ export default function RequestAccountComponent() {
     function validForm() {
         var valid = true;
 
-        setShowError(prevValue => ({...prevValue, firstName: form.firstName.length === 0}));
-        valid = valid && form.firstName.length !== 0;
+        setShowError(prevValue => ({...prevValue, firstName: form.firstName.length === 0 || form.firstName.length > MAX_NAME_LENGTH}));
+        valid = valid && form.firstName.length !== 0 && form.firstName.length <= MAX_NAME_LENGTH;
 
-        setShowError(prevValue => ({...prevValue, lastName: form.lastName.length === 0}));
-        valid = valid && form.lastName.length !== 0;
+        setShowError(prevValue => ({...prevValue, lastName: form.lastName.length === 0 || form.lastName.length > MAX_NAME_LENGTH}));
+        valid = valid && form.lastName.length !== 0 && form.lastName.length <= MAX_NAME_LENGTH;
 
         setShowError(prevValue => ({...prevValue, OASI: form.OASI.length !== OASI_LENGTH}));
         valid = valid && form.OASI.length === OASI_LENGTH;
 
-        setShowError(prevValue => ({...prevValue, username: form.username.length === 0}));
-        valid = valid && form.username.length !== 0;
+        setShowError(prevValue => ({...prevValue, username: form.username.length === 0 || form.username.length > MAX_NAME_LENGTH}));
+        valid = valid && form.username.length !== 0 && form.username.length <= MAX_NAME_LENGTH;
 
         setShowError(prevValue => ({...prevValue, passcode: form.passcode.length !== PASSCODE_LENGTH}));
         valid = valid && form.passcode.length === PASSCODE_LENGTH;

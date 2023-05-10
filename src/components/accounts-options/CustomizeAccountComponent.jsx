@@ -13,7 +13,7 @@ import { CHFCurrency } from '../common/helpers/HelperFunctions';
 export default function CustomizeAccountComponent() {
     const [componentState, setComponentState] = useState(ComponentState.start);
     const [account, setAccount] = useState();
-    const [newName, setNewName] = useState();
+    const [newName, setNewName] = useState('');
 
     const authContext = useAuth();
     const username = authContext.username;

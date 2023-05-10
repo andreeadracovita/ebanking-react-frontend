@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import { checkPasscodeInput } from './common/helpers/HelperFunctions';
 import { updateUserPasscodeApi } from './api/EBankingApiService';
 import { useAuth } from './security/AuthContext';
-import { ComponentState } from './common/constants/Constants';
+import { ComponentState, PASSCODE_LENGTH } from './common/constants/Constants';
 
 export default function PasswordComponent() {
     const [componentState, setComponentState] = useState(ComponentState.form);
@@ -28,7 +28,7 @@ export default function PasswordComponent() {
     const username = authContext.username;
 
     function handleNewPasscodeChange(event) {
-        if (event.target.value.length <= 5) {
+        if (event.target.value.length <= PASSCODE_LENGTH) {
             setNewPasscode(event.target.value);
         } else {
             event.preventDefault();

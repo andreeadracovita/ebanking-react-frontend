@@ -1,7 +1,9 @@
 export const OASI_LENGTH = 13;
 export const PASSCODE_LENGTH = 5;
-export const MAX_DESCRIPTION_LENGTH = 20;
+export const MAX_DESCRIPTION_LENGTH = 30;
 export const MIN_DESCRIPTION_LENGTH = 3;
+export const MAX_NAME_LENGTH = 30;
+export const ACCOUNT_NUMBER_LENGTH = 21;
 
 export const ErrorMessage = {
     authentication: 'Authentication failed. Please check your credentials',

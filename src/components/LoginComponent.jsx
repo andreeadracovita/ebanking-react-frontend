@@ -11,7 +11,7 @@ import FormControl from '@mui/material/FormControl';
 
 import { useAuth } from './security/AuthContext';
 import { checkPasscodeInput } from './common/helpers/HelperFunctions';
-import { ErrorMessage } from './common/constants/Constants';
+import { ErrorMessage, MAX_NAME_LENGTH, PASSCODE_LENGTH } from './common/constants/Constants';
 
 export default function LoginComponent() {
     const [username, setUsername] = useState('');
@@ -30,11 +30,15 @@ export default function LoginComponent() {
     }, []);
 
     function handleUsernameChange(event) {
-        setUsername(event.target.value);
+        if (event.target.value.length <= MAX_NAME_LENGTH) {
+            setUsername(event.target.value);
+        }
     }
 
     function handlePasswordChange(event) {
-        setPassword(event.target.value);
+        if (event.target.value.length <= PASSCODE_LENGTH) {
+            setPassword(event.target.value);
+        }
     }
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
