@@ -96,7 +96,8 @@ export default function CreateVirtualCardComponent() {
                         <Dropdown.Menu>
                             {
                                 accounts &&
-                                accounts.map(
+                                accounts.filter(account => selectedAccount && account.accountNumber !== selectedAccount.accountNumber)
+                                    .map(
                                     account => (
                                         <Dropdown.Item className="select-dropdown" key={account.accountNumber} onClick={() => handleSelectedAccountChange(account)}>
                                             <div>

@@ -54,20 +54,32 @@ export default function PaymentSelfComponent() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect (() => {
+        if (!accounts) {
+            return;
+        }
+
         if (selectedFromAccount !== undefined && selectedToAccount !== undefined) {
             setSelectedFromAccount(findAccountWithNumber(selectedFromAccount.accountNumber));
             setSelectedToAccount(findAccountWithNumber(selectedToAccount.accountNumber));
+            return;
         }
 
-        if (selectedFromAccount === undefined && accounts.length > 0) {
-            setSelectedFromAccount(accounts[0]);
-        }
-
+        var tempToAccount = selectedToAccount;
         if (selectedToAccount === undefined) {
             if (location && location.state && location.state.toAccount) {
                 setSelectedToAccount(location.state.toAccount);
+                tempToAccount = location.state.toAccount;
             } else if (accounts.length > 1) {
                 setSelectedToAccount(accounts[1]);
+                tempToAccount = accounts[1];
+            }
+        }
+
+        if (selectedFromAccount === undefined && accounts.length > 0) {
+            const potentialAccounts = accounts.filter(account => account.accountNumber !== tempToAccount.accountNumber);
+
+            if (potentialAccounts.length > 0) {
+                setSelectedFromAccount(potentialAccounts[0]);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

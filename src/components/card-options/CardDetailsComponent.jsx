@@ -36,7 +36,7 @@ export default function CardDetailsComponent() {
                 })
                 .catch();
 
-            retrieveBankAccountForAccountNumberApi(username, location.state.card.accountNumber)
+            retrieveBankAccountForAccountNumberApi(username, location.state.card.bankAccount.accountNumber)
                 .then(response => {
                     setAttachedAccount(response.data);
                 })
