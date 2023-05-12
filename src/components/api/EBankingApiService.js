@@ -23,9 +23,6 @@ export const createTransactionApi
 export const checkValidUsernameApi
     = (payload) => apiClient.post('/users/username', payload);
 
-export const retrieveCustomerNameForCustomerIdApi
-    = (username, id) => apiClient.get(`/${username}/customername/${id}`);
-
 export const retrieveCustomerNameForUsernameApi
     = (username) => apiClient.get(`/${username}/customername`);
 

@@ -1,15 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { retrieveCustomerNameForCustomerIdApi } from '../api/EBankingApiService';
-import { useAuth } from '../security/AuthContext';
-
 export default function BankAccountDetailsComponent() {
     const [account, setAccount] = useState();
     const [customerName, setCustomerName] = useState();
-
-    const authContext = useAuth();
-    const username = authContext.username;
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -22,11 +16,7 @@ export default function BankAccountDetailsComponent() {
     }, []);
     useEffect (() => {
         if (account) {
-            retrieveCustomerNameForCustomerIdApi(username, account.customer.id)
-                .then(response => {
-                    setCustomerName(response.data);
-                })
-                .catch();
+            setCustomerName(account.customer.firstName + ' ' + account.customer.lastName);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [account]);
