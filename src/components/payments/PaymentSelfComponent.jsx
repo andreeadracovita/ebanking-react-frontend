@@ -169,8 +169,8 @@ export default function PaymentSelfComponent() {
     }
 
     function resetPaymentForm() {
-        setAmount(null);
-        setDescription(null);
+        setAmount('');
+        setDescription('');
         setComponentState(ComponentState.start);
     }
 

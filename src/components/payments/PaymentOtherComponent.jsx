@@ -159,8 +159,8 @@ export default function PaymentOtherComponent() {
     function resetPaymentForm() {
         setToAccountNumber('');
         setBeneficiaryName('');
-        setAmount(null);
-        setDescription(null);
+        setAmount('');
+        setDescription('');
         setComponentState(ComponentState.start);
     }
 
