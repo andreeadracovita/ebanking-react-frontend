@@ -102,7 +102,7 @@ export default function ReportsComponent() {
 
     return (
         <div className="main-content">
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Reports</h1>
+            <h1 className="main-content-title">Reports</h1>
             <Dropdown className="mb-4">
                 <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                     {
@@ -140,7 +140,7 @@ export default function ReportsComponent() {
                 </Dropdown.Menu>
             </Dropdown>
             <span className="mb-4 d-flex flex-nowrap">
-                <CalendarIcon width="36px" height="36px" className="text-royal-blue me-3"/>
+                <CalendarIcon width="28" height="28" className="text-royal-blue me-3"/>
                 <Dropdown>
                     <Dropdown.Toggle id="dropdown-basic" className="select-field-interval">
                         {interval}
@@ -181,7 +181,10 @@ export default function ReportsComponent() {
                     </span>
                 }
             </span>
-            <div style={{width:1000+'px'}}>
+            <div>
+                {startDate.toDateString()} - {endDate.toDateString()}
+            </div>
+            <div style={{width:700+'px'}}>
             {
                 selectedAccount && transactions.length === 0 &&
                 <span>
@@ -189,7 +192,20 @@ export default function ReportsComponent() {
                     No transactions for this account.
                 </span>
             }
-            {startDate.toDateString()} - {endDate.toDateString()}
+            {
+                transactions.length !== 0 &&
+                transactions.filter(
+                    transaction => {
+                        let date = new Date(transaction.issueDate);
+                        date.setHours(1);
+                        return date >= startDate && date <= endDate;
+                    }
+                ).length === 0 &&
+                <span>
+                    <hr/>
+                    No transactions for the selected time interval.
+                </span>
+            }
             {
                 transactions.filter(
                         transaction => {
@@ -203,12 +219,12 @@ export default function ReportsComponent() {
                             <span key={transaction.id}>
                                 <hr/>
                                 <div className="d-flex flex-nowrap d-inline">
-                                    <div className="text-center btn btn-royal-blue date-badge me-3">
+                                    <div className="text-center btn btn-royal-blue date-badge">
                                         <span>{String(new Date(transaction.issueDate).getDate()).padStart(2, '0')}</span>
                                         <br/>
                                         <span>{getMonthShortName(new Date(transaction.issueDate).getMonth() + 1).toUpperCase()}</span>
                                     </div>
-                                    <div className="col-11 align-middle">
+                                    <div className="col-11 align-middle px-2 pt-1">
                                         { transaction.fromAccountNumber === selectedAccount.accountNumber && 
                                             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                                 <span>{transaction.toAccountNumber}</span>

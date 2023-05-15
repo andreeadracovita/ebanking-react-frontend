@@ -73,29 +73,29 @@ export default function PasswordComponent() {
 
     return (
         <div className="main-content">
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Change eBanking passcode</h1>
-
+            <h1 className="main-content-title">Change eBanking passcode</h1>
+            <h1 className="main-content-subtitle">Enter a new passcode</h1>
             {
                 componentState === ComponentState.form &&
                 <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                     <div>
                         { 
                             showError &&
-                            <div className="mb-5">
-                                <p className="text-danger mb-3">Fields must match.</p>
+                            <div className="mb-3">
+                                <p className="text-danger">Fields must match.</p>
                                 <p className="text-danger">Passcode must be 5 digits long.</p>
                             </div>
                         }
                         { 
                             showServerError &&
-                            <div className="mb-5">
+                            <div className="mb-3">
                                 <p className="text-danger mb-3">Server-side error.</p>
                             </div>
                         }
 
                 
-                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
-                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
+                            <InputLabel htmlFor="outlined-adornment-password">Passcode</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-password"
                                 type={showPassword ? 'text' : 'password'}
@@ -114,7 +114,7 @@ export default function PasswordComponent() {
                                     </IconButton>
                                 </InputAdornment>
                                 }
-                                label="Password"
+                                label="Passcode"
                             />
                         </FormControl>
                         <br/>

@@ -32,8 +32,8 @@ export default function SidebarComponent() {
     return (
         <div className="sidebar">
             <span style={{ cursor:'default' }}>
-                <Logo width="40" height="40" />
-                <span className="ms-3 fw-bold align-middle" style={{fontSize:24+'px', fontWeight:700}}>WorldBank</span>
+                <Logo width="26" height="26" />
+                <span className="ms-2 fw-bold align-middle" style={{fontSize:20+'px', fontWeight:700}}>WorldBank</span>
             </span>
             {
                 isAuthenticated === false &&
@@ -41,7 +41,7 @@ export default function SidebarComponent() {
                     <ul className="nav flex-column mt-5" id="menu">
                         <li className="nav-item">
                             <Link className="nav-link px-0" to="/">
-                                <HomeIcon width="24" height="24"/>
+                                <HomeIcon width="16" height="16"/>
                                 <span className="ms-2 ms-1 d-none d-sm-inline align-middle">Login</span>
                             </Link>
                         </li>
@@ -51,21 +51,21 @@ export default function SidebarComponent() {
             {
                 isAuthenticated &&
                 <span>
-                    <span className="d-flex mt-5 mb-5 text-white text-decoration-none" style={{ cursor:'default' }}>
-                        <UserIcon width="24" height="24"/>
+                    <span className="d-flex mt-5 mb-4 text-white text-decoration-none" style={{ cursor:'default' }}>
+                        <UserIcon width="16" height="16"/>
                         <span className="d-none d-sm-inline ms-2 fw-bold">{customerName}</span>
                     </span>
                     
                     <ul className="nav flex-column" id="menu">
                         <li className="nav-item">
                             <Link className="nav-link px-0" to="/portfolio">
-                                <HomeIcon width="24" height="24"/>
+                                <HomeIcon width="16" height="16"/>
                                 <span className="ms-2 ms-1 d-none d-sm-inline align-middle">Portfolio</span>
                             </Link>
                         </li>
                         <li>
                             <Link className="nav-link px-0" to="#submenupayments" data-bs-toggle="collapse">
-                                <PaymentsIcon width="24" height="24"/>
+                                <PaymentsIcon width="16" height="16"/>
                                 <span className="ms-2 d-none d-sm-inline align-middle">Payments</span>
                             </Link>
                             <ul className="collapse nav flex-column ms-1" id="submenupayments" data-bs-parent="#menu">
@@ -90,13 +90,13 @@ export default function SidebarComponent() {
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link align-middle px-0" to="/reports">
-                                <ReportsIcon width="24" height="24"/>
+                                <ReportsIcon width="16" height="16"/>
                                 <span className="ms-2 d-none d-sm-inline align-middle">Reports</span>
                             </Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link align-middle px-0" to="#submenusettings" data-bs-toggle="collapse">
-                                <SettingsIcon width="24" height="24"/>
+                                <SettingsIcon width="16" height="16"/>
                                 <span className="ms-2 d-none d-sm-inline align-middle">Settings</span>
                             </Link>
                             <ul className="collapse nav flex-column ms-1" id="submenusettings" data-bs-parent="#menu">
@@ -109,7 +109,7 @@ export default function SidebarComponent() {
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link align-middle px-0" to="/" onClick={ authContext.logout }>
-                                <LogoutIcon width="24" height="24"/>
+                                <LogoutIcon width="16" height="16"/>
                                 <span className="ms-2 d-none d-sm-inline align-middle">Logout</span>
                             </Link>
                         </li>

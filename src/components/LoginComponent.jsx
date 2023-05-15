@@ -58,14 +58,14 @@ export default function LoginComponent() {
 
     return (
         <div className="main-content">
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Login eBanking</h1>
+            <h1 className="main-content-title">Login eBanking</h1>
             <div className="d-flex">
                 <span className="text-nowrap login-form">
-                    <h1 className="h5 mb-5 fw-bold text-royal-blue">Enter your username and password</h1>
+                    <h1 className="main-content-subtitle">Enter your username and password</h1>
                     {showError && <div className="text-danger mb-3">{ErrorMessage.authentication}</div>}
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>
-                            <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                            <FormControl sx={{ width: '36ch' }} variant="outlined" className="mb-3">
                                 <InputLabel htmlFor="outlined-adornment-username">Username</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-username"
@@ -76,7 +76,7 @@ export default function LoginComponent() {
                                 />
                             </FormControl>
                             <br/>
-                            <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                            <FormControl sx={{ width: '36ch' }} variant="outlined" className="mb-4">
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
@@ -105,7 +105,7 @@ export default function LoginComponent() {
                     </Box>
                 </span>
                 <span className="login-info ms-5 d-none d-xl-block">
-                    <div className="m-5 text-nowrap">
+                    <div className="m-4 text-nowrap">
                         <p className="fw-bold">Not using WorldBank eBanking yet?</p>
                         <p>→ View transaction reports anytime, anywhere</p>
                         <p>→ Make payments at home</p>

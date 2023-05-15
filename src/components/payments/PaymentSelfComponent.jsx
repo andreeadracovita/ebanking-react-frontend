@@ -176,20 +176,20 @@ export default function PaymentSelfComponent() {
 
     return (
         <div className="main-content">
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Send money to myself</h1>
+            <h1 className="main-content-title">Send money to myself</h1>
             {
                 componentState === 'start' &&
                 <div>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>
-                            <h1 className="h4 mb-3 text-royal-blue fw-bold">From account</h1>
+                            <h1 className="main-content-subtitle">From account</h1>
                             {
                                 showError.fromAccount &&
                                 <span className="text-danger mb-3">
                                     <p>{ErrorMessage.noAccountSelected}</p>
                                 </span>
                             }
-                            <Dropdown className="mb-5">
+                            <Dropdown className="mb-4">
                                 <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                                     { selectedFromAccount &&
                                         <div>
@@ -228,14 +228,14 @@ export default function PaymentSelfComponent() {
                                 </Dropdown.Menu>
                             </Dropdown>
 
-                            <h1 className="h4 mb-3 text-royal-blue fw-bold">To account</h1>
+                            <h1 className="main-content-subtitle">To account</h1>
                             {
                                 showError.toAccount &&
                                 <span className="text-danger mb-3">
                                     <p>{ErrorMessage.noAccountSelected}</p>
                                 </span>
                             }
-                            <Dropdown className="mb-5">
+                            <Dropdown className="mb-4">
                                 <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                                 { 
                                     selectedToAccount &&
@@ -275,14 +275,14 @@ export default function PaymentSelfComponent() {
                                 </Dropdown.Menu>
                             </Dropdown>
 
-                            <h1 className="h4 mb-3 text-royal-blue fw-bold">Transfer details</h1>
+                            <h1 className="main-content-subtitle">Transfer details</h1>
                             {
                                 showError.amount &&
                                 <span className="text-danger mb-3">
                                     <p>{ErrorMessage.amount}</p>
                                 </span>
                             }
-                            <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
+                            <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-3">
                                 <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-amount"
@@ -294,14 +294,14 @@ export default function PaymentSelfComponent() {
                                 />
                             </FormControl>
                             <br/>
-                            <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
-                                <InputLabel htmlFor="outlined-adornment-description">Description</InputLabel>
+                            <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
+                                <InputLabel htmlFor="outlined-adornment-description">Description (optional)</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-description"
                                     type='text'
                                     value={description}
                                     onChange={handleDescriptionChange}
-                                    label="Description"
+                                    label="Description (optional)"
                                 />
                             </FormControl>
                             <br/>

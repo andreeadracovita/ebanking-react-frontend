@@ -39,7 +39,7 @@ export default function DeleteAccountComponent() {
 
     return (
         <div className="main-content">
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Delete confirmation</h1>
+            <h1 className="main-content-title">Delete confirmation</h1>
             {
                 componentState === ComponentState.confirm && account &&
                 <div>

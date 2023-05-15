@@ -11,13 +11,12 @@ code {
 }
 
 .login-form {
-  width: 600px;
+  width: 450px;
 }
 
 .login-info {
   background-color: #f3f3ff;
   color: #0504aa;
-  height: 320px;
 }
 
 footer {
@@ -28,10 +27,10 @@ footer {
 }
 
 .sidebar {
-  width: 288px;
+  width: 220px;
   height: 100vh;
-  font-size: large;
-  padding-left: 3rem!important;
+  font-size: small;
+  padding-left: 2rem!important;
   padding-top: 2rem!important;
   background-color: #0504aa;
   color: #fff;
@@ -41,10 +40,24 @@ footer {
 .main-content {
   flex: 0 0 auto;
   width: 66.6%;
-  padding-top: 116px;
+  padding-top: 110px;
   padding-left: 3rem!important;
-  font-size: large;
-  margin-left: 288px;
+  font-size: small;
+  margin-left: 220px;
+}
+
+.main-content-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0504aa;
+  margin-bottom: 1.25rem !important;
+}
+
+.main-content-subtitle {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #0504aa;
+  margin-bottom: 1.25rem !important;
 }
 
 .bg-royal-blue {
@@ -63,10 +76,9 @@ footer {
   background-color: #fff!important;
   color: #000!important;
   border-color: #adb5bd;
-  padding: 5px;
-  width: 450px;
-  height: 100px;
-  font-size: large;
+  width: 380px;
+  height: 80px;
+  font-size: small;
 }
 
 .select-field-account:hover {
@@ -76,27 +88,25 @@ footer {
 
 .select-dropdown {
   color: #000;
-  width: 450px;
-  height: 100px;
-  font-size: large;
+  width: 380px;
+  height: 70px;
+  font-size: small;
 }
 
 .select-dropdown:hover, .select-dropdown:focus, .select-dropdown:active {
   background-color: #fff;
   color: #0204ff;
-  width: 450px;
-  height: 100px;
 }
 
 .select-dropdown-interval {
   background-color: #fff;
-  width: 396px;
+  width: 158px;
   color: #000;
+  font-size: small;
 }
 
 .select-dropdown-interval:hover, .select-dropdown-interval:focus, .select-dropdown-interval:active {
   background-color: #fff;
-  width: 396px;
   color: #0204ff;
 }
 
@@ -112,7 +122,8 @@ footer {
 }
 
 .btn-form {
-  width: 150px;
+  width: 130px;
+  font-size: small;
 }
 
 .nav-link {
@@ -144,7 +155,7 @@ footer {
 .accordion-button {
   background-color: transparent;
   border-style: none;
-  font-size: large;
+  font-size: small;
 }
 
 .accordion-button:focus {
@@ -179,7 +190,7 @@ footer {
 .portfolio-accordion-button {
   color: #555555;
   cursor: pointer;
-  margin-left: 60px;
+  margin-left: 25px;
   margin-top: 10px;
   width: 100px;
 }
@@ -190,15 +201,15 @@ footer {
 }
 
 .portfolio-section {
-  width: 600px;
+  width: 480px;
   background-color: #f3f3ff;
   margin-bottom: 30px;
-  padding: 20px;
+  padding: 15px;
 }
 
 .select-field-interval {
   width: 160px;
-  font-size: large;
+  font-size: small;
   background-color: #fff!important;
   color: #000!important;
   border-color: #adb5bd;
@@ -215,7 +226,8 @@ footer {
   background-color: #0504aa;
   color: #fff;
   font-weight: bold;
-  width: 68px;
+  width: 52px;
+  font-size: small;
 }
 
 .date-badge:hover, .date-badge:focus, .date-badge:active {
@@ -227,9 +239,10 @@ footer {
 
 .datepicker {
   width: 160px;
-  height: 42px;
+  height: 34px;
   cursor: pointer;
   border-style: solid;
+  border-width: 1px;
   border-radius: 6px;
   border-color: #adb5bd;
   padding-left: 12px;
@@ -237,4 +250,8 @@ footer {
 
 .datepicker:hover{
   border-color: #000;
+}
+
+.fontSizeGeneral {
+  font-size: small!important;
 }

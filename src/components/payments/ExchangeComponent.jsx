@@ -207,20 +207,20 @@ export default function ExchangeComponent() {
 
     return (
         <div className="main-content">
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Exchange money</h1>
+            <h1 className="main-content-title">Exchange money</h1>
             {
                 componentState === ComponentState.start &&
                 <div>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>
-                            <h1 className="h4 mb-3 text-royal-blue fw-bold">From account</h1>
+                            <h1 className="main-content-subtitle">From account</h1>
                             {
                                 showError.fromAccount &&
                                 <span className="text-danger mb-3">
                                     <p>{ErrorMessage.noAccountSelected}</p>
                                 </span>
                             }
-                            <Dropdown className="mb-5">
+                            <Dropdown className="mb-4">
                                 <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                                     {
                                         selectedFromAccount &&
@@ -260,7 +260,7 @@ export default function ExchangeComponent() {
                                 </Dropdown.Menu>
                             </Dropdown>
 
-                            <h1 className="h4 mb-3 text-royal-blue fw-bold">Amount to exchange</h1>
+                            <h1 className="main-content-subtitle">Amount to exchange</h1>
                             <div>
                                 {
                                     showError.amount &&
@@ -279,7 +279,7 @@ export default function ExchangeComponent() {
                                         label="Amount"
                                     />
                                 </FormControl>
-                                <select className="btn btn-royal-blue ms-3" style={{height: 54+'px', width: 94+'px'}} name="currency" onChange={handleCurrencySelectChange} value={currencySelect}>
+                                <select className="btn btn-royal-blue ms-3 fontSizeGeneral" style={{height: 54+'px', width: 86+'px'}} name="currency" onChange={handleCurrencySelectChange} value={currencySelect}>
                                     { selectedFromAccount && <option value={selectedFromAccount.currency}>{selectedFromAccount.currency}</option> }
                                     { selectedToAccount && <option value={selectedToAccount.currency}>{selectedToAccount.currency}</option> }
                                 </select>
@@ -302,7 +302,7 @@ export default function ExchangeComponent() {
                                 </span>
                             }
 
-                            <h1 className="h4 mb-2 text-royal-blue fw-bold">To account</h1>
+                            <h1 className="main-content-subtitle">To account</h1>
                             {
                                 showError.toAccount &&
                                 <span className="text-danger mb-3">

@@ -27,6 +27,7 @@ export default function BankAccountDetailsComponent() {
 
     return (
         <div className="main-content">
+            <h1 className="main-content-title">Bank account details</h1>
             {
                 account && customerName &&
                 <div>

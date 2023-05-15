@@ -48,9 +48,9 @@ export default function PortfolioComponent() {
 
     return (
         <div className="main-content">
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Portfolio</h1>
+            <h1 className="main-content-title">Portfolio</h1>
             <div className="d-flex flex-wrap justify-content-left">
-                <div style={{marginRight:30+'px'}}>
+                <div style={{marginRight:20+'px'}}>
                     <div className="portfolio-section"><AccountsComponent type='CHECKING' accounts={checkingAccounts} /></div>
                     <div className="portfolio-section"><AccountsComponent type='SAVINGS' accounts={savingsAccounts} /></div>
                 </div>

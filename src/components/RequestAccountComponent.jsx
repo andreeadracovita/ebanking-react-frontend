@@ -135,7 +135,7 @@ export default function RequestAccountComponent() {
 
     return (
         <div className="main-content">
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Request new eBanking account</h1>
+            <h1 className="main-content-title">Request new eBanking account</h1>
             {
                 (componentState === ComponentState.form || componentState === ComponentState.confirm) &&
                 <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -146,7 +146,7 @@ export default function RequestAccountComponent() {
                                 <p>First name must not be empty.</p>
                             </div>
                         }
-                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
                             <InputLabel htmlFor="outlined-adornment-first">First name</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-first"
@@ -164,7 +164,7 @@ export default function RequestAccountComponent() {
                                 <p>Last name must not be empty.</p>
                             </div>
                         }
-                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
                             <InputLabel htmlFor="outlined-adornment-last">Last name</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-last"
@@ -182,7 +182,7 @@ export default function RequestAccountComponent() {
                                 <p>OASI must have 13 digits.</p>
                             </div>
                         }
-                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
                             <InputLabel htmlFor="outlined-adornment-oasi">OASI</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-oasi"
@@ -207,7 +207,7 @@ export default function RequestAccountComponent() {
                                 <p>Username is already taken.</p>
                             </div>
                         }
-                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
                             <InputLabel htmlFor="outlined-adornment-username">Username</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-username"
@@ -225,7 +225,7 @@ export default function RequestAccountComponent() {
                                 <p>Passcode must have 5 digits.</p>
                             </div>
                         }
-                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                        <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
                             <InputLabel htmlFor="outlined-adornment-password">Passcode</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-password"
@@ -269,17 +269,17 @@ export default function RequestAccountComponent() {
             }
             {
                 componentState === ComponentState.success &&
-                <div className="fw-bold">
-                    <p className="mb-5">User account successfully created.</p>
-                    <button className="btn btn-royal-blue btn-form mb-3" type="button" onClick={onLoginRedirect}>To login</button>
+                <div>
+                    <p className="fw-bold mb-4">User account successfully created.</p>
+                    <button className="btn btn-royal-blue btn-form" type="button" onClick={onLoginRedirect}>To login</button>
                 </div>
             }
             {
                 componentState === ComponentState.failure &&
-                <div className="fw-bold">
-                    <p className="mb-5">User account creation failed.</p>
-                    <p className="mb-5">{responseErrorMessage}.</p>
-                    <button className="btn btn-royal-blue btn-form mb-3" type="button" onClick={onLoginRedirect}>To login</button>
+                <div>
+                    <p className="fw-bold mb-4">User account creation failed.</p>
+                    <p className="mb-4">{responseErrorMessage}.</p>
+                    <button className="btn btn-royal-blue btn-form" type="button" onClick={onLoginRedirect}>To login</button>
                 </div>
             }
         </div>

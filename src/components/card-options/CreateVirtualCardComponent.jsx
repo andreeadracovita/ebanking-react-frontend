@@ -68,7 +68,7 @@ export default function CreateVirtualCardComponent() {
 
     return (
         <div className="main-content">
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Request new virtual card</h1>
+            <h1 className="main-content-title">Request new virtual card</h1>
             {
                 componentState === ComponentState.start &&
                 <div>

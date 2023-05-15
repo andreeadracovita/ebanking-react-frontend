@@ -39,7 +39,7 @@ export default function OpenAccountComponent() {
 
     return (
         <div className="main-content">
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Open new checking account</h1>
+            <h1 className="main-content-title">Open new checking account</h1>
             {
                 componentState === ComponentState.start &&
                 <div>

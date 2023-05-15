@@ -80,11 +80,12 @@ export default function CardDetailsComponent() {
 
     return (
         <div className="main-content">
+            <h1 className="main-content-title">Card details</h1>
         {
             card &&
             <span>
-                { card.status === 'ACTIVE' && <p className="btn btn-success pe-none">Active</p> }
-                { card.status === 'INACTIVE' && <p className="btn btn-danger pe-none">Inactive</p> }
+                { card.status === 'ACTIVE' && <p className="btn btn-success pe-none fontSizeGeneral">Active</p> }
+                { card.status === 'INACTIVE' && <p className="btn btn-danger pe-none fontSizeGeneral">Inactive</p> }
 
                 <p>Name on card</p>
                 <p className="ms-3 mb-4 fw-bold">{card.nameOnCard}</p>
@@ -107,7 +108,7 @@ export default function CardDetailsComponent() {
                 }
 
                 <p>Availability date</p>
-                <p className="ms-3 mb-5 fw-bold">{availabilityDate}</p>
+                <p className="ms-3 mb-4 fw-bold">{availabilityDate}</p>
 
                 <div className="mb-4">
                     <LockIcon className="me-2" width="24" height="24" />
@@ -139,7 +140,6 @@ export default function CardDetailsComponent() {
                 <p className="ms-3 fw-bold">{card.bankAccount.accountName}</p>
                 <p className="ms-3 fw-bold">{card.bankAccount.accountNumber}</p>
                 <p className="ms-3 fw-bold">{CHFCurrency.format(card.bankAccount.balance)} {card.bankAccount.currency}</p>
-                <br/>
 
                 <button className="btn btn-royal-blue btn-form mt-3" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
             </span>

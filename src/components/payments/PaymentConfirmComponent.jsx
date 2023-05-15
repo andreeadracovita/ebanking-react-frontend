@@ -7,7 +7,7 @@ export default function PaymentConfirmComponent({ paymentType, transaction, setC
 
     return (
         <div>
-            <div className="bg-light-royal-blue p-5 mb-5 w-50">
+            <div className="bg-light-royal-blue p-3 mb-4 w-50">
                 {
                     paymentType !== 'exchange' &&
                     <span>

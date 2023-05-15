@@ -45,19 +45,19 @@ export default function CardsComponent({ cards, setCards }) {
     return (
         <span>
             <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
-                <span className="h4 text-royal-blue">
-                    <CardIcon width="36px" height="36px" />
+                <span className="h5 text-royal-blue">
+                    <CardIcon width="22px" height="22px" />
                     <span className="ms-3">Cards</span>
                 </span>
-                <button className="btn btn-royal-blue" onClick={() => {navigate('/cards/request-virtual')}}>+</button>
+                <button className="btn btn-royal-blue fontSizeGeneral" onClick={() => {navigate('/cards/request-virtual')}}>+</button>
             </div>
-            <Accordion className="mt-3">
+            <Accordion>
             {
                 cards.map(
                     card => (
                         <Accordion.Item key={card.cardNumber} eventKey={card.cardName}>
                         <Accordion.Header>
-                            <div className="mt-3 me-2 w-100">
+                            <div className="me-2 w-100">
                                 <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">
                                     <span>{card.cardName}</span>
                                     <span className="account-balance">{card.status}</span>
@@ -70,14 +70,14 @@ export default function CardsComponent({ cards, setCards }) {
                         <Accordion.Body>
                             <div className="d-flex justify-content-around">
                                 <div className="text-center portfolio-accordion-button mx-0" onClick={() => redirectCardDetails(card)}>
-                                    <DetailsIcon width="48" height="48" />
+                                    <DetailsIcon width="26" height="26" />
                                     <br/>
                                     <span>Details</span>
                                 </div>
                                 {
                                     card.status === 'ACTIVE' &&
                                     <div className="text-center portfolio-accordion-button mx-0" onClick={() => onBlockCardClicked(card)}>
-                                        <LockIcon width="48" height="48" />
+                                        <LockIcon width="26" height="26" />
                                         <br/>
                                         <span>Block</span>
                                     </div>
@@ -85,7 +85,7 @@ export default function CardsComponent({ cards, setCards }) {
                                 {
                                     card.status === 'INACTIVE' &&
                                     <div className="text-center portfolio-accordion-button mx-0" onClick={() => onUnblockCardClicked(card)}>
-                                        <LockOpenIcon width="48" height="48" />
+                                        <LockOpenIcon width="26" height="26" />
                                         <br/>
                                         <span>Unblock</span>
                                     </div>

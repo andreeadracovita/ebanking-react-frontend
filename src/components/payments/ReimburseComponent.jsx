@@ -126,13 +126,13 @@ export default function ReimburseComponent() {
 
     return (
         <div className="main-content">
-            <h1 className="h2 mb-5 text-royal-blue fw-bold">Reimburse credit card</h1>
+            <h1 className="main-content-title">Reimburse credit card</h1>
             {
                 componentState === ComponentState.start && toAccount && selectedFromAccount &&
                 <div>
-                    <h1 className="h4 mb-3 text-royal-blue fw-bold">To account</h1>
-                    <p className="mb-3 ms-3">{toAccount.accountName}</p>
-                    <p className="mb-5 ms-3">{toAccount.accountNumber}</p>
+                    <h1 className="main-content-subtitle">To account</h1>
+                    <p className="ms-3">{toAccount.accountName}</p>
+                    <p className="mb-4 ms-3">{toAccount.accountNumber}</p>
 
                     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                         <div>
@@ -142,7 +142,7 @@ export default function ReimburseComponent() {
                                     <p>{ErrorMessage.amount}</p>
                                 </div>
                             }
-                            <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-5">
+                            <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
                                 <InputLabel htmlFor="outlined-adornment-amount">{amountPlaceholder}</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-amount"
@@ -154,8 +154,8 @@ export default function ReimburseComponent() {
                                 />
                             </FormControl>
 
-                            <h1 className="h4 mb-3 text-royal-blue fw-bold">From account</h1>
-                            <Dropdown className="mb-5">
+                            <h1 className="main-content-subtitle">From account</h1>
+                            <Dropdown className="mb-4">
                                 <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                                     { selectedFromAccount &&
                                         <div>
@@ -193,15 +193,15 @@ export default function ReimburseComponent() {
                                 </Dropdown.Menu>
                             </Dropdown>
 
-                            <h1 className="h4 mb-3 text-royal-blue fw-bold">Transfer details (optional)</h1>
+                            <h1 className="main-content-subtitle">Transfer details</h1>
                             <FormControl sx={{ width: '38ch' }} variant="outlined" className="mb-4">
-                                <InputLabel htmlFor="outlined-adornment-description">Description</InputLabel>
+                                <InputLabel htmlFor="outlined-adornment-description">Description (optional)</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-description"
                                     type='text'
                                     value={description}
                                     onChange={handleDescriptionChange}
-                                    label="Description"
+                                    label="Description (optional)"
                                 />
                             </FormControl>
 
