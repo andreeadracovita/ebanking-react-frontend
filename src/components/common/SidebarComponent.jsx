@@ -60,64 +60,64 @@ export default function SidebarComponent() {
                 <span>
                     <span className="d-flex mt-5 mb-4 text-white text-decoration-none" style={{ cursor:'default' }}>
                         <UserIcon width="16" height="16"/>
-                        <span className="d-none d-sm-inline ms-2 fw-bold">{customerName}</span>
+                        <span className="d-sm-inline ms-2 fw-bold">{customerName}</span>
                     </span>
                     
                     <ul className="nav flex-column" id="menu">
                         <li className="nav-item">
                             <Link className="nav-link px-0" to="/portfolio">
                                 <HomeIcon width="16" height="16"/>
-                                <span className="ms-2 ms-1 d-none d-sm-inline align-middle">Portfolio</span>
+                                <span className="ms-2 d-sm-inline align-middle">Portfolio</span>
                             </Link>
                         </li>
                         <li>
                             <Link className="nav-link px-0" to="#submenupayments" data-bs-toggle="collapse">
                                 <PaymentsIcon width="16" height="16"/>
-                                <span className="ms-2 d-none d-sm-inline align-middle">Payments</span>
+                                <span className="ms-2 d-sm-inline align-middle">Payments</span>
                             </Link>
-                            <ul className="collapse nav flex-column ms-1" id="submenupayments" data-bs-parent="#menu">
+                            <ul className="collapse nav flex-column ms-5" id="submenupayments" data-bs-parent="#menu">
                                 <span>
-                                    <li className="w-100">
-                                        <Link to="/payment/self" className="nav-link px-0 ms-5">
-                                            <span className="d-none d-sm-inline">To myself</span>
+                                    <li>
+                                        <Link to="/payment/self" className="nav-link px-0">
+                                            <span className="d-sm-inline">To myself</span>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/payment/other" className="nav-link px-0 ms-5">
-                                            <span className="d-none d-sm-inline">To someone else</span>
+                                        <Link to="/payment/other" className="nav-link px-0">
+                                            <span className="d-sm-inline">To someone else</span>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/exchange" className="nav-link px-0 ms-5">
-                                            <span className="d-none d-sm-inline">Exchange</span>
+                                        <Link to="/exchange" className="nav-link px-0">
+                                            <span className="d-sm-inline">Exchange</span>
                                         </Link>
                                     </li>
                                 </span>
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link align-middle px-0" to="/reports">
+                            <Link className="nav-link px-0" to="/reports">
                                 <ReportsIcon width="16" height="16"/>
-                                <span className="ms-2 d-none d-sm-inline align-middle">Reports</span>
+                                <span className="ms-2 d-sm-inline align-middle">Reports</span>
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link align-middle px-0" to="#submenusettings" data-bs-toggle="collapse">
+                            <Link className="nav-link px-0" to="#submenusettings" data-bs-toggle="collapse">
                                 <SettingsIcon width="16" height="16"/>
-                                <span className="ms-2 d-none d-sm-inline align-middle">Settings</span>
+                                <span className="ms-2 d-sm-inline align-middle">Settings</span>
                             </Link>
-                            <ul className="collapse nav flex-column ms-1" id="submenusettings" data-bs-parent="#menu">
-                                <li className="w-100">
-                                    <Link to="/settings/password" className="nav-link px-0 ms-5">
-                                        <span className="d-none d-sm-inline">Change password</span>
+                            <ul className="collapse nav flex-column ms-5" id="submenusettings" data-bs-parent="#menu">
+                                <li>
+                                    <Link to="/settings/password" className="nav-link px-0">
+                                        <span className="d-sm-inline">Change password</span>
                                     </Link>
                                 </li>
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link align-middle px-0" to="/" onClick={ onLogoutClicked }>
+                            <Link className="nav-link px-0" to="/" onClick={ onLogoutClicked }>
                                 <LogoutIcon width="16" height="16"/>
-                                <span className="ms-2 d-none d-sm-inline align-middle">Logout</span>
+                                <span className="ms-2 d-sm-inline align-middle">Logout</span>
                             </Link>
                         </li>
                     </ul>
