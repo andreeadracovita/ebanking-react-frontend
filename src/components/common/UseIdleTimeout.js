@@ -1,5 +1,5 @@
 import { useIdleTimer } from 'react-idle-timer';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import { useAuth } from '../security/AuthContext';
 
@@ -16,6 +16,7 @@ const useIdleTimeout = ({ idleTime = 1 }) => {
     const authContext = useAuth();
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     const handleIdle = () => {
         let preventTimeout = false;
@@ -28,6 +29,7 @@ const useIdleTimeout = ({ idleTime = 1 }) => {
             return;
         }
         authContext.logout();
+        navigate('/');
     };
     useIdleTimer({
         timeout: idleTimeout,

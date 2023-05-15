@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { useAuth } from '../security/AuthContext';
@@ -18,6 +18,8 @@ export default function SidebarComponent() {
     const username = authContext.username;
     const isAuthenticated = authContext.isAuthenticated;
 
+    const navigate = useNavigate();
+
     useEffect (() => {
         if (isAuthenticated) {
             retrieveCustomerNameForUsernameApi(username)
@@ -28,6 +30,11 @@ export default function SidebarComponent() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuthenticated]);
+
+    function onLogoutClicked() {
+        authContext.logout();
+        navigate('/');
+    }
 
     return (
         <div className="sidebar">
@@ -108,7 +115,7 @@ export default function SidebarComponent() {
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link align-middle px-0" to="/" onClick={ authContext.logout }>
+                            <Link className="nav-link align-middle px-0" to="/" onClick={ onLogoutClicked }>
                                 <LogoutIcon width="16" height="16"/>
                                 <span className="ms-2 d-none d-sm-inline align-middle">Logout</span>
                             </Link>
