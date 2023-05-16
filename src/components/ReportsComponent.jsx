@@ -35,14 +35,22 @@ export default function ReportsComponent() {
     const [startDate, setStartDate] = useState(sevenDays);
     const [endDate, setEndDate] = useState(new Date());
 
+    const location = useLocation();
+    const authContext = useAuth();
+    const username = authContext.username;
+
     useEffect (() => {
+        if (!username) {
+            return;
+        }
+
         retrieveAllBankAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data);
             })
             .catch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [authContext]);
     useEffect (() => {
         if (location && location.state && location.state.account) {
             setSelectedAccount(location.state.account);
@@ -63,10 +71,6 @@ export default function ReportsComponent() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedAccount]);
-
-    const location = useLocation();
-    const authContext = useAuth();
-    const username = authContext.username;
 
     function handleSelectedAccountChange(account) {
         setSelectedAccount(account);

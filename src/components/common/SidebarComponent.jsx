@@ -34,6 +34,7 @@ export default function SidebarComponent() {
     function onLogoutClicked() {
         authContext.logout();
         navigate('/');
+        window.location.reload(false);
     }
 
     return (

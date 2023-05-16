@@ -19,13 +19,17 @@ export default function CreateVirtualCardComponent() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!username) {
+            return;
+        }
+
         retrievePayingBankAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data);
             })
             .catch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [authContext]);
     useEffect(() => {
         if (accounts && accounts.length > 0) {
             setSelectedAccount(accounts[0]);

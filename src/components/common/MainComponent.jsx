@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router';
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-router';
 
 import PortfolioComponent from '../portfolio/PortfolioComponent';
 import ErrorComponent from '../ErrorComponent';
@@ -20,22 +20,12 @@ import LoginComponent from '../LoginComponent';
 import RequestAccountComponent from '../RequestAccountComponent';
 import CreateVirtualCardComponent from '../card-options/CreateVirtualCardComponent';
 
-const ProtectedRoute = (props) => {
-    const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const checkUserToken = () => {
-        const userToken = sessionStorage.getItem('token');
-        if (!userToken || userToken === 'undefined') {
-            setIsLoggedIn(false);
-            return navigate('/');
-        }
-        setIsLoggedIn(true);
+const ProtectedRoute = ({ children }) => {
+    const userToken = sessionStorage.getItem('token');
+    if (!userToken || userToken === 'undefined') {
+        return <Navigate to="/" replace />;
     }
-    useEffect(() => {
-            checkUserToken();
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [isLoggedIn]);
-    return (isLoggedIn ? props.children : null);
+    return children;
 }
 
 export default function MainComponent() {

@@ -62,13 +62,17 @@ export default function ExchangeComponent() {
     const location = useLocation();
 
     useEffect (() => {
+        if (!username) {
+            return;
+        }
+        
         retrieveCheckingAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data);
             })
             .catch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [authContext]);
 
     useEffect (() => {
         if (selectedFromAccount === undefined) {

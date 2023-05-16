@@ -52,7 +52,7 @@ export default function PaymentSelfComponent() {
     useEffect (() => {
         refreshAccounts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [authContext]);
     useEffect (() => {
         if (!accounts) {
             return;
@@ -86,6 +86,9 @@ export default function PaymentSelfComponent() {
     }, [accounts]);
 
     function refreshAccounts() {
+        if (!username) {
+            return;
+        }
         retrieveAllLocalBankAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data);

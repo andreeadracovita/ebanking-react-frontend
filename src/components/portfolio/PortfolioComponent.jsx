@@ -16,7 +16,14 @@ export default function PortfolioComponent() {
     const [creditAccounts, setCreditAccounts] = useState([]);
     const [cards, setCards] = useState([]);
 
+    const authContext = useAuth();
+    const username = authContext.username;
+
     useEffect (() => {
+        if (!username) {
+            return;
+        }
+
         retrieveCheckingAccountsForUsernameApi(username)
             .then(response => {
                 setCheckingAccounts(response.data);
@@ -41,10 +48,7 @@ export default function PortfolioComponent() {
             })
             .catch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const authContext = useAuth();
-    const username = authContext.username;
+    }, [authContext]);
 
     return (
         <div className="main-content">

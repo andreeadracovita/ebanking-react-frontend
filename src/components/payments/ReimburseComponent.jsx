@@ -53,13 +53,17 @@ export default function ReimburseComponent() {
     }, []);
 
     useEffect (() => {
+        if (!username) {
+            return;
+        }
+
         retrieveAllLocalCheckingBankAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data);
             })
             .catch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [toAccount]);
+    }, [toAccount, authContext]);
     useEffect (() => {
         if (selectedFromAccount === undefined && accounts.length > 0) {
             setSelectedFromAccount(accounts[0]);

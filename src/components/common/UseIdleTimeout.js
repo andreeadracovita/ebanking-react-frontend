@@ -30,6 +30,7 @@ const useIdleTimeout = ({ idleTime = 1 }) => {
         }
         authContext.logout();
         navigate('/');
+        window.location.reload(false);
     };
     useIdleTimer({
         timeout: idleTimeout,

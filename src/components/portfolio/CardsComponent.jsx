@@ -55,7 +55,7 @@ export default function CardsComponent({ cards, setCards }) {
             {
                 cards.map(
                     card => (
-                        <Accordion.Item key={card.cardNumber} eventKey={card.cardName}>
+                        <Accordion.Item key={card.cardNumber} eventKey={card.cardNumber}>
                         <Accordion.Header>
                             <div className="me-2 w-100">
                                 <div className="d-flex flex-wrap flex-md-nowrap justify-content-between">

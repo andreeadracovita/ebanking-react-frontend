@@ -21,7 +21,14 @@ export default function CardDetailsComponent() {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const authContext = useAuth();
+    const username = authContext.username;
+
     useEffect (() => {
+        if (!username) {
+            return;
+        }
+
         if (location.state && location.state.card) {
             setCard(location.state.card);
 
@@ -38,10 +45,7 @@ export default function CardDetailsComponent() {
                 .catch();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const authContext = useAuth();
-    const username = authContext.username;
+    }, [authContext]);
 
     const switchStyle = {
         "& .MuiSwitch-switchBase": {

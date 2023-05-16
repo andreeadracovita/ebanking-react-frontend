@@ -53,13 +53,17 @@ export default function PaymentOtherComponent() {
     useEffect (() => {
         refreshAccounts();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [authContext]);
     useEffect (() => {
         setValuesAfterAccountsLoad();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [accounts]);
 
     function refreshAccounts() {
+        if (!username) {
+            return;
+        }
+
         retrieveCheckingAccountsForUsernameApi(username)
             .then(response => {
                 setAccounts(response.data);
