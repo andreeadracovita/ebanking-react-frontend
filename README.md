@@ -22,6 +22,14 @@ The web app can be used to:
 
 The REST API responsible for the requests can be found at https://github.com/andreeadracovita/ebanking-rest-api.
 
+## Interface
+
+![alt text](https://github.com/andreeadracovita/ebanking-react-frontend/blob/main/src/docs-assets/LoginScreenshot.png?raw=true)
+
+![alt text](https://github.com/andreeadracovita/ebanking-react-frontend/blob/main/src/docs-assets/PortfolioScreenshot.png?raw=true)
+
+![alt text](https://github.com/andreeadracovita/ebanking-react-frontend/blob/main/src/docs-assets/ReportsScreenshot.png?raw=true)
+
 ## Available Scripts
 
 In the project directory, you can run:
