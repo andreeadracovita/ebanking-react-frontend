@@ -27,7 +27,7 @@ export default function LoginComponent() {
             navigate('/portfolio');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [authContext]);
 
     function handleUsernameChange(event) {
         if (event.target.value.length <= MAX_NAME_LENGTH) {
