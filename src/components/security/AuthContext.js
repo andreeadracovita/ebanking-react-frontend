@@ -66,6 +66,8 @@ export default function AuthProvider({ children }) {
 
         setToken(null);
         sessionStorage.removeItem("token");
+
+        window.location.reload(false);
     }
 
     return (
