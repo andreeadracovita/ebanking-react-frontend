@@ -37,8 +37,8 @@ export default function OpenSavingsComponent() {
             {
                 componentState === ComponentState.start &&
                 <div>
-                    <h1 className="h4 mb-5 text-royal-blue fw-bold">You requested a new savings account.</h1>
-                    <div className="mb-5">[Terms and conditions]</div>
+                    <div className="mb-3">You requested a new savings account.</div>
+                    <div className="mb-4">[Terms and conditions]</div>
                     <div>
                         <button className="btn btn-royal-blue btn-form mb-3" type="button" name="submit" onClick={onConfirm}>Sign</button>
                         <br/>
@@ -50,8 +50,7 @@ export default function OpenSavingsComponent() {
             {
                 componentState === ComponentState.success && newAccount &&
                 <div>
-                    <div className="mb-5">Savings account <span className="fw-bold">{newAccount.accountName}</span> with number <span className="fw-bold">{newAccount.accountNumber}</span> was successfully opened.</div>
-                    <br/>
+                    <div className="mb-4">Savings account <span className="fw-bold">{newAccount.accountName}</span> with number <span className="fw-bold">{newAccount.accountNumber}</span> was successfully opened.</div>
                     <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>
             }

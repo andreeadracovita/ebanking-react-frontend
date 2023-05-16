@@ -44,7 +44,7 @@ export default function OpenAccountComponent() {
                 componentState === ComponentState.start &&
                 <div>
                     <form>
-                        <h1 className="h4 mb-2 text-royal-blue fw-bold">New checking account currency</h1>
+                        <h1 className="main-content-subtitle">New checking account currency</h1>
                         <Dropdown className="mb-4">
                             <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                                 {Object.keys(Currency).at(currency)}
@@ -73,8 +73,8 @@ export default function OpenAccountComponent() {
             {
                 componentState === ComponentState.confirm &&
                 <div>
-                    <div className="mb-5">
-                        <p className="mb-4">You requested a new checking account.</p>
+                    <div className="mb-4">
+                        <p className="mb-3">You requested a new checking account.</p>
                         <p>[Terms and conditions]</p>
                         </div>
                     <div>
@@ -87,11 +87,10 @@ export default function OpenAccountComponent() {
             {
                 componentState === ComponentState.success && newAccount &&
                 <div>
-                    <div className="mb-5">
+                    <div className="mb-4">
                         <p>Account <span className="fw-bold">{newAccount.accountName}</span> with number <span className="fw-bold">{newAccount.accountNumber}</span> was successfully opened.</p>
                         <p>The account was created with <span className="fw-bold">100 {newAccount.currency}</span> for testing purposes.</p>
                     </div>
-                    <br/>
                     <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>
             }

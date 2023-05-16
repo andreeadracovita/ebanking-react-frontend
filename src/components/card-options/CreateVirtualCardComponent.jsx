@@ -72,14 +72,14 @@ export default function CreateVirtualCardComponent() {
             {
                 componentState === ComponentState.start &&
                 <div>
-                    <h1 className="h4 mb-4 text-royal-blue fw-bold">Attach card to account</h1>
+                    <h1 className="main-content-subtitle">Attach card to account</h1>
                     {
                         showError &&
                         <span className="text-danger mb-3">
                             <p>{ErrorMessage.noAccountSelected}</p>
                         </span>
                     }
-                    <Dropdown className="mb-5">
+                    <Dropdown className="mb-4">
                         <Dropdown.Toggle id="dropdown-basic" className="select-field-account">
                             {
                                 selectedAccount &&
@@ -128,8 +128,8 @@ export default function CreateVirtualCardComponent() {
             {
                 componentState === ComponentState.confirm && selectedAccount &&
                 <div>
-                    <div className="mb-5">
-                        <p className="mb-4">You requested a new virtual card for
+                    <div className="mb-4">
+                        <p className="mb-3">You requested a new virtual card for
                             <span className="fw-bold"> {selectedAccount.accountName} </span> 
                             with account number 
                             <span className="fw-bold"> {selectedAccount.accountNumber}</span>.
@@ -146,8 +146,7 @@ export default function CreateVirtualCardComponent() {
             {
                 componentState === ComponentState.success &&
                 <div>
-                    <div className="mb-5">Virtual card successfully created.</div>
-                    <br/>
+                    <div className="mb-4">Virtual card successfully created.</div>
                     <button className="btn btn-royal-blue btn-form" type="button" name="back" onClick={onPortfolioRedirect}>To portfolio</button>
                 </div>
             }
